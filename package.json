@@ -1,0 +1,51 @@
+{
+  "name": "create-react-monorepo-boilerplate",
+  "main": "index.js",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "clean": "rm -rf ./packages/*/node_modules",
+    "clean-locks": "rm -rf ./packages/*/yarn.lock",
+    "bootstrap": "lerna bootstrap",
+    "build": "yarn workspace app build",
+    "reset": "yarn clean && yarn clean-locks && yarn bootstrap",
+    "prettify": "prettier --write",
+    "start": "webpack serve --config ./packages/webpack/src/dev.config.js",
+    "webpack-build": "webpack --config ./packages/webpack/src/prod.config.js",
+    "format": "prettier --write \"**/*.{js,ts,tsx,css,md}\"",
+    "lint": "eslint . src config || true"
+  },
+  "devDependencies": {
+    "@types/react": "^17.0.3",
+    "@types/react-dom": "^17.0.1",
+    "@typescript-eslint/eslint-plugin": "^4.16.1",
+    "@typescript-eslint/parser": "^4.16.1",
+    "clean-webpack-plugin": "^3.0.0",
+    "eslint": "^7.21.0",
+    "eslint-plugin-react": "^7.22.0",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "eslint-webpack-plugin": "^2.5.2",
+    "fork-ts-checker-webpack-plugin": "^6.1.1",
+    "terser-webpack-plugin": "^5.1.1",
+    "html-webpack-plugin": "^5.2.0",
+    "lerna": "^3.20.2",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.2.3",
+    "webpack": "^5.24.3",
+    "webpack-cli": "^4.5.0",
+    "regenerator-runtime": "^0.13.7",
+    "@swc/cli": "^0.1.35",
+    "@swc/core": "^1.2.50",
+    "prettier": "^2.2.1",
+    "swc-loader": "^0.1.12",
+    "css-loader": "^5.1.2",
+    "style-loader": "^2.0.0"
+  },
+  "dependencies": {
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1"
+  }
+}

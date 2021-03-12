@@ -1,0 +1,23 @@
+{
+  "name": "@domain/webpack",
+  "version": "1.0.0",
+  "description": "Contains webpack configurations.",
+  "author": "ahmed.nassar <ahmed.nassar@daybreakhotels.com>",
+  "homepage": "",
+  "license": "ISC",
+  "sideEffects": false,
+  "main": "src/",
+  "directories": {
+    "src": "src"
+  },
+  "files": ["src"],
+  "peerDependencies": {
+    "webpack": "^5.x.x",
+    "clean-webpack-plugin": "^3.x.x",
+    "html-webpack-plugin": "^5.x.x"
+  },
+  "browserslist": [
+
+  ],
+  "enableBabelTranspilation": false
+}
