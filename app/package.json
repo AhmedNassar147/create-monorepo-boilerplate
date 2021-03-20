@@ -1,0 +1,17 @@
+{
+  "name": "@domain/app",
+  "version": "1.0.0",
+  "private": true,
+  "description": "React component to render something.",
+  "license": "private",
+  "author": "ahmed nassar",
+  "sideEffects": false,
+  "main": "src/",
+  "module": "src/",
+  "dependencies": {
+    "@domain/pkg1": "1.0.0"
+  },
+  "peerDependencies": {
+    "react": "^17.x.x"
+  }
+}

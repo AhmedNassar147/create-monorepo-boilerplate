@@ -1,11 +1,17 @@
-import { render } from 'react-dom';
+import { render } from "react-dom";
+import Component from "@domain/pkg1";
+import Second from "@domain/pkg2";
+import SecondA from "@domain/pkg3";
 
-const App = () => {
-  return <div>hello</div>
-};
+console.log("process.env.BUILD_YEAR", process.env);
 
-render(<App />, document.getElementById('app'));
+const App = () => (
+  <>
+    <SecondA />
+    <Component name="1" />
+    <Second />
+    <div>APP</div>
+  </>
+);
 
-// https://github.com/rtivital/react-monorepo-starter/blob/master/package.json
-// https://gist.github.com/bo01ean/532c33e20c0c79c5b6d1541fa3c9c4e9
-// https://github.com/TypeStrong/fork-ts-checker-webpack-plugin
+render(<App />, document.getElementById("root"));

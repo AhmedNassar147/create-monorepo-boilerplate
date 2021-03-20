@@ -1,0 +1,15 @@
+{
+  "name": "@domain/pkg3",
+  "version": "1.0.0",
+  "private": true,
+  "description": "React component to render something.",
+  "license": "private",
+  "author": "ahmed nassar",
+  "sideEffects": false,
+  "main": "src/",
+  "module": "src/",
+  "peerDependencies": {
+    "react": "^17.x.x",
+    "styled-components": "^5.x.x"
+  }
+}
