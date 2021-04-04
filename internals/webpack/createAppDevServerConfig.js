@@ -51,9 +51,9 @@ const createAppDevServerConfig = (_, argv = {}) => {
       // quiet: true,
     },
     watchOptions: {
-      aggregateTimeout: 600,
+      aggregateTimeout: 900,
       poll: 5000,
-      ignored: /node_modules/,
+      ignored: /node_modules|packages/,
     },
     plugins: [
       // Watcher doesn't work well if you mistype casing in a path so we use

@@ -8,6 +8,7 @@
     "checkJs": true /* Report errors in .js files. */,
     "declaration": true /* Generates corresponding '.d.ts' file. */,
     "composite": true /* Enable project compilation */,
+    "lib": ["dom", "dom.iterable", "ES2017", "esnext", "esnext.asynciterable"],
     // "removeComments": true,                /* Do not emit comments to output. */
     "noEmit": true /* Do not emit outputs. */,
     "downlevelIteration": true /* Provide full support for iterables in 'for-of', spread, and destructuring when targeting 'ES5' or 'ES3'. */,

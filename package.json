@@ -13,16 +13,19 @@
     "build": "yarn workspace app build",
     "reset": "yarn clean && yarn clean-locks && yarn bootstrap",
     "prettify": "prettier --write",
-    "start": "APP_NAME=app CLIENT=NAME webpack serve --config ./internals/webpack/createAppDevServerConfig.js --node-env development",
+    "watch-packages": "tsc -b ./packages/*/tsconfig.json --watch",
+    "start:js": "APP_NAME=app CLIENT=NAME webpack serve --config ./internals/webpack/createAppDevServerConfig.js --node-env development",
+    "start-con": "concurrently \"yarn watch-packages\" \"yarn start:js\"",
+    "start": "stmux -- [ \"yarn watch-packages\" .. \"yarn start:js\" ]",
     "webpack-build": "APP_NAME=app CLIENT=NAME webpack --config ./internals/webpack/createWebpackBuildConfig.js --node-env production",
     "format": "prettier --write \"**/*.{js,ts,tsx,css,md}\"",
     "lint": "eslint . src config || true"
   },
   "dependencies": {
     "@babel/runtime": "^7.13.10",
+    "@domain/pkg1": "1.0.0",
     "react": "^17.0.1",
-    "react-dom": "^17.0.1",
-    "@domain/pkg1": "1.0.0"
+    "react-dom": "^17.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.13.10",
@@ -38,6 +41,8 @@
     "@pmmmwh/react-refresh-webpack-plugin": "^0.4.3",
     "@types/react": "^17.0.3",
     "@types/react-dom": "^17.0.1",
+    "@typescript-eslint/eslint-plugin": "^4.16.1",
+    "@typescript-eslint/parser": "^4.16.1",
     "babel-loader": "^8.2.2",
     "babel-preset-minify": "^0.5.1",
     "case-sensitive-paths-webpack-plugin": "^2.4.0",
@@ -46,8 +51,6 @@
     "css-loader": "^5.1.2",
     "css-minimizer-webpack-plugin": "^1.3.0",
     "eslint": "^7.21.0",
-    "@typescript-eslint/parser": "^4.16.1",
-    "@typescript-eslint/eslint-plugin": "^4.16.1",
     "eslint-config-prettier": "^8.0.1",
     "eslint-plugin-prettier": "^3.3.1",
     "eslint-plugin-react": "^7.22.0",
@@ -58,6 +61,7 @@
     "lerna": "^3.20.2",
     "mini-css-extract-plugin": "^1.3.9",
     "prettier": "^2.2.1",
+    "stmux": "^1.8.1",
     "style-loader": "^2.0.0",
     "terser-webpack-plugin": "^5.1.1",
     "ts-loader": "^8.0.18",

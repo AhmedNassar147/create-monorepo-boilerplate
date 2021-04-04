@@ -116,8 +116,7 @@ const createWebpackConfig = ({
         // js|jsx: Use swc to transpile JavaScript files
         {
           test: /\.(js|jsx)$/,
-          exclude: /node_modules/,
-          include: srcEntry,
+          exclude: /(node_modules\/(?!debug))|packages/,
           use: {
             loader: "babel-loader",
             options: getBabelConfig(actualMode),
@@ -125,7 +124,12 @@ const createWebpackConfig = ({
         },
         {
           test: /\.(ts|tsx)$/,
-          exclude: /node_modules/,
+          // The `packages` are built and watched by `@dbh/package-builder`.
+          // The `node_modules`, by convention, are expected to be shipped
+          // already transpiled.
+          // @see {@link https://github.com/visionmedia/debug/issues/745}
+          // @see {@link https://github.com/visionmedia/debug/issues/701}
+          exclude: /(node_modules\/(?!debug))|packages/,
           use: [
             {
               loader: "ts-loader",

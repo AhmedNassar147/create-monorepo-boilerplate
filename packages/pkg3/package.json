@@ -6,8 +6,11 @@
   "license": "private",
   "author": "ahmed nassar",
   "sideEffects": false,
-  "main": "src/",
-  "module": "src/",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "peerDependencies": {
     "react": "^17.x.x",
     "styled-components": "^5.x.x"

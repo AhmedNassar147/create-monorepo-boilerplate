@@ -5,9 +5,11 @@
  */
 const ReactComponent = ({ name }: { name: string }): JSX.Element => (
   <div>
-    {name}
+    <div>@domain/pkg1</div>
     {name}
     <div>@domain/pkg1</div>
+    {name}
+    {name}
   </div>
 );
 
