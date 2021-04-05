@@ -80,17 +80,17 @@ const getAppEnvVariables = (appBasePath, mode) => {
     }
   }
 
+  const envKeys = Object.keys(envVariables);
+
   const stringifiedVariables = {
-    "process.env": Object.keys(envVariables).reduce(
-      (env, key) => {
-        env[key] = JSON.stringify(envVariables[key]);
-        return env;
-      },
-      {
-        NODE_ENV: JSON.stringify(mode),
-      },
-    ),
+    "process.env.NODE_ENV": JSON.stringify(mode),
+    ...envKeys.reduce((env, key) => {
+      env[key] = JSON.stringify(envVariables[key]);
+      return env;
+    }, {}),
   };
+
+  console.log("stringifiedVariables", stringifiedVariables);
 
   return {
     raw: envVariables,

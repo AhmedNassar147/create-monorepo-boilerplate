@@ -3,7 +3,7 @@ import Component from "@domain/pkg1";
 import Second from "@domain/pkg2";
 import SecondA from "@domain/pkg3";
 
-console.log("process.env.BUILD_YEAR", process.env);
+console.log("BUILD_YEAR", BUILD_YEAR);
 
 const App = () => (
   <>
