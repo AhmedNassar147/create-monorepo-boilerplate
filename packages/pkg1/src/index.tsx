@@ -4,7 +4,6 @@
  *
  */
 
-console.log("BUILD_YEAR", BUILD_YEAR);
 const ReactComponent = ({ name }: { name: string }): JSX.Element => (
   <div>
     <div>@domain/pkg1</div>

@@ -6,23 +6,28 @@
 const { readdirSync } = require("fs");
 const path = require("path");
 const readJsonFileSync = require("./readJsonFileSync");
-const getRootPackageJson = require("./getRootPackageJson");
-const getProperWorkSpaceName = require("./getProperWorkSpaceName");
+const getWorksSpacesWithoutOnlyNames = require("./getWorksSpacesWithoutOnlyNames");
 const getProjectRootDirectoryPath = require("./getProjectRootDirectoryPath");
-const { PKG_JSON_EXT, PACKAGES_KEYWORD } = require("../constants/base");
+const { PKG_JSON_EXT, PACKAGES_REGEX } = require("../constants/base");
 
-const getWorkSpacesData = (withFileSrcPath) => {
-  const { workspaces } = getRootPackageJson();
+const getWorkSpacesData = (options) => {
+  const { withFileSrcPath, onlyTheseWorkSpacesNames } = options || {};
+
+  let workspaces = getWorksSpacesWithoutOnlyNames();
+  workspaces = onlyTheseWorkSpacesNames
+    ? workspaces.filter((workspaceName) =>
+        onlyTheseWorkSpacesNames.includes(workspaceName),
+      )
+    : workspaces;
 
   const workspacesPackageJsonPaths = workspaces
     .map((workspace) => {
-      workspace = getProperWorkSpaceName(workspace);
       const mainWorkspacePath = path.join(
         getProjectRootDirectoryPath(),
         workspace,
       );
 
-      if (workspace.includes(PACKAGES_KEYWORD)) {
+      if (PACKAGES_REGEX.test(workspace)) {
         const packagesPaths = readdirSync(mainWorkspacePath);
 
         return packagesPaths.map((packageFolderName) =>

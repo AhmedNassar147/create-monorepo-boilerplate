@@ -1,20 +1,20 @@
 {
-  "name": "@domain/pkg1",
+  "name": "@domain/abc-module-pkg1",
   "version": "1.0.0",
   "private": true,
   "description": "React component to render something.",
   "license": "private",
   "author": "ahmed nassar",
   "sideEffects": false,
-  "module": "module/index.js",
-  "types": "module/index.d.ts",
+  "module": "./module/abc-module-pkg1.es.js",
+  "main": "./module/abc-module-pkg1.umd.js",
   "files": [
     "module"
   ],
   "exports": {
     ".": {
-      "import": "./module/pkg1.es.js",
-      "require": "./module/pkg1.umd.js"
+      "import": "./module/abc-module-pkg1.es.js",
+      "require": "./module/abc-module-pkg1.umd.js"
     }
   },
   "peerDependencies": {

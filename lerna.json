@@ -1,5 +1,5 @@
 {
-  "packages": ["packages/*", "app", "vite-app"],
+  "packages": ["packages/*", "abc-module/*", "app", "vite-app"],
   "version": "independent",
   "npmClient": "yarn",
   "useWorkspaces": true

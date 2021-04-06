@@ -1,48 +1,30 @@
-const path = require("path");
-const getPackagePath = require("../scripts/getPackagePath");
+// /**
+//  * @see {@link https://vitejs.dev/config/}
+//  * @param {import('vite').ConfigEnv} envConfig
+//  * @return {import('vite').UserConfig}
+//  */
 
 /**
  * @see {@link https://vitejs.dev/config/}
- * @param {import('vite').ConfigEnv} envConfig
- * @return {import('vite').UserConfig}
+ * @type {import('vite').UserConfig}
  */
-const somePath = getPackagePath("pkg1");
-// const buildPackage = async () => {
-//   return {
-//     build: {
-//       outDir: "module",
-//       target: "modules",
-//       minify: "terser",
-//       lib: {
-//         entry: path.resolve(somePath, "src/index.tsx"),
-//         formats: "es",
-//         name: "@domain/pkg1",
-//       },
-//       rollupOptions: {
-//         // make sure to externalize deps that shouldn't be bundled
-//         // into your library
-//         external: ["react"],
-//         output: {},
-//       },
-//     },
-//   };
-// };
-
 module.exports = {
+  root: process.env.PACKAGE_BUILDER_ROOT,
   build: {
-    outDir: path.resolve(somePath, "module"),
+    outDir: "module",
     target: "modules",
     minify: "terser",
     lib: {
-      entry: path.resolve(somePath, "src/index.tsx"),
-      formats: ["es"],
-      name: "@domain/pkg1",
+      entry: "src/index",
+      name: process.env.PACKAGE_BUILDER_LIB_NAME,
     },
     rollupOptions: {
       // make sure to externalize deps that shouldn't be bundled
       // into your library
       external: ["react"],
-      output: {},
+      output: {
+        inlineDynamicImports: false,
+      },
     },
   },
 };

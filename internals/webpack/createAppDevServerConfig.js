@@ -9,7 +9,6 @@ const CaseSensitivePathsPlugin = require("case-sensitive-paths-webpack-plugin");
 const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 const createWebpackConfig = require("./createWebpackConfig");
 const getBasePaths = require("./getBasePaths");
-// const getPackageAlias = require("../scripts/getPackageAlias");
 const getAppPathFromNodeEnv = require("../scripts/getAppPathFromNodeEnv");
 
 const createAppDevServerConfig = (_, argv = {}) => {
@@ -33,7 +32,6 @@ const createAppDevServerConfig = (_, argv = {}) => {
       "react-dom$": "react-dom/profiling",
       "scheduler/tracing": "scheduler/tracing-profiling",
     },
-    // getPackageAlias(packageOrAPP_NAME)
     devServer: {
       historyApiFallback: true,
       contentBase: public,

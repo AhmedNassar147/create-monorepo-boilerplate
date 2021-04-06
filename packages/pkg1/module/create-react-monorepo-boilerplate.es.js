@@ -1,1 +1,0 @@
-console.log("BUILD_YEAR",BUILD_YEAR);export default({name:e})=>React.createElement("div",null,React.createElement("div",null,"@domain/pkg1"),e,React.createElement("div",null,"@domain/pkg1"),e,e,React.createElement("p",null,"ahmed nassar"));
