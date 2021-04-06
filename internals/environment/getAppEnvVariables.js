@@ -8,6 +8,7 @@ const { join } = require("path");
 const {
   ENVIRONMENT_FILE_NAMES,
   PROJECT_PREFIX_ENV_NAME,
+  CLIENT_NAMES,
 } = require("../environment/constants");
 const getBaseEnvVariableValues = require("../environment/getBaseEnvVariableValues");
 
@@ -21,7 +22,7 @@ const checkIsFileExistAndGetFilePath = (basePath, envFileName) => {
 };
 
 const getAppEnvVariables = (appBasePath, mode) => {
-  const clientName = process.env.CLIENT;
+  const clientName = process.env.CLIENT || CLIENT_NAMES[0];
   const serverPort = process.env.SERVER_PORT;
 
   const isEnvProduction = mode === "production";

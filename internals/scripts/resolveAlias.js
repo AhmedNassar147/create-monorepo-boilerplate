@@ -1,10 +1,10 @@
 /*
  *
- * `webpackResolveAlias`: `webpack`.
+ * `resolveAlias`: `scripts`.
  *
  */
 const path = require("path");
-const getProjectRootDirectoryPath = require("../scripts/getProjectRootDirectoryPath");
+const getProjectRootDirectoryPath = require("./getProjectRootDirectoryPath");
 
 const resolveAliasPath = (name) =>
   path.resolve(getProjectRootDirectoryPath(), "node_modules", name);

@@ -1,0 +1,14 @@
+{
+  "name": "vite-app",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite --clearScreen=false",
+    "prebuild": "tsc --noEmit",
+    "build": "tsc && vite build --mode=production",
+    "serve": "vite preview"
+  },
+  "devDependencies": {
+    "@types/react": "^17.0.0",
+    "@types/react-dom": "^17.0.0"
+  }
+}

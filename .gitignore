@@ -1,5 +1,6 @@
 /node_modules
 /**/dist
 /**/build
+/**/module
 /**/node_modules
 /**/tsconfig.tsbuildinfo

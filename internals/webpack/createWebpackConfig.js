@@ -11,9 +11,9 @@ const CopyWebpackPlugin = require("copy-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 const getBasePaths = require("./getBasePaths");
-const BASE_WEBPACK_RESOLVE_ALIAS = require("./webpackResolveAlias");
 const getBabelConfig = require("../babel/getBabelConfig");
 const getProjectRootDirectoryPath = require("../scripts/getProjectRootDirectoryPath");
+const BASE_WEBPACK_RESOLVE_ALIAS = require("../scripts/resolveAlias");
 const getAppEnvVariables = require("../environment/getAppEnvVariables");
 
 const createWebpackConfig = ({

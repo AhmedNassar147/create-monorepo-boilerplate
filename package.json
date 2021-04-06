@@ -4,7 +4,8 @@
   "private": true,
   "workspaces": [
     "packages/*",
-    "app/*"
+    "app",
+    "vite-app"
   ],
   "scripts": {
     "clean": "rm -rf ./packages/*/node_modules",
@@ -19,6 +20,9 @@
     "start": "stmux -- [ \"yarn watch-packages\" .. \"yarn start:js\" ]",
     "webpack-build": "APP_NAME=app CLIENT=NAME webpack --config ./internals/webpack/createWebpackBuildConfig.js --node-env production",
     "format": "prettier --write \"**/*.{js,ts,tsx,css,md}\"",
+    "es": "vite build --config ./internals/build-packages/buildPackage.js",
+    "app": "yarn workspace vite-app dev",
+    "vite": "stmux -- [ \"yarn watch-packages\" .. \"yarn app\" ]",
     "lint": "eslint . src config || true"
   },
   "dependencies": {
@@ -39,10 +43,13 @@
     "@babel/preset-react": "^7.12.13",
     "@babel/preset-typescript": "^7.13.0",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.4.3",
+    "@swc/cli": "^0.1.36",
+    "@swc/core": "^1.2.51",
     "@types/react": "^17.0.3",
     "@types/react-dom": "^17.0.1",
     "@typescript-eslint/eslint-plugin": "^4.16.1",
     "@typescript-eslint/parser": "^4.16.1",
+    "@vitejs/plugin-react-refresh": "^1.3.2",
     "babel-loader": "^8.2.2",
     "babel-preset-minify": "^0.5.1",
     "case-sensitive-paths-webpack-plugin": "^2.4.0",
@@ -66,6 +73,7 @@
     "terser-webpack-plugin": "^5.1.1",
     "ts-loader": "^8.0.18",
     "typescript": "^4.2.3",
+    "vite": "^2.1.5",
     "webpack": "^5.24.3",
     "webpack-bundle-analyzer": "^4.4.0",
     "webpack-cli": "^4.5.0",
