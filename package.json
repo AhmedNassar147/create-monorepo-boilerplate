@@ -13,13 +13,14 @@
     "build": "yarn workspace app build",
     "reset": "yarn clean && yarn clean-locks && yarn bootstrap",
     "prettify": "prettier --write",
-    "watch-packages": "tsc -b ./packages/*/tsconfig.json --watch",
+    "watch-packages": "tsc -b ./packages/*/tsconfig.json --w",
     "start:js": "APP_NAME=app CLIENT=NAME webpack serve --config ./internals/webpack/createAppDevServerConfig.js --node-env development",
     "start-con": "concurrently \"yarn watch-packages\" \"yarn start:js\"",
     "start": "stmux -- [ \"yarn watch-packages\" .. \"yarn start:js\" ]",
     "webpack-build": "APP_NAME=app CLIENT=NAME webpack --config ./internals/webpack/createWebpackBuildConfig.js --node-env production",
     "format": "prettier --write \"**/*.{js,ts,tsx,css,md}\"",
-    "lint": "eslint . src config || true"
+    "lint": "eslint . src config || true",
+    "pkg4": "tsc -b ./packages/pkg4/tsconfig.json && tsc -b ./packages/pkg4/tsconfig.esm.json"
   },
   "dependencies": {
     "@babel/runtime": "^7.13.10",
