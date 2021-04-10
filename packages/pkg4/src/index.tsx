@@ -3,11 +3,13 @@
  * Package:  `@domain/pkg4`.
  *
  */
+import "./index.css";
+
 const ReactComponent = ({ name }: { name: string }): JSX.Element => (
   <div>
-    <div>@domain/pkg4</div>
-    <p>ahmed nassar</p>
+    <div className="container">domain/pkg4</div>
     {name}
+    ahmed nassar
   </div>
 );
 

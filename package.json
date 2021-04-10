@@ -3,28 +3,30 @@
   "license": "MIT",
   "private": true,
   "workspaces": [
+    "app/*",
     "packages/*",
-    "app/*"
+    "abc-module/*"
   ],
   "scripts": {
     "clean": "rm -rf ./packages/*/node_modules",
     "clean-locks": "rm -rf ./packages/*/yarn.lock",
     "bootstrap": "lerna bootstrap",
-    "build": "yarn workspace app build",
     "reset": "yarn clean && yarn clean-locks && yarn bootstrap",
     "prettify": "prettier --write",
-    "watch-packages": "tsc -b ./packages/*/tsconfig.json --w",
-    "start:js": "APP_NAME=app CLIENT=NAME webpack serve --config ./internals/webpack/createAppDevServerConfig.js --node-env development",
-    "start-con": "concurrently \"yarn watch-packages\" \"yarn start:js\"",
-    "start": "stmux -- [ \"yarn watch-packages\" .. \"yarn start:js\" ]",
-    "webpack-build": "APP_NAME=app CLIENT=NAME webpack --config ./internals/webpack/createWebpackBuildConfig.js --node-env production",
+    "build-packages": "lerna run --parallel prepare",
+    "start:js": "WEBPACK_APP_NAME=app WEBPACK_CLIENT_NAME=NAME webpack serve --config ./internals/webpack/createAppDevServerConfig.js --node-env development",
+    "start": "stmux -- [ \"yarn build-packages\" .. \"yarn start:js\" ]",
+    "webpack-build": "WEBPACK_APP_NAME=app WEBPACK_CLIENT_NAME=NAME webpack --config ./internals/webpack/createWebpackBuildConfig.js --node-env production",
     "format": "prettier --write \"**/*.{js,ts,tsx,css,md}\"",
-    "lint": "eslint . src config || true",
-    "pkg4": "tsc -b ./packages/pkg4/tsconfig.json && tsc -b ./packages/pkg4/tsconfig.esm.json"
+    "lint": "eslint . src config || true"
   },
   "dependencies": {
     "@babel/runtime": "^7.13.10",
     "@domain/pkg1": "1.0.0",
+    "@domain/pkg2": "1.0.0",
+    "@domain/pkg3": "1.0.0",
+    "@domain/pkg4": "1.0.0",
+    "@domain/pkg5": "1.0.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1"
   },
@@ -39,7 +41,6 @@
     "@babel/preset-env": "^7.13.10",
     "@babel/preset-react": "^7.12.13",
     "@babel/preset-typescript": "^7.13.0",
-    "@pmmmwh/react-refresh-webpack-plugin": "^0.4.3",
     "@types/react": "^17.0.3",
     "@types/react-dom": "^17.0.1",
     "@typescript-eslint/eslint-plugin": "^4.16.1",
@@ -47,6 +48,7 @@
     "babel-loader": "^8.2.2",
     "babel-preset-minify": "^0.5.1",
     "case-sensitive-paths-webpack-plugin": "^2.4.0",
+    "chokidar": "^3.5.1",
     "clean-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^8.0.0",
     "css-loader": "^5.1.2",

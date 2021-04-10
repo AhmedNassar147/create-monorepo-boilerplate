@@ -3,7 +3,6 @@
   "compilerOptions": {
     "noEmit": true /* Do not emit outputs. */,
     "sourceMap": true,
-    "declarationMap": true,
     "typeRoots": ["../node_modules/@types", "../typings/*"]
   },
   "include": ["src", "../typings/*"]

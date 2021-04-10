@@ -3,11 +3,9 @@
  * `webpackResolveAlias`: `webpack`.
  *
  */
-const path = require("path");
-const getProjectRootDirectoryPath = require("../scripts/getProjectRootDirectoryPath");
+const { resolve } = require("path");
 
-const resolveAliasPath = (name) =>
-  path.resolve(getProjectRootDirectoryPath(), "node_modules", name);
+const resolveAliasPath = (name) => resolve(process.cwd(), "node_modules", name);
 
 module.exports = {
   // @see {@link https://github.com/styled-components/styled-components-website/blob/master/sections/faqs/duplicated-styled-components.md#duplicated-module-in-node_modules}

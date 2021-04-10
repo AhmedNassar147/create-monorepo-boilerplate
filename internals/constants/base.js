@@ -3,12 +3,10 @@
  * Base: `constants`.
  *
  */
-const PACKAGES_KEYWORD = "packages";
-const PKG_JSON_EXT = "package.json";
+const PACKAGES_REGEX = /packages|.+-module/i;
 const PROJECT_NAME_SPACE = "@domain";
 
 module.exports = {
-  PACKAGES_KEYWORD,
-  PKG_JSON_EXT,
+  PACKAGES_REGEX,
   PROJECT_NAME_SPACE,
 };

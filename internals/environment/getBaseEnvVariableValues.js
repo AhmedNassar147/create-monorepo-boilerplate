@@ -11,7 +11,8 @@ const formalizeValue = (value) => {
   return value < 10 ? `0${strValue}` : strValue;
 };
 
-const getBaseEnvVariableValues = (clientName, serverPort) => {
+const getBaseEnvVariableValues = (clientName) => {
+  clientName = clientName || "app";
   invariant(
     CLIENT_NAMES.includes(clientName),
     `wrong client name given clientName=${clientName}
@@ -34,7 +35,7 @@ const getBaseEnvVariableValues = (clientName, serverPort) => {
     BUILD_MONTH: month,
     BUILD_DAY: day,
     BUILD_TIME: time,
-    SERVER_PORT: serverPort || "9090",
+    SERVER_PORT: "9090",
     API_BASE_URL: URL,
     CLIENT_NAME: clientName,
   };

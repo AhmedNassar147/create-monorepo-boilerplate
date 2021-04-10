@@ -1,6 +1,6 @@
 /*
  *
- * `getProperWorkSpaceName`:`scripts`.
+ * `getProperWorkSpaceName`:`workspaces`.
  *
  */
 const getProperWorkSpaceName = (workspace) => workspace.replace("/*", "");

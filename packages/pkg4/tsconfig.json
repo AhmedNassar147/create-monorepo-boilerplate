@@ -1,11 +1,9 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "module": "CommonJS",
-    "target": "es5",
     "rootDir": "src",
-    "outDir": "dist/cjs",
     "typeRoots": ["../../node_modules/@types", "../../typings/*"]
   },
+  "exclude": ["module", "dist"],
   "include": ["src", "../../typings/*"]
 }

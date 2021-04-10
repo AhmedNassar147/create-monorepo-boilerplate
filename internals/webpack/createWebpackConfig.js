@@ -13,31 +13,32 @@ const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 const getBasePaths = require("./getBasePaths");
 const BASE_WEBPACK_RESOLVE_ALIAS = require("./webpackResolveAlias");
 const getBabelConfig = require("../babel/getBabelConfig");
-const getProjectRootDirectoryPath = require("../scripts/getProjectRootDirectoryPath");
+const getCurrentRootDirectoryPath = require("../scripts/getCurrentRootDirectoryPath");
 const getAppEnvVariables = require("../environment/getAppEnvVariables");
 
-const createWebpackConfig = ({
-  basePath,
-  packageOrAppName,
-  ...webpackConfig
-}) => {
+const createWebpackConfig = async ({ basePath, mode, ...webpackConfig }) => {
   const {
     output,
     srcEntry,
     entry,
     assetsPath,
     public,
-    folderTsConfigPath,
+    tsConfigPath,
   } = getBasePaths(basePath);
-  const { devServer, watchOptions, plugins, mode, alias = {} } = webpackConfig;
+  const { devServer, watchOptions, plugins, alias = {} } = webpackConfig;
   const actualMode = mode || process.env.NODE_ENV;
 
-  const { stringifiedVariables } = getAppEnvVariables(basePath, actualMode);
+  const { stringifiedVariables } = getAppEnvVariables(basePath, {
+    mode: actualMode,
+    clientName: process.env.WEBPACK_CLIENT_NAME,
+  });
+
+  const context = await getCurrentRootDirectoryPath();
 
   const isProduction = actualMode === "production";
 
   return {
-    context: getProjectRootDirectoryPath(),
+    context,
     target: isProduction ? "browserslist" : "web",
     devtool: isProduction ? false : "inline-cheap-source-map",
     entry,
@@ -119,7 +120,7 @@ const createWebpackConfig = ({
           exclude: /(node_modules\/(?!debug))|packages/,
           use: {
             loader: "babel-loader",
-            options: getBabelConfig(actualMode),
+            options: await getBabelConfig(actualMode),
           },
         },
         {
@@ -198,7 +199,7 @@ const createWebpackConfig = ({
         async: !isProduction,
         typescript: {
           enabled: true,
-          configFile: folderTsConfigPath,
+          configFile: tsConfigPath,
           context: basePath,
           mode: "readonly",
           typescriptPath: BASE_WEBPACK_RESOLVE_ALIAS.typescript,

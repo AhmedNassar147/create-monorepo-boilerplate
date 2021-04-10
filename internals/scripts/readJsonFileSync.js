@@ -3,10 +3,10 @@
  * `readJsonFileSync`: `scripts`.
  *
  */
-const fs = require("fs");
+const { readFileSync } = require("fs");
 
 const readJsonFileSync = (jsonFilePath, toJSData) => {
-  const jsonFile = fs.readFileSync(jsonFilePath, {
+  const jsonFile = readFileSync(jsonFilePath, {
     encoding: "utf8",
   });
 

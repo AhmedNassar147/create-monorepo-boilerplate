@@ -1,29 +1,25 @@
 /*
  *
- * `getPackagePath`: `scripts`.
+ * `getWorkSpaceBasePath`: `workspaces`.
  *
  */
-const { existsSync } = require("fs");
-const invariant = require("./invariant");
 const getWorkSpacesData = require("./getWorkSpacesData");
+const invariant = require("../scripts/invariant");
 const { PROJECT_NAME_SPACE } = require("../constants/base");
 
 // given `@domain/pkg1` will return `basePath/create-react-monorepo-boilerplate/packages/pkg1`
-const getPackagePath = (name) => {
+const getWorkSpaceBasePath = async (name) => {
   invariant(!!name, `package name must be provided given: name=\`${name}\`.`);
 
   name = name.includes(PROJECT_NAME_SPACE)
     ? name
     : `${PROJECT_NAME_SPACE}/${name}`;
 
-  const packageBasePath = getWorkSpacesData()[name];
+  const { [name]: packageBasePath } = await getWorkSpacesData();
 
-  invariant(
-    packageBasePath || (!!packageBasePath && existsSync(packageBasePath)),
-    `couldn't find package called \`${name}\`.`,
-  );
+  invariant(packageBasePath, `couldn't find package called \`${name}\`.`);
 
-  return packageBasePath;
+  return Promise.resolve(packageBasePath);
 };
 
-module.exports = getPackagePath;
+module.exports = getWorkSpaceBasePath;

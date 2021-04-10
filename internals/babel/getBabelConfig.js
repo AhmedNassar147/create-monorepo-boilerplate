@@ -3,44 +3,31 @@
  * `getBabelConfig`: `babel`.
  *
  */
-// const { existsSync } = require('fs');
+"use strict";
 const invariant = require("../scripts/invariant");
-const getRootPackageJson = require("../scripts/getRootPackageJson");
-const getProperWorkSpaceName = require("../scripts/getProperWorkSpaceName");
-// const getProjectRootDirectoryPath = require('../scripts/getProjectRootDirectoryPath');
+const getWorksSpacesOnlyNames = require("../workspaces/getWorksSpacesOnlyNames");
 
-const getBabelConfig = (env) => {
+const getBabelConfig = async (env, useCjsFormat) => {
   const isEnvDevelopment = env === "development";
   const isEnvProduction = env === "production";
+  const packagesBuildEnv = env === "packagesBuildEnv";
 
   invariant(
-    isEnvDevelopment || isEnvProduction,
+    isEnvDevelopment || isEnvProduction || packagesBuildEnv,
     "Using `babel-preset` requires that you specify `NODE_ENV` or " +
       '`BABEL_ENV` environment variables. Valid values are "development", ' +
-      '"test", and "production". Instead, received: ' +
+      '"packagesBuildEnv", and "production". Instead, received: ' +
       JSON.stringify(env) +
       ".",
   );
 
-  // const absoluteRuntimePath = `${getProjectRootDirectoryPath()}/node_modules/@babel/runtime/package.json`
+  const workspaces = await getWorksSpacesOnlyNames();
 
-  // invariant(
-  //   !existsSync(absoluteRuntimePath),
-  //   'Using `babel-preset` requires to find the `absoluteRuntimePath` given:' +
-  //   `absoluteRuntimePath=${absoluteRuntimePath} but couldn\'t be found.`
-  // );
-
-  const { workspaces } = getRootPackageJson();
-
-  // console.log("workspaces", workspaces, typeof workspaces);
+  const isEsModules = !useCjsFormat;
 
   return {
     // `upward` is required in monorepos, see the comment above.
     // rootMode: "upward",
-    // babelrcRoots: [
-    //   // Also consider monorepo packages "root" and load their .babelrc.json files.
-    //   "./packages/*",
-    // ],
     // `comments` strips the comments when `false`. We always set it to `true`
     // because we can't remove them, or `babel` would also remove the `webpack`
     // magic comments for dynamic imports (@example
@@ -50,10 +37,10 @@ const getBabelConfig = (env) => {
       // Like `react-boilerplate`, we run aggressive optimizations only on
       // the code that we can control and when the environment is production.
       // @see {@link https://github.com/react-boilerplate/react-boilerplate/blob/master/babel.config.js#L18}
-      isEnvDevelopment
+      isEnvDevelopment || packagesBuildEnv
         ? undefined
         : {
-            include: workspaces.map(getProperWorkSpaceName),
+            include: workspaces,
             plugins: [
               "@babel/plugin-transform-react-constant-elements",
               "@babel/plugin-transform-react-inline-elements",
@@ -66,7 +53,7 @@ const getBabelConfig = (env) => {
         {
           // @see {@link https://webpack.js.org/guides/tree-shaking/#conclusion}
           // @see {@link https://babeljs.io/docs/en/babel-preset-env#modules}
-          modules: "auto",
+          modules: useCjsFormat ? "cjs" : false,
           // @see {@link https://babeljs.io/docs/en/babel-preset-env#usebuiltins}
           useBuiltIns: "entry",
           // @see {@link https://babeljs.io/docs/en/next/babel-preset-env.html#corejs}
@@ -76,6 +63,9 @@ const getBabelConfig = (env) => {
           // version should be the major version of the `core-js` in the
           // root project's `package.json`.
           corejs: 3,
+          ...(isEsModules && packagesBuildEnv
+            ? { targets: { esmodules: true } }
+            : {}),
           // Exclude transforms that make all code slower
           exclude: ["transform-typeof-symbol"],
         },
@@ -83,11 +73,19 @@ const getBabelConfig = (env) => {
       [
         "@babel/preset-react",
         {
-          development: isEnvDevelopment,
+          // development: isEnvDevelopment || packagesBuildEnv,
           runtime: "automatic",
         },
       ],
-      "@babel/preset-typescript",
+      [
+        "@babel/preset-typescript",
+        {
+          isTSX: true,
+          allExtensions: true,
+          allowNamespaces: true,
+          allowDeclareFields: true,
+        },
+      ],
       isEnvProduction ? ["minify", { keepFnName: false }] : undefined,
     ].filter(Boolean),
     plugins: [
@@ -99,7 +97,7 @@ const getBabelConfig = (env) => {
           loose: true,
         },
       ],
-      [
+      packagesBuildEnv && [
         // @see {@link https://babeljs.io/docs/en/babel-plugin-transform-runtime}
         "@babel/plugin-transform-runtime",
         {
@@ -107,7 +105,7 @@ const getBabelConfig = (env) => {
           corejs: false,
           helpers: true,
           regenerator: true,
-          useESModules: true,
+          useESModules: isEsModules,
           absoluteRuntime: false,
         },
       ],

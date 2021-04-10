@@ -1,11 +1,11 @@
 /*
  *
- * `readJsonFileAsync`: `scripts`.
+ * `readJsonFile`: `scripts`.
  *
  */
 const { readFile } = require("fs/promises");
 
-const readJsonFileAsync = async (jsonFilePath, toJSData) => {
+const readJsonFile = async (jsonFilePath, toJSData) => {
   const jsonFile = await readFile(jsonFilePath, {
     encoding: "utf8",
   });
@@ -15,4 +15,4 @@ const readJsonFileAsync = async (jsonFilePath, toJSData) => {
   );
 };
 
-module.exports = readJsonFileAsync;
+module.exports = readJsonFile;

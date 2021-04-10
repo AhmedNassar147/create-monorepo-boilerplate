@@ -3,22 +3,23 @@
  * `createAppDevServerConfig`: `webpack`
  *
  */
-// const { HotModuleReplacementPlugin } = require("webpack");
+// const webpack = require("webpack");
 // const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 const CaseSensitivePathsPlugin = require("case-sensitive-paths-webpack-plugin");
 const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
-const createWebpackConfig = require("./createWebpackConfig");
 const getBasePaths = require("./getBasePaths");
-// const getPackageAlias = require("../scripts/getPackageAlias");
-const getAppPathFromNodeEnv = require("../scripts/getAppPathFromNodeEnv");
+const createWebpackConfig = require("./createWebpackConfig");
+const getWorkSpaceBasePath = require("../workspaces/getWorkSpaceBasePath");
 
-const createAppDevServerConfig = (_, argv = {}) => {
+process.env.NODE_ENV = "development";
+
+const createAppDevServerConfig = async (_, argv = {}) => {
   const { analyze, port } = argv;
 
-  const basePath = getAppPathFromNodeEnv();
+  const basePath = await getWorkSpaceBasePath(process.env.WEBPACK_APP_NAME);
   const { public } = getBasePaths(basePath);
 
-  return createWebpackConfig({
+  return await createWebpackConfig({
     basePath,
     mode: "development",
     output: {
@@ -33,7 +34,6 @@ const createAppDevServerConfig = (_, argv = {}) => {
       "react-dom$": "react-dom/profiling",
       "scheduler/tracing": "scheduler/tracing-profiling",
     },
-    // getPackageAlias(packageOrAPP_NAME)
     devServer: {
       historyApiFallback: true,
       contentBase: public,
@@ -43,6 +43,10 @@ const createAppDevServerConfig = (_, argv = {}) => {
       hot: true,
       watchContentBase: true,
       port: port || 3000,
+      overlay: {
+        warnings: true,
+        errors: true,
+      },
       // overlay: { warnings: true, errors: true },
       // Silence WebpackDevServer's own logs since they're generally not useful.
       // It will still show compile warnings and errors with this setting.
@@ -51,7 +55,7 @@ const createAppDevServerConfig = (_, argv = {}) => {
       // quiet: true,
     },
     watchOptions: {
-      aggregateTimeout: 900,
+      aggregateTimeout: 1100,
       poll: 5000,
       ignored: /node_modules|packages/,
     },

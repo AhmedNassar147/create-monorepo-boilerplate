@@ -6,11 +6,16 @@
   "license": "private",
   "author": "ahmed nassar",
   "sideEffects": false,
+  "module": "module/index.js",
   "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "types": "dist/",
   "files": [
-    "dist"
+    "dist",
+    "module"
   ],
+  "scripts": {
+    "prepare": "node ../../internals/buildPackages/index.js --basePackageRootPath=\"packages/pkg3\""
+  },
   "peerDependencies": {
     "react": "^17.x.x",
     "styled-components": "^5.x.x"

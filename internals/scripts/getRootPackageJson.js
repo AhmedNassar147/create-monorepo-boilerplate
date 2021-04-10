@@ -4,11 +4,19 @@
  *
  */
 const { join } = require("path");
-const readJsonFileSync = require("./readJsonFileSync");
-const getProjectRootDirectoryPath = require("./getProjectRootDirectoryPath");
-const { PKG_JSON_EXT } = require("../constants/base");
+const readJsonFile = require("./readJsonFile");
+const invariant = require("./invariant");
+const findRootYarnWorkSpaces = require("../workspaces/findRootYarnWorkSpaces");
 
-const getRootPackageJson = () =>
-  readJsonFileSync(join(getProjectRootDirectoryPath(), PKG_JSON_EXT), true);
+const getRootPackageJson = async () => {
+  const projectRoot = findRootYarnWorkSpaces();
+
+  invariant(
+    projectRoot,
+    `\`(getRootPackageJson)\` couldn't find root workspaces path.`,
+  );
+
+  return await readJsonFile(join(projectRoot, "package.json"), true);
+};
 
 module.exports = getRootPackageJson;

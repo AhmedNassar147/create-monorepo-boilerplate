@@ -20,13 +20,10 @@ const checkIsFileExistAndGetFilePath = (basePath, envFileName) => {
   };
 };
 
-const getAppEnvVariables = (appBasePath, mode) => {
-  const clientName = process.env.CLIENT;
-  const serverPort = process.env.SERVER_PORT;
-
+const getAppEnvVariables = (appBasePath, { mode, clientName }) => {
   const isEnvProduction = mode === "production";
 
-  const envVariables = getBaseEnvVariableValues(clientName, serverPort);
+  const envVariables = getBaseEnvVariableValues(clientName);
 
   const PREFIX_REGEX = new RegExp(`^${PROJECT_PREFIX_ENV_NAME}`, "i");
 
@@ -89,8 +86,6 @@ const getAppEnvVariables = (appBasePath, mode) => {
       return env;
     }, {}),
   };
-
-  console.log("stringifiedVariables", stringifiedVariables);
 
   return {
     raw: envVariables,

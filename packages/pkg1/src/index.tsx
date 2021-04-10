@@ -4,15 +4,13 @@
  *
  */
 
-console.log("BUILD_YEAR", BUILD_YEAR);
+console.log("BUILD_YEAR @domain/pkg1", BUILD_YEAR);
 const ReactComponent = ({ name }: { name: string }): JSX.Element => (
   <div>
-    <div>@domain/pkg1</div>
-    {name}
-    <div>@domain/pkg1</div>
-    {name}
-    {name}
-    <p>ahmed nassar</p>
+    <p>{name}</p>
+    <p>hello from package @domain/pkg1</p>
+    <p>{name}</p>
+    <p>{name}</p>
   </div>
 );
 

@@ -4,7 +4,7 @@
  *
  */
 const ReactComponent = (): JSX.Element => (
-  <div>i am a trial react component pkg3</div>
+  <div>hello i am a trial react component pkg3 sss 3</div>
 );
 
 export default ReactComponent;

@@ -94,7 +94,6 @@ const createWebpackBuildConfig = () => {
         chunks: "all",
         name: false,
       },
-      mangleWasmImports: true,
     },
     performance: {
       hints: false,

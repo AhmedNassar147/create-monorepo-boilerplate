@@ -3,17 +3,17 @@
  * `getBasePaths`: `webpack`.
  *
  */
-const path = require("path");
+const { join, resolve } = require("path");
 
 module.exports = function getBasePaths(basePath) {
-  const srcEntry = path.join(basePath, "src");
+  const srcEntry = join(basePath, "src");
 
   return {
     srcEntry,
-    assetsPath: path.join(srcEntry, "src/assets"),
-    entry: path.join(srcEntry, "index"),
-    output: path.join(basePath, "build"),
-    public: path.resolve(basePath, "public"),
-    folderTsConfigPath: path.resolve(basePath, "tsconfig.json"),
+    assetsPath: join(srcEntry, "assets"),
+    entry: join(srcEntry, "index"),
+    output: join(basePath, "build"),
+    public: resolve(basePath, "public"),
+    tsConfigPath: resolve(basePath, "tsconfig.json"),
   };
 };
