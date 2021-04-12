@@ -3,9 +3,10 @@
   "license": "MIT",
   "private": true,
   "workspaces": [
-    "app/*",
+    "app",
     "packages/*",
-    "abc-module/*"
+    "abc-module/*",
+    "hello-app"
   ],
   "scripts": {
     "clean": "rm -rf ./packages/*/node_modules",
@@ -13,6 +14,7 @@
     "bootstrap": "lerna bootstrap",
     "reset": "yarn clean && yarn clean-locks && yarn bootstrap",
     "prettify": "prettier --write",
+    "generate": "plop --plopfile ./internals/generators/index.js",
     "build-packages": "lerna run --parallel prepare",
     "start:js": "WEBPACK_APP_NAME=app WEBPACK_CLIENT_NAME=NAME webpack serve --config ./internals/webpack/createAppDevServerConfig.js --node-env development",
     "start": "stmux -- [ \"yarn build-packages\" .. \"yarn start:js\" ]",
@@ -63,6 +65,7 @@
     "html-webpack-plugin": "^5.2.0",
     "lerna": "^3.20.2",
     "mini-css-extract-plugin": "^1.3.9",
+    "plop": "^2.7.4",
     "prettier": "^2.2.1",
     "stmux": "^1.8.1",
     "style-loader": "^2.0.0",

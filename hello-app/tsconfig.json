@@ -1,0 +1,9 @@
+{
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": true /* Do not emit outputs. */,
+    "sourceMap": true,
+    "typeRoots": ["../node_modules/@types", "../typings/*"]
+  },
+  "include": ["src", "../typings/*"]
+}
