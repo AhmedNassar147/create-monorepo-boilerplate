@@ -21,6 +21,10 @@ var ReactComponent = (_ref) => {
       children: "hello"
     }), /*#__PURE__*/_jsx("p", {
       children: "hello"
+    }), /*#__PURE__*/_jsx("p", {
+      children: "hello"
+    }), /*#__PURE__*/_jsx("p", {
+      children: "hello"
     })]
   });
 };

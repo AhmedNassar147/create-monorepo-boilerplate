@@ -10,14 +10,14 @@ const options = {
   ignoreInitial: true,
   awaitWriteFinish: {
     stabilityThreshold: 30,
-    pollInterval: 6,
+    pollInterval: 10,
   },
 };
 
 const createWatcher = (folderOrFilesPaths, onFileChanged, actions) => {
   const watcherActions = (watcher) => {
-    (actions || ["add", "change"]).forEach(function (type) {
-      watcher.on(type, onFileChanged);
+    (actions || ["all"]).forEach(function (type) {
+      watcher.on(type, (...args) => onFileChanged(type, ...args));
     });
   };
 

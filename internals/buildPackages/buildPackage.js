@@ -4,28 +4,31 @@
  *
  */
 "use strict";
+const { unlink, rename } = require("fs/promises");
 const path = require("path");
-const { writeFile, mkdir, copyFile } = require("fs/promises");
-// const { exec } = require("child_process");
 const getPaths = require("./getPaths");
-const emitDeclarationsFile = require("./emitDeclarationsFile");
+const getFilesContentsHash = require("./getFilesContentsHash");
+const getFileMd5 = require("./getFileMd5");
+const compileFile = require("./compileFile");
+const getOutDirAndCreateIfNotExists = require("./getOutDirAndCreateIfNotExists");
+const getDirNameFromPath = require("../scripts/getDirNameFromPath");
 const invariant = require("../scripts/invariant");
+const checkPathExists = require("../scripts/checkPathExists");
 const getAllFilesFromFolder = require("../scripts/getAllFilesFromFolder");
 const createWatcher = require("../scripts/createWatcher");
-const getDirNameFromPath = require("../scripts/getDirNameFromPath");
-const checkPathExists = require("../scripts/checkPathExists");
-const transpileFileWithBabel = require("./transpileFileWithBabel");
-const { delayProcess } = require("../command-line-utils");
+
+const watchingEvents = ["unlink", "add", "change"];
+
+const defaultFileHashData = {
+  fileHash: "",
+  hasContent: false,
+};
 
 const buildPackage = async ({ basePackageRootPath }) => {
   invariant(
     basePackageRootPath,
     `basePackageRootPath must be provided given \`${basePackageRootPath}\`. `,
   );
-
-  // console.info(
-  //   `[buildPackage]: preparing "${basePackageRootPath}" for compilation, waiting for changes...`,
-  // );
 
   const {
     fullPathPackageSrcPath,
@@ -40,158 +43,192 @@ const buildPackage = async ({ basePackageRootPath }) => {
     `can't find files to process in \`${fullPathPackageSrcPath}\`. `,
   );
 
-  const writeContentToFile = async (distPath, fileName, content) => {
-    const filePath = path.join(distPath, fileName);
+  const previousFilesHashMap = await getFilesContentsHash(filesInSrcFolder);
 
-    await writeFile(filePath, content, {
-      encoding: "utf8",
+  const selectFilePathFormHashMapByHash = (hashSearch) => {
+    let selectedFilePath = "";
+
+    Array.from(previousFilesHashMap).forEach(([key, { fileHash }]) => {
+      if (fileHash === hashSearch) {
+        selectedFilePath = key;
+      }
     });
 
-    // try {
-    //   exec(`yarn prettify ${filePath}`);
-    // } catch (error) {
-    //   console.error("error", error);
-    // }
+    return selectedFilePath;
   };
 
-  const getOutDirAndCreateIfNotExists = async (dirOfCurrentFile) => {
-    const distFolders = [esmBuildFolder, cjsBuildFolder];
-    const isFileInRootSrc = dirOfCurrentFile === "/";
+  const handleRemoveFile = async ({
+    currentChangedFile,
+    dirOfCurrentFile,
+    fileName,
+  }) => {
+    try {
+      previousFilesHashMap.delete(currentChangedFile);
+      const fileInBuildFolders = [
+        cjsBuildFolder,
+        esmBuildFolder,
+      ].map((buildFolder) =>
+        path.join(buildFolder, dirOfCurrentFile, fileName),
+      );
 
-    const configPromises = distFolders.map(async (distFolderPath, index) => {
-      const outDirPath = isFileInRootSrc
-        ? distFolderPath
-        : path.join(distFolderPath, dirOfCurrentFile);
+      const fileExistenceStatus = (
+        await Promise.all(fileInBuildFolders.map(checkPathExists))
+      ).filter(Boolean);
 
-      const isDistFolderPathExist = await checkPathExists(outDirPath);
+      if (fileExistenceStatus.length) {
+        await Promise.all(fileExistenceStatus.map(unlink));
+      }
+    } catch (error) {
+      console.error("[[handleRemoveFile]]: Error =>", error);
+    }
+  };
 
-      if (!isDistFolderPathExist) {
-        await mkdir(outDirPath, { recursive: true });
+  const handleAddFile = async ({
+    currentChangedFile,
+    dirOfCurrentFile,
+    fileName,
+    hasContent,
+    fileHash,
+  }) => {
+    try {
+      // developer could rename or add the file.
+      // we need to know if a developer is copying / renaming the file.
+      // we select the file name for the map by hash
+      // then we check if the selected file path is still exists
+      // if true that means the developer is coping otherwise renaming.
+
+      // developer is creating or renaming file (with no content)
+      if (!hasContent) {
+        return;
+      }
+      // if the selected file has value that means developer is coping the file.
+      // from current package.
+      const selectedFilePath = selectFilePathFormHashMapByHash(fileHash);
+
+      // we check if the selected file still exists
+      const isDeveloperCopingFile = selectedFilePath
+        ? await checkPathExists(selectedFilePath)
+        : false;
+
+      // developer is coping the file.
+      // we wait the changes to compile (giving developer much more time).
+      const isDeveloperCopingFileOutSideTheCurrentPackage =
+        !isDeveloperCopingFile && !selectedFilePath;
+
+      if (
+        isDeveloperCopingFile ||
+        isDeveloperCopingFileOutSideTheCurrentPackage
+      ) {
+        return;
       }
 
-      return {
-        dir: outDirPath,
-        isEsModules: !index,
-      };
-    });
+      previousFilesHashMap.add(currentChangedFile, {
+        fileHash,
+        hasContent,
+      });
 
-    return await Promise.all(configPromises);
-  };
-
-  createWatcher(
-    fullPathPackageSrcPath,
-    async (currentChangedFile) => {
-      try {
-        const dirOfCurrentFile = await getDirNameFromPath(
-          currentChangedFile,
-          fullPathPackageSrcPath,
-        );
-        const isFileInRootSrc = dirOfCurrentFile === "/";
-
-        const buildConfig = await getOutDirAndCreateIfNotExists(
+      // developer is renaming the file.
+      if (!isDeveloperCopingFile && selectedFilePath) {
+        // prepare the build folders.
+        const buildConfig = await getOutDirAndCreateIfNotExists({
           dirOfCurrentFile,
-        );
+          cjsBuildFolder,
+          esmBuildFolder,
+        });
 
-        const fileExt = path.extname(currentChangedFile);
-        const fileName = path.basename(currentChangedFile);
+        const previousFileName = path.basename(selectedFilePath);
 
-        const logFileNamePath = isFileInRootSrc
-          ? `src/${fileName}`
-          : `src${dirOfCurrentFile}/${fileName}`;
-
-        const isTsTypesFiles = ["interface", "interfaces", "d"].some((ext) =>
-          fileName.endsWith(`.${ext}.ts`),
-        );
-
-        const isCssFile = fileExt === ".css";
-        const isJSFile = fileExt === ".js";
-
-        if (isTsTypesFiles || isCssFile) {
-          console.info(
-            `skipping compilation for "${logFileNamePath}"` +
-              "we just copy them to dist folders",
-          );
-          await Promise.all(
-            buildConfig.map(async (config) => {
-              return copyFile(
-                currentChangedFile,
-                path.join(config.dir, fileName),
-              );
-            }),
-          );
-
-          return;
-        }
-
-        if (!isJSFile) {
-          console.info(
-            `starting ts emitting declarations "${logFileNamePath}"`,
-          );
-
-          const declarations = await emitDeclarationsFile({
-            fileToEmit: currentChangedFile,
-          });
-
-          invariant(declarations, "Expected declarations to be generated.");
-
-          await Promise.all(
-            buildConfig.map(async (config) => {
-              return writeContentToFile(
-                config.dir,
-                fileName.replace(fileExt, ".d.ts"),
-                declarations,
-              );
-            }),
-          );
-
-          console.info(
-            `finished ts emitting declarations "${logFileNamePath}"`,
-          );
-        }
-
-        console.info(`staring babel compilation`);
+        // we copy the previous complied code to their new paths in build folder.
         await Promise.all(
-          buildConfig.map(async ({ dir, isEsModules }) => {
-            try {
-              const generatedCode = await transpileFileWithBabel({
-                isEsModules,
-                filePath: currentChangedFile,
-              });
-
-              return writeContentToFile(
-                dir,
-                fileName.replace(fileExt, ".js"),
-                generatedCode,
-              );
-            } catch (error) {
-              console.error(
-                `Error when build the package with babel
-                ${JSON.stringify(error)}
-                `,
-              );
-            }
+          buildConfig.map(async (config) => {
+            return rename(
+              path.join(config.dir, previousFileName),
+              path.join(config.dir, fileName),
+            );
           }),
         );
-        console.info(
-          `finished compilation ["esm","cjs"] formats "${logFileNamePath}"`,
-        );
-        delayProcess(
-          () => {
-            console.clear();
-            console.info(`waiting for changes..`);
-          },
-          undefined,
-          3200,
-        );
-      } catch (err) {
-        console.error(
-          `Error after watching and emitting file \`${currentChangedFile}\`.`,
-          err,
-        );
       }
-    },
-    ["change"],
-  );
+    } catch (error) {
+      console.error("[[handleAddFile]]: Error =>", error);
+    }
+  };
+
+  const handleWatcherEvents = async (eventName, currentChangedFile) => {
+    try {
+      // 1- when rename file events will fire twice one for adding other for removing.
+      const [
+        isRemovingFile,
+        isAddingNewFile,
+        isChangingFile,
+      ] = watchingEvents.map((event) => event === eventName);
+
+      const fileName = path.basename(currentChangedFile);
+
+      const dirOfCurrentFile = await getDirNameFromPath(
+        currentChangedFile,
+        fullPathPackageSrcPath,
+      );
+
+      if (isRemovingFile) {
+        await handleRemoveFile({
+          currentChangedFile,
+          dirOfCurrentFile,
+          fileName,
+        });
+
+        return;
+      }
+
+      const { fileHash, hasContent } = await getFileMd5(currentChangedFile);
+
+      if (isAddingNewFile) {
+        await handleAddFile({
+          currentChangedFile,
+          dirOfCurrentFile,
+          fileName,
+          hasContent,
+          fileHash,
+        });
+        return;
+      }
+
+      if (isChangingFile) {
+        const wasCurrentFileExist = previousFilesHashMap.has(
+          currentChangedFile,
+        );
+        const { fileHash: previousFileHash } = wasCurrentFileExist
+          ? previousFilesHashMap.get(currentChangedFile)
+          : defaultFileHashData;
+
+        const isPreviousHashEqualCurrent = previousFileHash === fileHash;
+
+        if (!isPreviousHashEqualCurrent && hasContent) {
+          try {
+            await compileFile({
+              fileToCompile: currentChangedFile,
+              fullPathPackageSrcPath,
+              cjsBuildFolder,
+              esmBuildFolder,
+            });
+
+            previousFilesHashMap.set(currentChangedFile, {
+              fileHash,
+              hasContent,
+            });
+          } catch (error) {
+            console.error(
+              `[when compiling content for ${currentChangedFile}] => Error`,
+              error,
+            );
+          }
+        }
+      }
+    } catch (err) {
+      console.error("[[watcher]]: Error =>", err);
+    }
+  };
+
+  createWatcher(fullPathPackageSrcPath, handleWatcherEvents, watchingEvents);
 };
 
 module.exports = buildPackage;

@@ -11,6 +11,8 @@ const ReactComponent = ({ name }: { name: string }): JSX.Element => (
     <div>@domain/pkg5</div>
     <p>hello</p>
     <p>hello</p>
+    <p>hello</p>
+    <p>hello</p>
   </div>
 );
 
