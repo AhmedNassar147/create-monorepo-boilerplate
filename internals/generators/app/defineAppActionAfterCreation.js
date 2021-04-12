@@ -3,7 +3,7 @@
  * defineActionAfterCreation: `app`.
  *
  */
-const { writeFile } = require("fs");
+const { writeFileSync } = require("fs");
 const path = require("path");
 const definePlopActionAndExecuteScript = require("../utils/definePlopActionAndExecuteScript");
 const readJsonFileSync = require("../../scripts/readJsonFileSync");
@@ -36,9 +36,9 @@ function definePlopActionsAfterPackageCreation(plop) {
       ].forEach(([filePath, propName, fileData]) => {
         fileData[propName] = [...fileData[propName], realName];
 
-        writeFile(
+        writeFileSync(
           filePath,
-          JSON.stringify(fileData, null, 2),
+          JSON.stringify(fileData),
           { encoding: "utf8" },
           (error) => {
             if (error) {
@@ -51,7 +51,7 @@ function definePlopActionsAfterPackageCreation(plop) {
         );
       });
 
-      return undefined;
+      return `yarn prettify "${process.cwd()}/*.json"`;
     },
   );
 }

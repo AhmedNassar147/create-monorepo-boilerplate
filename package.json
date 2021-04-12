@@ -30,7 +30,8 @@
     "@domain/pkg4": "1.0.0",
     "@domain/pkg5": "1.0.0",
     "react": "^17.0.1",
-    "react-dom": "^17.0.1"
+    "react-dom": "^17.0.1",
+    "styled-components": "^5.2.3"
   },
   "devDependencies": {
     "@babel/core": "^7.13.10",
@@ -45,6 +46,7 @@
     "@babel/preset-typescript": "^7.13.0",
     "@types/react": "^17.0.3",
     "@types/react-dom": "^17.0.1",
+    "@types/styled-components": "^5.1.9",
     "@typescript-eslint/eslint-plugin": "^4.16.1",
     "@typescript-eslint/parser": "^4.16.1",
     "babel-loader": "^8.2.2",
