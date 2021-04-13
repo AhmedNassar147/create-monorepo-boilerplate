@@ -1,0 +1,29 @@
+/*
+ *
+ * `pagesRoutesData`: `Routes`.
+ *
+ */
+import { PAGES_PATH_NAMES } from "@app-structure/routes";
+import { RouteItemDataType } from "./index.interface";
+
+let PAGES_ROUTER_DATA: RouteItemDataType[] = [
+{{#each (createPagesData initPagesData)}}
+    {
+      path: PAGES_PATH_NAMES.{{{ pageName }}},
+      loadPageComponent: () => require("{{{ pageIndexPath }}}")
+    },
+{{/each}}
+];
+
+if (process.env.NODE_ENV === "development") {
+  PAGES_ROUTER_DATA = PAGES_ROUTER_DATA.concat([
+    {{#each DEVELOPMENT_ONLY_PAGES}}
+      {
+        path: "{{ path }}",
+        loadPageComponent: () => require("{{{ pageIndexPath }}}")
+      },
+  {{/each}}
+  ]).flat();
+}
+
+export default PAGES_ROUTER_DATA;

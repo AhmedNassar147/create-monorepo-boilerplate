@@ -1,0 +1,10 @@
+/*
+ *
+ * Types: `{{{ PROJECT_NAME_SPACE }}}/{{ name }}`.
+ *
+ */
+{{#if isTablePage}}
+import { defaultNewRecord } from "./constants";
+
+export type TableRecordType = typeof defaultNewRecord;
+{{/if}}

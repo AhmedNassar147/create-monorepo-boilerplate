@@ -16,6 +16,7 @@
     "prettify": "prettier --write",
     "generate": "plop --plopfile ./internals/generators/index.js",
     "build-packages": "lerna run --parallel prepare",
+    "abc": "--appName=app clientName=NAME",
     "start:js": "WEBPACK_APP_NAME=app WEBPACK_CLIENT_NAME=NAME webpack serve --config ./internals/webpack/createAppDevServerConfig.js --node-env development",
     "start": "stmux -- [ \"yarn build-packages\" .. \"yarn start:js\" ]",
     "webpack-build": "WEBPACK_APP_NAME=app WEBPACK_CLIENT_NAME=NAME webpack --config ./internals/webpack/createWebpackBuildConfig.js --node-env production",
@@ -29,11 +30,14 @@
     "@domain/pkg3": "1.0.0",
     "@domain/pkg4": "1.0.0",
     "@domain/pkg5": "1.0.0",
+    "@domain/routes": "1.0.0",
+    "@domain/react-lazy": "1.0.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "styled-components": "^5.2.3"
   },
   "devDependencies": {
+    "@domain/types": "1.0.0",
     "@babel/core": "^7.13.10",
     "@babel/plugin-proposal-class-properties": "^7.13.0",
     "@babel/plugin-proposal-export-default-from": "7.12.13",

@@ -1,0 +1,22 @@
+{
+  "name": "@domain/react-lazy",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A wrapper around `React.lazy` to create lazy loaded components.",
+  "author": "ahmed nassar",
+  "license": "ISC",
+  "sideEffects": false,
+  "module": "module/index.js",
+  "main": "dist/index.js",
+  "types": "dist/",
+  "files": [
+    "dist",
+    "module"
+  ],
+  "scripts": {
+    "prepare": "node ../../internals/buildPackages/index.js --basePackageRootPath=\"packages/react-lazy\""
+  },
+  "peerDependencies": {
+    "@types/react": "^16.x.x"
+  }
+}

@@ -5,13 +5,13 @@
  *
  */
 const { readdirSync } = require("fs");
-const invariant = require("../../scripts/invariant");
 const getWorksSpacesOnlyNamesSync = require("../../workspaces/getWorksSpacesOnlyNamesSync");
+const { APPS_REGEX } = require("../../constants/base");
 
 const packageExists = (comp) => {
   const apps = [];
-  let workspaces = getWorksSpacesOnlyNamesSync().filter((workSpace) => {
-    if (workSpace.endsWith("app")) {
+  const workspaces = getWorksSpacesOnlyNamesSync().filter((workSpace) => {
+    if (APPS_REGEX.test(workSpace)) {
       apps.push(workSpace);
 
       return false;
@@ -19,8 +19,6 @@ const packageExists = (comp) => {
 
     return true;
   });
-
-  invariant(!!workspaces.length, `couldn't collect workspaces names.`);
 
   const packages = workspaces.map((workSpace) => readdirSync(workSpace)).flat();
 

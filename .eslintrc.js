@@ -28,6 +28,13 @@ module.exports = {
     // Place to specify ESLint rules. Can be used to overwrite rules specified from the extended configs
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/no-unused-vars": "off",
+    "@typescript-eslint/ban-ts-comment": {
+      "ts-expect-error": true,
+      "ts-ignore": "allow-with-description",
+      "ts-nocheck": true,
+      "ts-check": false,
+      minimumDescriptionLength: 3,
+    },
     "react/jsx-uses-react": "off",
     "react/react-in-jsx-scope": "off",
     "react/require-render-return": "off",

@@ -1,0 +1,12 @@
+/*
+ *
+ * `pagesRoutesPathNames`: `@app-structure/routes`.
+ *
+ */
+const PAGES_PATH_NAMES = {
+{{#each (createPagesData initPagesData)}}
+    {{{ pageName }}}: {{{ formatPageRoutePath path }}},
+{{/each}}
+};
+
+export default PAGES_PATH_NAMES;

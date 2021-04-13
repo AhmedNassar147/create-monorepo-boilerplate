@@ -9,7 +9,7 @@ const getWorksSpacesOnlyNames = require("./getWorksSpacesOnlyNames");
 const findRootYarnWorkSpaces = require("./findRootYarnWorkSpaces");
 const readJsonFile = require("../scripts/readJsonFile");
 const invariant = require("../scripts/invariant");
-const { PACKAGES_REGEX } = require("../constants/base");
+const { MODULES_REGEX } = require("../constants/base");
 
 const PKG_JSON_EXT = "package.json";
 
@@ -45,7 +45,7 @@ const getWorkSpacesData = async (options) => {
     async (workspace) => {
       const mainWorkspacePath = path.join(projectRoot, workspace);
 
-      if (PACKAGES_REGEX.test(workspace)) {
+      if (MODULES_REGEX.test(workspace)) {
         const packagesPaths = await readdir(mainWorkspacePath);
 
         return await Promise.all(

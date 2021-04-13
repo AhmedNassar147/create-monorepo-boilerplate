@@ -1,0 +1,13 @@
+{
+  "name": "@domain/routes",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Contains app pages data.",
+  "author": "exsys",
+  "license": "ISC",
+  "main": "src/",
+  "sideEffects": false,
+  "dependencies": {
+    "@domain/types": "1.0.0"
+  }
+}

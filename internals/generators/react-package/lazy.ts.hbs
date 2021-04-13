@@ -1,0 +1,15 @@
+/*
+ *
+ * Package: `{{{ PROJECT_NAME_SPACE }}}/{{ name }}`.
+ *
+ */
+{{#if (isPage type)}}
+import { lazy } from "react";
+
+export default lazy(() => import("./component" /* webpackChunkName: "{{{ removeAt PROJECT_NAME_SPACE }}}.{{ name }}" */)
+);
+ {{else}}
+import createLazyLoadedComponent from "{{{ PROJECT_NAME_SPACE }}}/react-lazy";
+
+export default createLazyLoadedComponent(() => import("./component" /* webpackChunkName: "{{{ removeAt PROJECT_NAME_SPACE }}}.{{ name }}" */));
+{{/if}}

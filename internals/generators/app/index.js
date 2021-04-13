@@ -3,13 +3,27 @@
  * generator: `app`.
  *
  */
-const defaultPrompts = require("../shared/defaultPrompts");
+const createDefaultPrompts = require("../utils/createDefaultPrompts");
 const { PROJECT_NAME_SPACE } = require("../../constants/base");
+const selectAllModules = require("../../workspaces/selectAllModules");
+
+const modulesName = selectAllModules();
 
 module.exports = {
   description: "Add app.",
-  prompts: [...defaultPrompts(true)],
-  actions: () => {
+  prompts: [
+    ...createDefaultPrompts(true),
+    {
+      type: "checkbox",
+      name: "modules",
+      message: `What are the modules, those render in the current app?`,
+      choices: modulesName.map((name) => ({
+        value: name,
+      })),
+      default: modulesName.length === 1 ? modulesName : [],
+    },
+  ],
+  actions: ({ modules }) => {
     let events = [
       {
         type: "add",

@@ -1,16 +1,16 @@
 /*
  *
- * defaultPrompts: `shared`.
+ * `createDefaultPrompts`: `utils`.
  *
  */
-const packageExists = require("../utils/packageExists");
+const packageExists = require("./packageExists");
 const { PROJECT_NAME_SPACE } = require("../../constants/base");
 
 const nameSpaceRegex = new RegExp(`^${PROJECT_NAME_SPACE}\/?.+`);
 
-const getName = (generatingApp) => (generatingApp ? "package" : "app");
+const getName = (generatingApp) => (generatingApp ? "app" : "package");
 
-const defaultPrompts = (generatingApp) => [
+const createDefaultPrompts = (generatingApp) => [
   {
     type: "input",
     name: "name",
@@ -56,4 +56,4 @@ const defaultPrompts = (generatingApp) => [
   },
 ];
 
-module.exports = defaultPrompts;
+module.exports = createDefaultPrompts;
