@@ -5,6 +5,7 @@
  */
 const packageExists = require("./packageExists");
 const { PROJECT_NAME_SPACE } = require("../../constants/base");
+const whenComponentTypeIsPage = require("../react-package/utils/whenComponentTypeIsPage");
 
 const nameSpaceRegex = new RegExp(`^${PROJECT_NAME_SPACE}\/?.+`);
 
@@ -15,7 +16,11 @@ const createDefaultPrompts = (generatingApp) => [
     type: "input",
     name: "name",
     message: "What should it be called?",
-    default: "lorem-ipsum",
+    default: ({ type }) => {
+      const isPage = whenComponentTypeIsPage({ type });
+      const defaultName = "lorem-ipsum";
+      return isPage ? defaultName + "-page" : defaultName;
+    },
     validate: (value) => {
       if (/.+/.test(value)) {
         if (packageExists(value)) {

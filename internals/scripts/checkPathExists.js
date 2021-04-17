@@ -5,9 +5,9 @@
  */
 const { stat } = require("fs/promises");
 
-const checkPathExists = async (path) => {
-  return stat(path)
-    .then(() => path)
+const checkPathExists = async (filePath) => {
+  return stat(filePath)
+    .then(() => filePath)
     .catch(() => false);
 };
 module.exports = checkPathExists;

@@ -33,6 +33,7 @@ const getBabelConfig = async (env, useCjsFormat) => {
     // magic comments for dynamic imports (@example
     // `/* webpackChunkName: 'something' */`).
     comments: true,
+    // extensions: [".js", ".ts", ".tsx", ".json"],
     overrides: [
       // Like `react-boilerplate`, we run aggressive optimizations only on
       // the code that we can control and when the environment is production.
@@ -89,6 +90,27 @@ const getBabelConfig = async (env, useCjsFormat) => {
       isEnvProduction ? ["minify", { keepFnName: false }] : undefined,
     ].filter(Boolean),
     plugins: [
+      [
+        // @see {link https://styled-components.com/docs/tooling#usage}
+        "styled-components",
+        {
+          // @see {@link https://www.styled-components.com/docs/api#css-prop}
+          cssProp: true,
+          ...(isEnvProduction
+            ? {
+                // Disable optimizations in development, hopefully it's
+                // faster this way.
+                // @see {@link https://styled-components.com/docs/tooling#minification}
+                minify: false,
+                transpileTemplateLiterals: false,
+              }
+            : {
+                displayName: false,
+                // @see {@link https://www.styled-components.com/docs/tooling#dead-code-elimination}
+                pure: true,
+              }),
+        },
+      ],
       "@babel/plugin-proposal-export-namespace-from",
       "@babel/plugin-proposal-export-default-from",
       [
@@ -115,29 +137,3 @@ const getBabelConfig = async (env, useCjsFormat) => {
 };
 
 module.exports = getBabelConfig;
-
-// "babel-plugin-styled-components": "^1.12.0",
-// [
-//   // @see {link https://styled-components.com/docs/tooling#usage}
-//   'styled-components',
-//   {
-//     // @see {@link https://www.styled-components.com/docs/api#css-prop}
-//     cssProp: true,
-//     ...(!isEnvDevelopment
-//       ? {
-//         // Disable optimizations in development, hopefully it's
-//         // faster this way.
-//         // @see {@link https://styled-components.com/docs/tooling#minification}
-//         minify: false,
-//         transpileTemplateLiterals: false,
-//         }
-//     : {
-//         // We disable this option in `PRODUCTION_WWW` to remove React
-//         // components display names from the HTML and reduce its size.
-//         // @see {@link https://www.styled-components.com/docs/tooling#better-debugging}
-//         displayName: false,
-//         // @see {@link https://www.styled-components.com/docs/tooling#dead-code-elimination}
-//         pure: true,
-//     }),
-//   },
-// ],

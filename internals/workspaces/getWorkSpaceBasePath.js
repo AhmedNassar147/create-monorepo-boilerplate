@@ -8,18 +8,20 @@ const invariant = require("../scripts/invariant");
 const { PROJECT_NAME_SPACE } = require("../constants/base");
 
 // given `@domain/pkg1` will return `basePath/create-react-monorepo-boilerplate/packages/pkg1`
-const getWorkSpaceBasePath = async (name) => {
+const getWorkSpaceBasePath = (name) => {
   invariant(!!name, `package name must be provided given: name=\`${name}\`.`);
 
   name = name.includes(PROJECT_NAME_SPACE)
     ? name
     : `${PROJECT_NAME_SPACE}/${name}`;
 
-  const { [name]: packageBasePath } = await getWorkSpacesData();
+  const {
+    [name]: { packagePath },
+  } = getWorkSpacesData();
 
-  invariant(packageBasePath, `couldn't find package called \`${name}\`.`);
+  invariant(packagePath, `couldn't find package called \`${name}\`.`);
 
-  return Promise.resolve(packageBasePath);
+  return packagePath;
 };
 
 module.exports = getWorkSpaceBasePath;

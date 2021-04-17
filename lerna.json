@@ -1,5 +1,5 @@
 {
-  "packages": ["packages/*", "abc-module/*", "app", "hello-app"],
+  "packages": ["packages/*", "app", "some-module/*"],
   "version": "independent",
   "npmClient": "yarn",
   "useWorkspaces": true

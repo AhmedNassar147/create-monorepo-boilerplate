@@ -5,9 +5,22 @@
   "description": "Contains app pages data.",
   "author": "exsys",
   "license": "ISC",
-  "main": "src/",
   "sideEffects": false,
-  "dependencies": {
+  "module": "dist/esm/index.js",
+  "main": "dist/cjs/index.js",
+  "types": "dist/types",
+  "files": [
+    "dist/esm",
+    "dist/types",
+    "dist/cjs"
+  ],
+  "scripts": {
+    "ts:checker:declaration": "tsc -b .",
+    "ts:checker:declaration:watch": "yarn ts:checker:declaration --watch",
+    "prepare": "node ../../internals/buildPackage/index.js --packageName=@domain/routes",
+    "prepare:watch": "yarn prepare --watch"
+  },
+  "devDependencies": {
     "@domain/types": "1.0.0"
   }
 }

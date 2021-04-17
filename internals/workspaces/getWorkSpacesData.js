@@ -3,79 +3,86 @@
  * `getWorkSpacesData`: `scripts`.
  *
  */
-const { readdir } = require("fs/promises");
+const { readdirSync } = require("fs");
 const path = require("path");
-const getWorksSpacesOnlyNames = require("./getWorksSpacesOnlyNames");
+const getWorksSpacesOnlyNamesSync = require("./getWorksSpacesOnlyNamesSync");
 const findRootYarnWorkSpaces = require("./findRootYarnWorkSpaces");
-const readJsonFile = require("../scripts/readJsonFile");
+const readJsonFileSync = require("../scripts/readJsonFileSync");
+const checkPathExistsSync = require("../scripts/checkPathExistsSync");
 const invariant = require("../scripts/invariant");
-const { MODULES_REGEX } = require("../constants/base");
+const { APPS_REGEX } = require("../constants/base");
 
 const PKG_JSON_EXT = "package.json";
 
-const getWorkSpacesData = async (options) => {
-  const { withFileSrcPath, onlyTheseWorkSpacesNames } = options || {};
+const getWorkSpacesData = (options) => {
+  const { withFileSrcPath, onlyTheseWorkSpacesNamesRegex, onlyPages } =
+    options || {};
 
   const projectRoot = findRootYarnWorkSpaces();
 
-  invariant(projectRoot, `couldn't find root workspaces path.`);
+  invariant(
+    projectRoot,
+    `\`(getWorkSpacesData)\`: couldn't find root workspaces path.`,
+  );
 
-  let workspaces = await getWorksSpacesOnlyNames();
+  const workspaces = getWorksSpacesOnlyNamesSync(onlyTheseWorkSpacesNamesRegex);
 
-  workspaces = onlyTheseWorkSpacesNames
-    ? workspaces.filter((workspaceName) =>
-        onlyTheseWorkSpacesNames.includes(workspaceName),
-      )
-    : workspaces;
-
-  const createWorkSpaceConfig = async (basePath) => {
+  const createWorkSpaceConfig = (basePath) => {
     const packageJsonPath = path.join(basePath, PKG_JSON_EXT);
-    const { name } = await readJsonFile(packageJsonPath, true);
 
-    return Promise.resolve([
+    const isFileExist = checkPathExistsSync(packageJsonPath);
+
+    if (!isFileExist) {
+      return false;
+    }
+
+    const {
       name,
-      packageJsonPath.replace(
-        `/${PKG_JSON_EXT}`,
-        withFileSrcPath ? "/src" : "",
-      ),
-    ]);
+      routeData,
+      dependencies,
+      peerDependencies,
+      devDependencies,
+    } = readJsonFileSync(packageJsonPath, true);
+
+    return (onlyPages && routeData) || !onlyPages
+      ? [
+          name,
+          {
+            packagePath: packageJsonPath.replace(
+              `/${PKG_JSON_EXT}`,
+              withFileSrcPath ? "/src" : "",
+            ),
+            dependencies,
+            peerDependencies,
+            devDependencies,
+            routeData,
+          },
+        ]
+      : false;
   };
 
-  const workspacesPackageJsonPathsPromises = workspaces.map(
-    async (workspace) => {
-      const mainWorkspacePath = path.join(projectRoot, workspace);
+  const workspacesPackageJsonPathsData = workspaces.map((workspace) => {
+    const mainWorkspacePath = path.join(projectRoot, workspace);
+    if (APPS_REGEX.test(workspace)) {
+      return [createWorkSpaceConfig(mainWorkspacePath)];
+    }
 
-      if (MODULES_REGEX.test(workspace)) {
-        const packagesPaths = await readdir(mainWorkspacePath);
+    const packagesPaths = readdirSync(mainWorkspacePath);
 
-        return await Promise.all(
-          packagesPaths.map(async (packageFolderName) => {
-            const packagePath = path.join(mainWorkspacePath, packageFolderName);
-            return await createWorkSpaceConfig(packagePath);
-          }),
-        );
-      }
+    return packagesPaths.flat().map((packageFolderName) => {
+      const packagePath = path.join(mainWorkspacePath, packageFolderName);
+      return createWorkSpaceConfig(packagePath);
+    });
+  });
 
-      return [await createWorkSpaceConfig(mainWorkspacePath)];
-    },
-  );
+  const workspacesPackageJsonPaths = workspacesPackageJsonPathsData
+    .flat()
+    .filter(Boolean);
 
-  const workspacesPackageJsonPaths = (
-    await Promise.all(workspacesPackageJsonPathsPromises)
-  )
-    .filter(Boolean)
-    .flat();
-
-  // {
-  //   '@domain/pkg1': '/basePath/create-react-monorepo-boilerplate/packages/pkg1',
-  //   '@domain/app': '/basePath/create-react-monorepo-boilerplate/app'
-  // }
-  return Promise.resolve(
-    workspacesPackageJsonPaths.reduce((acc, [name, workspacePath]) => {
-      acc[name] = workspacePath;
-      return acc;
-    }, {}),
-  );
+  return workspacesPackageJsonPaths.reduce((acc, [name, packageData]) => {
+    acc[name] = packageData;
+    return acc;
+  }, {});
 };
 
 module.exports = getWorkSpacesData;

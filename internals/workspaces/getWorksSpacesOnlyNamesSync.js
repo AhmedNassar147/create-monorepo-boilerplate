@@ -6,10 +6,18 @@
 const getProperWorkSpaceName = require("./getProperWorkSpaceName");
 const getRootPackageJsonSync = require("../scripts/getRootPackageJsonSync");
 
-const getWorksSpacesOnlyNamesSync = () => {
+const getWorksSpacesOnlyNamesSync = (filterRegexp) => {
   const { workspaces } = getRootPackageJsonSync();
 
-  return workspaces.map(getProperWorkSpaceName);
+  let properWorkSpacesNames = workspaces.map(getProperWorkSpaceName);
+
+  if (filterRegexp && properWorkSpacesNames && properWorkSpacesNames.length) {
+    properWorkSpacesNames = properWorkSpacesNames.filter((workSpace) =>
+      filterRegexp.test(workSpace),
+    );
+  }
+
+  return properWorkSpacesNames;
 };
 
 module.exports = getWorksSpacesOnlyNamesSync;

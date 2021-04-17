@@ -16,7 +16,7 @@ process.env.NODE_ENV = "development";
 const createAppDevServerConfig = async (_, argv = {}) => {
   const { analyze, port } = argv;
 
-  const basePath = await getWorkSpaceBasePath(process.env.WEBPACK_APP_NAME);
+  const basePath = getWorkSpaceBasePath(process.env.WEBPACK_APP_NAME);
   const { public } = getBasePaths(basePath);
 
   return await createWebpackConfig({

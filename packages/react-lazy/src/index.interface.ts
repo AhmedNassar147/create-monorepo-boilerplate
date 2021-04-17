@@ -1,6 +1,6 @@
 /*
  *
- * Types: `@app-structure/react-lazy`.
+ * Types: `@domain/react-lazy`.
  *
  */
 export default interface IProps {

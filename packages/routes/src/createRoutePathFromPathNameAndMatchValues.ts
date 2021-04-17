@@ -4,7 +4,7 @@
  *
  */
 import { RecordType } from "@domain/types";
-import PagesPathNames from "./pagesPathNames";
+import PagesPathNames from "./pagesPathNames.json";
 import {
   PAGES_NAMES_KEYS_TYPE,
   PATH_TYPE,
@@ -12,7 +12,6 @@ import {
 } from "./index.interface";
 
 const variableInStringRegex = /:\w*\??/g;
-// const optionalCharactersInStringRegEx = /\w*\?/g;
 const requiredOrOptionalCharactersInStringRegEx = /:|\?/g;
 
 const replacePathNameString = (
@@ -25,10 +24,6 @@ const replacePathNameString = (
 
   if (Array.isArray(variablesMatchArray)) {
     variablesMatchArray.forEach((paramWithCharacter) => {
-      // const isOptionalParam = optionalCharactersInStringRegEx.test(
-      //   paramWithCharacter
-      // );
-
       const actualParam = paramWithCharacter.replace(
         requiredOrOptionalCharactersInStringRegEx,
         "",
@@ -56,7 +51,7 @@ const createRoutePathFromPathNameAndMatchValues = <
   if (Array.isArray(pagePathName)) {
     return pagePathName.map((pathName) =>
       replacePathNameString(pathName, values),
-    ) as PAGES_NAMES_TYPES[T];
+    ) as any;
   }
 
   return replacePathNameString(pagePathName, values) as PAGES_NAMES_TYPES[T];

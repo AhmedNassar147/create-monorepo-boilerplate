@@ -1,9 +1,14 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "rootDir": "src",
+    "composite": true,
+    "incremental": true,
+    "baseUrl": ".",
+    "rootDir": "./src",
+    "declarationDir": "./dist/types",
+    "resolveJsonModule": true,
     "typeRoots": ["../../node_modules/@types", "../../typings/*"]
   },
-  "exclude": ["module", "dist"],
-  "include": ["src", "../../typings/*"]
+  "exclude": ["./dist"],
+  "include": ["./src/*", "./src/*.json", "../../typings/*"]
 }

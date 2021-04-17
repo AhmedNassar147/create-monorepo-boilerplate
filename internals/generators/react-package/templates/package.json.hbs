@@ -1,0 +1,50 @@
+{
+"name": "{{{ PROJECT_NAME_SPACE }}}/{{ properName }}",
+"version": "1.0.0",
+"private": true,
+"description": "{{{ description }}}.",
+"author": "exsys",
+"license": "ISC",
+"sideEffects": false,
+"module": "dist/esm/index.js",
+  "main": "dist/cjs/index.js",
+  "types": "dist/types",
+  "files": [
+    "dist/esm",
+    "dist/types",
+    "dist/cjs"
+  ],
+"scripts": {
+  "ts:checker:declaration": "tsc -b .",
+  "ts:checker:declaration:watch": "yarn ts:checker:declaration --watch",
+  "prepare": "node ../../internals/buildPackage/index.js --packageName={{{ PROJECT_NAME_SPACE }}}/{{ properName }}",
+  "prepare:watch": "yarn prepare --watch"
+},
+{{#if useLabelsHooks }}
+"dependencies": {
+"{{{ PROJECT_NAME_SPACE }}}/labels-provider": "1.0.0"{{#if (isLazy type)}},{{/if}}
+{{#if (isLazy type)}}
+"{{{ PROJECT_NAME_SPACE }}}/react-lazy": "1.0.0"
+{{/if}}
+},
+{{/if}}
+"peerDependencies": {
+"@types/react": "^17.x.x"{{#if useStyledFile }},{{/if}}
+{{#if useStyledFile }}
+"@types/styled-components": "^5.x.x"
+{{/if}}
+}{{#if (isPage type)}},{{/if}}
+{{#if (isPage type)}}
+  "routeData":{
+    "apps": {{{ properApps }}},
+    "path": "/{{#if pagePath}}{{{ pagePath }}}{{else}}{{{ camelCase (extractPagePath name) }}}{{/if}}"{{#if pageParams}},{{/if}}
+  {{#if pageParams}}
+    "params": [
+      {{#each (properPageParams pageParams) }}
+        {{{ this }}}
+      {{/each}}
+    ]
+  {{/if}}
+  }
+{{/if}}
+}

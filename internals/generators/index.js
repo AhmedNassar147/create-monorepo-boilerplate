@@ -3,17 +3,25 @@
  * Exports the generators so that `plop` knows them.
  */
 const appGenerator = require("./app");
-const defineAppActionAfterCreation = require("./app/defineAppActionAfterCreation");
+const definePlopUpdatePagesRoutesDataWithNewApp = require("./app/definePlopUpdatePagesRoutesDataWithNewApp");
 const reactPackageGenerator = require("./react-package");
-const definePlopActionsAfterPackageCreation = require("./react-package/utils/definePlopActionsAfterPackageCreation");
+const definePlopActionsUpdateWorkSpacesDeps = require("./react-package/utils/definePlopActionsUpdateWorkSpacesDeps");
 const defineReactComponentPlopHelpers = require("./react-package/utils/defineReactComponentPlopHelpers");
+const definePageRouteRouteData = require("./react-package/utils/definePageRouteRouteData");
+const defineUpdateWorkSpacesRoots = require("./utils/defineUpdateWorkSpacesRoots");
+const definePlopPrettifyAction = require("./utils/definePlopPrettifyAction");
+const definePlopActionUpdateGeneratedRoutes = require("./utils/definePlopActionUpdateGeneratedRoutes");
 
 module.exports = (plop) => {
   // generators
-  plop.setGenerator("scaffolding app", appGenerator);
-  plop.setGenerator("scaffolding react package", reactPackageGenerator);
+  plop.setGenerator("Scaffolding Package", reactPackageGenerator);
+  plop.setGenerator("Scaffolding App", appGenerator);
 
-  defineAppActionAfterCreation(plop);
-  definePlopActionsAfterPackageCreation(plop);
   defineReactComponentPlopHelpers(plop);
+  definePlopActionsUpdateWorkSpacesDeps(plop);
+  definePlopPrettifyAction(plop);
+  defineUpdateWorkSpacesRoots(plop);
+  definePageRouteRouteData(plop);
+  definePlopUpdatePagesRoutesDataWithNewApp(plop);
+  definePlopActionUpdateGeneratedRoutes(plop);
 };

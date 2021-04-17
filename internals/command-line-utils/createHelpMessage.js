@@ -27,7 +27,7 @@ const createHelpMessage = ({ scriptName, description, helpersKeys }) => {
   console.log(
     consoleColors.fg.magenta,
     consoleColors.bright,
-    `use this ${scriptName} to ${description}.`,
+    `use this "${scriptName}" to ${description}.`,
   );
 
   console.log(consoleColors.reset, "");

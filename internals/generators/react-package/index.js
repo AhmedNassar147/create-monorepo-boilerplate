@@ -1,18 +1,21 @@
 /*
  *
- * react package: `@app-structure/generators`.
+ * react package: `@domain/generators`.
  *
  */
-const { REACT_PACKAGE_TYPES, REACT_PAGE_TYPES } = require("./constants");
+const { REACT_PACKAGE_TYPES /* REACT_PAGE_TYPES */ } = require("./constants");
+const { NEW_CONTAINING_FOLDER_KEY } = require("./constants");
 const getTypeOfComponentPackage = require("./utils/getTypeOfComponentPackage");
 const whenComponentTypeIsPage = require("./utils/whenComponentTypeIsPage");
 const createDefaultPrompts = require("../utils/createDefaultPrompts");
 const toCamelCase = require("./utils/toCamelCase");
 const afterCreationEvents = require("./utils/afterCreationEvents");
-const selectAllModules = require("../../workspaces/selectAllModules");
-const { PROJECT_NAME_SPACE, MODULES_REGEX } = require("../../constants/base");
-
-const modulesNames = selectAllModules();
+const getWorksSpacesOnlyNamesSync = require("../../workspaces/getWorksSpacesOnlyNamesSync");
+const {
+  PROJECT_NAME_SPACE,
+  MODULES_REGEX,
+  APPS_REGEX,
+} = require("../../constants/base");
 
 const canShowPathNameOptions = ({ type }) => {
   const { isPage } = getTypeOfComponentPackage(type);
@@ -29,21 +32,21 @@ module.exports = {
       default: "normal-component",
       choices: () => REACT_PACKAGE_TYPES,
     },
-    {
-      type: "list",
-      name: "pageType",
-      when: whenComponentTypeIsPage,
-      message: "Select the type of the page",
-      default: "normal-page",
-      choices: () => REACT_PAGE_TYPES,
-    },
+    // {
+    //   type: "list",
+    //   name: "pageType",
+    //   when: whenComponentTypeIsPage,
+    //   message: "Select the type of the page",
+    //   default: "normal-page",
+    //   choices: () => REACT_PAGE_TYPES,
+    // },
     ...createDefaultPrompts(),
     {
       type: "input",
       name: "pagePath",
       when: canShowPathNameOptions,
       message: "Enter the initial page pathname for route data `path`.",
-      default: ({ name }) => toCamelCase(name, "-"),
+      default: ({ name }) => toCamelCase(name.replace(/-page/, ""), "-"),
     },
     {
       type: "input",
@@ -67,28 +70,50 @@ module.exports = {
       },
     },
     {
-      type: "confirm",
-      name: "isPlacedInsidePackages",
-      message: "set this package inside packages folder?",
-      default: true,
+      type: "list",
+      name: "selectedContainingFolderWay",
+      message: "where you want to place this package in?",
+      choices: () => [
+        "packages",
+        NEW_CONTAINING_FOLDER_KEY,
+        ...getWorksSpacesOnlyNamesSync(MODULES_REGEX),
+      ],
+      default: "packages",
     },
     {
-      type: !modulesNames.length ? "input" : "list",
-      name: "selectedModule",
-      message: "type/select the module that includes this package.",
-      when: ({ isPlacedInsidePackages }) => !isPlacedInsidePackages,
-      ...(modulesNames.length ? { choices: () => modulesNames } : null),
-      validate: (selectedModule) => {
-        if (!selectedModule) {
-          return "please type/select the module name.";
+      type: "input",
+      name: "newModuleName",
+      message: "what is the new module name?",
+      when: ({ selectedContainingFolderWay }) =>
+        selectedContainingFolderWay === NEW_CONTAINING_FOLDER_KEY,
+      validate: (newModuleName) => {
+        if (!newModuleName) {
+          return "please type the new module name.";
         }
 
-        if (!MODULES_REGEX.test(selectedModule || "")) {
+        if (!MODULES_REGEX.test(newModuleName || "")) {
           return `module name must ends with "-module"`;
         }
 
         return true;
       },
+    },
+    {
+      type: "checkbox",
+      name: "selectedApps",
+      when: whenComponentTypeIsPage,
+      message: "which apps will render this page?",
+      choices: getWorksSpacesOnlyNamesSync(APPS_REGEX).map((name) => ({
+        value: name,
+      })),
+      validate: (selectedApps) => {
+        if (!selectedApps || !selectedApps.length) {
+          return "Please select at least one app.";
+        }
+
+        return true;
+      },
+      default: [],
     },
     {
       type: "confirm",
@@ -107,19 +132,26 @@ module.exports = {
     const {
       useStyledFile,
       type,
-      isPlacedInsidePackages,
-      selectedModule,
+      selectedContainingFolderWay,
+      newModuleName,
+      selectedApps,
+      name,
     } = eventData;
 
     const { isLazy, isPage } = getTypeOfComponentPackage(type);
 
     const isPackageUsingLazyTech = isLazy || isPage;
 
-    const packageContainingFolderPath = isPlacedInsidePackages
-      ? "packages"
-      : selectedModule;
+    const packageContainingFolderPath =
+      newModuleName || selectedContainingFolderWay;
 
-    const packageBasePath = `../../${packageContainingFolderPath}/{{name}}`;
+    let properName = name;
+
+    if (isPage && !properName.endsWith("-page")) {
+      properName += "-page";
+    }
+
+    const packageBasePath = `../../${packageContainingFolderPath}/${properName}`;
 
     const uiComponentPath = isPackageUsingLazyTech
       ? "component.tsx"
@@ -129,32 +161,45 @@ module.exports = {
       {
         type: "add",
         path: `${packageBasePath}/tsconfig.json`,
-        templateFile: "react-package/tsconfig.json.hbs",
+        templateFile: "react-package/templates/tsconfig.json.hbs",
         abortOnFail: true,
       },
       {
         type: "add",
         path: `${packageBasePath}/package.json`,
-        templateFile: "react-package/package.json.hbs",
+        templateFile: "react-package/templates/package.json.hbs",
         abortOnFail: true,
         data: {
           PROJECT_NAME_SPACE,
           containingFolderPath: packageContainingFolderPath,
+          properApps: selectedApps ? JSON.stringify(selectedApps) : false,
+          properName,
         },
       },
       {
         type: "add",
         path: `${packageBasePath}/README.md`,
-        templateFile: "react-package/readme.md.hbs",
+        templateFile: "react-package/templates/readme.md.hbs",
         abortOnFail: true,
       },
       {
         type: "add",
         path: `${packageBasePath}/src/${uiComponentPath}`,
-        templateFile: "react-package/component.tsx.hbs",
+        templateFile: "react-package/templates/component.tsx.hbs",
         abortOnFail: true,
         data: {
           PROJECT_NAME_SPACE,
+          properName,
+        },
+      },
+      {
+        type: "add",
+        path: `${packageBasePath}/src/index.interface.ts`,
+        templateFile: "react-package/templates/index.interface.ts.hbs",
+        abortOnFail: true,
+        data: {
+          PROJECT_NAME_SPACE,
+          properName,
         },
       },
     ];
@@ -163,10 +208,11 @@ module.exports = {
       events = events.concat({
         type: "add",
         path: `${packageBasePath}/src/index.ts`,
-        templateFile: "react-package/lazy.ts.hbs",
+        templateFile: "react-package/templates/lazy.ts.hbs",
         abortOnFail: true,
         data: {
           PROJECT_NAME_SPACE,
+          properName,
         },
       });
     }
@@ -175,24 +221,31 @@ module.exports = {
       events = events.concat({
         type: "add",
         path: `${packageBasePath}/src/styled.ts`,
-        templateFile: "react-package/styled.ts.hbs",
+        templateFile: "react-package/templates/styled.ts.hbs",
         abortOnFail: true,
         data: {
           PROJECT_NAME_SPACE,
+          properName,
         },
       });
     }
 
     if (isPage) {
-      // events = events.concat({
-      //   type: "update-generated-routes",
-      // });
+      events = events.concat({
+        type: "update-generated-routes",
+        data: {
+          apps: selectedApps,
+        },
+      });
     }
 
     return [
       ...events,
       ...afterCreationEvents({
         containingFolderPath: packageContainingFolderPath,
+        updateWorkSpacesRoots: !!newModuleName,
+        workspaceName: `${newModuleName}/*`,
+        folderOrFileName: properName,
       }),
     ];
   },

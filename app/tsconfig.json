@@ -2,6 +2,9 @@
   "extends": "../tsconfig.base.json",
   "compilerOptions": {
     "noEmit": true /* Do not emit outputs. */,
+    "incremental": true,
+    "declaration": false,
+    "emitDeclarationOnly": false,
     "sourceMap": true,
     "typeRoots": ["../node_modules/@types", "../typings/*"]
   },

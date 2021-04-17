@@ -1,0 +1,7 @@
+{
+  "pages": [
+    { "path": "/ahmed", "pageIndexPath": "@domain/ahmed-page" },
+    { "path": "/loremIpsum2", "pageIndexPath": "@domain/lorem-ipsum-2-page" },
+    { "path": "/new", "pageIndexPath": "@domain/new-page" }
+  ]
+}

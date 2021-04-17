@@ -1,0 +1,13 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "composite": true,
+    "incremental": true,
+    "baseUrl": ".",
+    "rootDir": "./src",
+    "declarationDir": "./dist/types",
+    "typeRoots": ["../../node_modules/@types", "../../typings/*"]
+  },
+  "exclude": ["./dist"],
+  "include": ["./src", "../../typings/*"],
+}

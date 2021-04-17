@@ -5,6 +5,7 @@
  */
 const createHelpMessage = require("./createHelpMessage");
 const collectProcessOptions = require("./collectProcessOptions");
+// const invariant = require("../scripts/invariant");
 
 const createCliController = async ({
   scriptName,

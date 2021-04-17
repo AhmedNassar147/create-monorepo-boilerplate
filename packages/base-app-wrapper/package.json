@@ -1,0 +1,34 @@
+{
+  "name": "@domain/base-app-wrapper",
+  "version": "1.0.0",
+  "private": true,
+  "description": "React component to render shared wrapper around app.",
+  "author": "exsys",
+  "license": "ISC",
+  "sideEffects": false,
+  "module": "dist/esm/index.js",
+  "main": "dist/cjs/index.js",
+  "types": "dist/types",
+  "files": [
+    "dist/esm",
+    "dist/types",
+    "dist/cjs"
+  ],
+  "scripts": {
+    "ts:checker:declaration": "tsc -b .",
+    "ts:checker:declaration:watch": "yarn ts:checker:declaration --watch",
+    "prepare": "node ../../internals/buildPackage/index.js --packageName=@domain/base-app-wrapper",
+    "prepare:watch": "yarn prepare --watch"
+  },
+  "devDependencies": {
+    "@domain/types": "1.0.0"
+  },
+  "dependencies": {
+    "@domain/labels-provider": "1.0.0",
+    "@domain/base-page": "1.0.0"
+  },
+  "peerDependencies": {
+    "@types/react": "^17.x.x",
+    "@types/react-router-dom": "^5.x.x"
+  }
+}

@@ -6,17 +6,25 @@
   "author": "ahmed nassar",
   "license": "ISC",
   "sideEffects": false,
-  "module": "module/index.js",
-  "main": "dist/index.js",
-  "types": "dist/",
+  "module": "dist/esm/index.js",
+  "main": "dist/cjs/index.js",
+  "types": "dist/types",
   "files": [
-    "dist",
-    "module"
+    "dist/esm",
+    "dist/types",
+    "dist/cjs"
   ],
   "scripts": {
-    "prepare": "node ../../internals/buildPackages/index.js --basePackageRootPath=\"packages/react-lazy\""
+    "ts:checker:declaration": "tsc -b .",
+    "ts:checker:declaration:watch": "yarn ts:checker:declaration --watch",
+    "prepare": "node ../../internals/buildPackage/index.js --packageName=@domain/react-lazy",
+    "prepare:watch": "yarn prepare --watch"
   },
   "peerDependencies": {
-    "@types/react": "^16.x.x"
+    "@types/react": "^17.x.x",
+    "react": "^17.x.x"
+  },
+  "devDependencies": {
+    "babel-plugin-styled-components": "^1.12.0"
   }
 }

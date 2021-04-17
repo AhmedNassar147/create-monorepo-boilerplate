@@ -3,7 +3,6 @@
  * Package: `command-line-utils`.
  *
  */
-const consoleColors = require("./consoleColors");
 const createHelpMessage = require("./createHelpMessage");
 const createCliController = require("./createCliController");
 const collectProcessOptions = require("./collectProcessOptions");
@@ -17,7 +16,6 @@ const sharedHelperKey = {
 
 module.exports = {
   createHelpMessage,
-  consoleColors,
   createCliController,
   collectProcessOptions,
   sharedHelperKey,

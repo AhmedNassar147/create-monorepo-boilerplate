@@ -179,17 +179,6 @@ const createWebpackConfig = async ({ basePath, mode, ...webpackConfig }) => {
         fetch: "exports-loader?self.fetch!cross-fetch",
       }),
 
-      !isProduction
-        ? undefined
-        : (function () {
-            const ForkTsCheckerNotifierWebpackPlugin = require("fork-ts-checker-notifier-webpack-plugin");
-
-            return new ForkTsCheckerNotifierWebpackPlugin({
-              title: "TypeScript Checking",
-              excludeWarnings: false,
-            });
-          })(),
-
       new ForkTsCheckerWebpackPlugin({
         eslint: {
           enabled: true,
