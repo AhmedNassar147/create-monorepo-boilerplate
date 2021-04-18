@@ -16,16 +16,15 @@
   ],
   "scripts": {
     "ts:checker:declaration": "tsc -b .",
-    "ts:checker:declaration:watch": "yarn ts:checker:declaration --watch",
-    "prepare": "node ../../internals/buildPackage/index.js --packageName=@domain/base-app-wrapper",
-    "prepare:watch": "yarn prepare --watch"
+    "prepare": "package-builder --packageName=@domain/base-app-wrapper --"
   },
   "devDependencies": {
-    "@domain/types": "1.0.0"
+    "@domain/types": "1.0.0",
+    "babel-plugin-transform-define": "^2.0.0"
   },
   "dependencies": {
-    "@domain/labels-provider": "1.0.0",
-    "@domain/base-page": "1.0.0"
+    "@domain/base-page": "1.0.0",
+    "@domain/labels-provider": "1.0.0"
   },
   "peerDependencies": {
     "@types/react": "^17.x.x",

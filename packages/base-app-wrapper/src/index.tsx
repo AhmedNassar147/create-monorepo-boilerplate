@@ -8,6 +8,8 @@ import LabelsProvider from "@domain/labels-provider";
 import BasePage from "@domain/base-page";
 import { ParentProps } from "@domain/types";
 
+console.log("BUILD_YEAR", BUILD_YEAR);
+
 const BaseAppWrapper = ({ children }: ParentProps) => (
   <BrowserRouter basename="/">
     <LabelsProvider>
