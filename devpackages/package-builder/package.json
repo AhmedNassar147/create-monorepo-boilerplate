@@ -1,0 +1,14 @@
+{
+  "name": "@domain/package-builder",
+  "version": "1.0.0",
+  "description": "A cli to build a package",
+  "main": "src/index.js",
+  "bin": {
+    "package-builder": "./bin/package-builder.js"
+  },
+  "author": "ahmed nassar",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-plugin-transform-define": "^2.0.0"
+  }
+}

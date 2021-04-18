@@ -10,11 +10,13 @@ const whenComponentTypeIsPage = require("./utils/whenComponentTypeIsPage");
 const createDefaultPrompts = require("../utils/createDefaultPrompts");
 const toCamelCase = require("./utils/toCamelCase");
 const afterCreationEvents = require("./utils/afterCreationEvents");
+const createTsReferences = require("./utils/createTsReferences");
 const getWorksSpacesOnlyNamesSync = require("../../workspaces/getWorksSpacesOnlyNamesSync");
 const {
   PROJECT_NAME_SPACE,
   MODULES_REGEX,
   APPS_REGEX,
+  PACKAGES_REGEX,
 } = require("../../constants/base");
 
 const canShowPathNameOptions = ({ type }) => {
@@ -136,6 +138,7 @@ module.exports = {
       newModuleName,
       selectedApps,
       name,
+      useLabelsHooks,
     } = eventData;
 
     const { isLazy, isPage } = getTypeOfComponentPackage(type);
@@ -163,6 +166,15 @@ module.exports = {
         path: `${packageBasePath}/tsconfig.json`,
         templateFile: "react-package/templates/tsconfig.json.hbs",
         abortOnFail: true,
+        data: {
+          references: createTsReferences({
+            useLabelsHooks,
+            isLazy,
+            isCurrentPackageInPackages: PACKAGES_REGEX.test(
+              packageContainingFolderPath,
+            ),
+          }),
+        },
       },
       {
         type: "add",

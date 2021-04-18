@@ -1,10 +1,10 @@
 /*
  *
- * `getPaths`: `buildPackage`.
+ * `getPaths`: `@domain/package-builder`.
  *
  */
 const path = require("path");
-const getWorkSpaceBasePath = require("../workspaces/getWorkSpaceBasePath");
+const getWorkSpaceBasePath = require("../../../internals/workspaces/getWorkSpaceBasePath");
 
 const getPaths = (packageName) => {
   const absolutePackagePath = getWorkSpaceBasePath(packageName);

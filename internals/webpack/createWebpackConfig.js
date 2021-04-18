@@ -10,13 +10,22 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
+const {
+  SUPPORTED_IMAGES_REGEX,
+  SUPPORTED_SVGS_FONTS_REGEX,
+} = require("../constants/base");
 const getBasePaths = require("./getBasePaths");
 const BASE_WEBPACK_RESOLVE_ALIAS = require("./webpackResolveAlias");
 const getBabelConfig = require("../babel/getBabelConfig");
 const getCurrentRootDirectoryPath = require("../scripts/getCurrentRootDirectoryPath");
-const getAppEnvVariables = require("../environment/getAppEnvVariables");
+const getAppEnvVariables = require("../environment/geEnvVariables");
+const collectProcessOptions = require("../command-line-utils/collectProcessOptions");
+const getWorkSpaceBasePath = require("../workspaces/getWorkSpaceBasePath");
 
-const createWebpackConfig = async ({ basePath, mode, ...webpackConfig }) => {
+const createWebpackConfig = async ({ mode, ...webpackConfig }) => {
+  const { appName } = await collectProcessOptions();
+  const basePath = getWorkSpaceBasePath(appName);
+
   const {
     output,
     srcEntry,
@@ -26,23 +35,21 @@ const createWebpackConfig = async ({ basePath, mode, ...webpackConfig }) => {
     tsConfigPath,
   } = getBasePaths(basePath);
   const { devServer, watchOptions, plugins, alias = {} } = webpackConfig;
-  const actualMode = mode || process.env.NODE_ENV;
 
-  const { stringifiedVariables } = getAppEnvVariables(basePath, {
-    mode: actualMode,
-    clientName: process.env.WEBPACK_CLIENT_NAME,
+  const { stringifiedVariables } = await getAppEnvVariables({
+    mode,
   });
 
   const context = await getCurrentRootDirectoryPath();
 
-  const isProduction = actualMode === "production";
+  const isProduction = mode === "production";
 
   return {
     context,
     target: isProduction ? "browserslist" : "web",
     devtool: isProduction ? false : "inline-cheap-source-map",
     entry,
-    mode: actualMode,
+    mode,
     output: {
       path: output,
       publicPath: "/",
@@ -120,7 +127,7 @@ const createWebpackConfig = async ({ basePath, mode, ...webpackConfig }) => {
           exclude: /(node_modules\/(?!debug))|packages/,
           use: {
             loader: "babel-loader",
-            options: await getBabelConfig(actualMode),
+            options: await getBabelConfig(mode),
           },
         },
         {
@@ -140,7 +147,7 @@ const createWebpackConfig = async ({ basePath, mode, ...webpackConfig }) => {
         },
         // Images: Copy image files to build folder
         {
-          test: /\.(?:ico|gif|png|jpg|jpeg)$/i,
+          test: SUPPORTED_IMAGES_REGEX,
           type: "asset",
           parser: {
             dataUrlConditions: {
@@ -149,7 +156,7 @@ const createWebpackConfig = async ({ basePath, mode, ...webpackConfig }) => {
           },
         },
         // Fonts and SVGs: Inline files
-        { test: /\.(woff(2)?|eot|ttf|otf|svg|)$/, type: "asset/inline" },
+        { test: SUPPORTED_SVGS_FONTS_REGEX, type: "asset/inline" },
       ],
     },
     // Customize the webpack build process

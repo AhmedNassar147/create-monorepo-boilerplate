@@ -16,9 +16,7 @@
   ],
   "scripts": {
     "ts:checker:declaration": "tsc -b .",
-    "ts:checker:declaration:watch": "yarn ts:checker:declaration --watch",
-    "prepare": "node ../../internals/buildPackage/index.js --packageName=@domain/loader-fallback",
-    "prepare:watch": "yarn prepare --watch"
+    "prepare": "package-builder --packageName=@domain/loader-fallback --"
   },
   "peerDependencies": {
     "@types/react": "^17.x.x",

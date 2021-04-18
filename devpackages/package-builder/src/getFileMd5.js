@@ -1,11 +1,11 @@
 /*
- * `getFileMd5`: `buildPackage`.
+ * `getFileMd5`: `@domain/package-builder`.
  *
  */
 const { readFile } = require("fs/promises");
 const { createHash } = require("crypto");
-const invariant = require("../scripts/invariant");
-const checkPathExists = require("../scripts/checkPathExists");
+const invariant = require("../../../internals/scripts/invariant");
+const checkPathExists = require("../../../internals/scripts/checkPathExists");
 
 const encoding = "utf8";
 

@@ -8,13 +8,11 @@ const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const createWebpackConfig = require("./createWebpackConfig");
-const getAppPathFromNodeEnv = require("../scripts/getAppPathFromNodeEnv");
 
-const createWebpackBuildConfig = () => {
-  const basePath = getAppPathFromNodeEnv();
+process.env.NODE_ENV = "production";
 
-  return createWebpackConfig({
-    basePath,
+const createWebpackBuildConfig = async () => {
+  return await createWebpackConfig({
     mode: "production",
     output: {
       filename: "static/js/[name].[chunkhash].js",

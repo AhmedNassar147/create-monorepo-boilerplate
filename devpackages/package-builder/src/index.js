@@ -1,15 +1,17 @@
 /*
  *
- * Index: `buildPackage`.
+ * Index: `@domain/package-builder`.
  *
  */
-const { createCliController } = require("../command-line-utils");
 const { cliOptions } = require("./constants");
 const getPaths = require("./getPaths");
-const invariant = require("../scripts/invariant");
-const getAllFilesFromFolder = require("../scripts/getAllFilesFromFolder");
 const buildPackageFirstTime = require("./buildPackageFirstTime");
 const buildPackageWatcher = require("./buildPackageWatcher");
+const {
+  createCliController,
+} = require("../../../internals/command-line-utils");
+const invariant = require("../../../internals/scripts/invariant");
+const getAllFilesFromFolder = require("../../../internals/scripts/getAllFilesFromFolder");
 
 const runCli = async ({ packageName, watch, force }) => {
   const packagePaths = getPaths(packageName);

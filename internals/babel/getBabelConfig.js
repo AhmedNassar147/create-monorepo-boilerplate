@@ -5,6 +5,7 @@
  */
 "use strict";
 const invariant = require("../scripts/invariant");
+const geEnvVariables = require("../environment/geEnvVariables");
 const getWorksSpacesOnlyNames = require("../workspaces/getWorksSpacesOnlyNames");
 
 const getBabelConfig = async (env, useCjsFormat) => {
@@ -22,6 +23,10 @@ const getBabelConfig = async (env, useCjsFormat) => {
   );
 
   const workspaces = await getWorksSpacesOnlyNames();
+
+  const { raw } = await geEnvVariables({
+    mode: packagesBuildEnv || isEnvDevelopment ? "development" : env,
+  });
 
   const isEsModules = !useCjsFormat;
 
@@ -74,7 +79,6 @@ const getBabelConfig = async (env, useCjsFormat) => {
       [
         "@babel/preset-react",
         {
-          // development: isEnvDevelopment || packagesBuildEnv,
           runtime: "automatic",
         },
       ],
@@ -90,6 +94,7 @@ const getBabelConfig = async (env, useCjsFormat) => {
       isEnvProduction ? ["minify", { keepFnName: false }] : undefined,
     ].filter(Boolean),
     plugins: [
+      ["transform-define", raw],
       [
         // @see {link https://styled-components.com/docs/tooling#usage}
         "styled-components",

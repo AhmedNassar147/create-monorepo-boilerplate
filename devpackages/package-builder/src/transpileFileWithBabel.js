@@ -1,11 +1,11 @@
 /*
  *
- * transpileFileWithBabel: `buildPackage`.
+ * `transpileFileWithBabel`: `@domain/package-builder`.
  *
  */
 "use strict";
 const babel = require("@babel/core");
-const getBabelConfig = require("../babel/getBabelConfig");
+const getBabelConfig = require("../../../internals/babel/getBabelConfig");
 
 const transpileFileWithBabel = async ({ filePath, isEsModules }) => {
   const config = await getBabelConfig("packagesBuildEnv", !isEsModules);
@@ -13,7 +13,6 @@ const transpileFileWithBabel = async ({ filePath, isEsModules }) => {
   return new Promise((resolve, reject) => {
     babel.transformFile(filePath, config, (err, result) => {
       if (err) {
-        console.log("err", err);
         return reject({
           err,
           filePath,

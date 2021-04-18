@@ -1,6 +1,6 @@
 /*
  *
- * `getFilesContentsHash`: `buildPackage`.
+ * `getFilesContentsHash`: `@domain/package-builder`.
  *
  */
 const getFileMd5 = require("./getFileMd5");

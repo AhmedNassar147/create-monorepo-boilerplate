@@ -1,12 +1,12 @@
 /*
  *
- * `buildPackageFirstTime`: `buildPackage`.
+ * `buildPackageFirstTime`: `@domain/package-builder`.
  *
  */
 const chalk = require("chalk");
 const { rm } = require("fs/promises");
 const compileFile = require("./compileFile");
-const checkPathExists = require("../scripts/checkPathExists");
+const checkPathExists = require("../../../internals/scripts/checkPathExists");
 
 const buildPackageFirstTime = async ({
   fullPathPackageSrcPath,

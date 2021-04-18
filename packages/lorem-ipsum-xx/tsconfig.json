@@ -10,7 +10,5 @@
   },
   "exclude": ["./dist"],
   "include": ["./src", "../../typings/*"],
-  {{#if references }}
-    "references": {{{ references}}}
-  {{/if}}
+  "references": [{ "path": "../labels-provider" }]
 }

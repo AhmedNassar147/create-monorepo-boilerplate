@@ -16,13 +16,13 @@
   ],
 "scripts": {
   "ts:checker:declaration": "tsc -b .",
-  "ts:checker:declaration:watch": "yarn ts:checker:declaration --watch",
-  "prepare": "node ../../internals/buildPackage/index.js --packageName={{{ PROJECT_NAME_SPACE }}}/{{ properName }}",
-  "prepare:watch": "yarn prepare --watch"
+  "prepare": "package-builder --packageName={{{ PROJECT_NAME_SPACE }}}/{{ properName }} --"
 },
-{{#if useLabelsHooks }}
+{{#if (or useLabelsHooks (isLazy type)) }}
 "dependencies": {
+{{#if useLabelsHooks}}
 "{{{ PROJECT_NAME_SPACE }}}/labels-provider": "1.0.0"{{#if (isLazy type)}},{{/if}}
+{{/if}}
 {{#if (isLazy type)}}
 "{{{ PROJECT_NAME_SPACE }}}/react-lazy": "1.0.0"
 {{/if}}

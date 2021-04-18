@@ -21,10 +21,13 @@ function definePlopActionsUpdateWorkSpacesDeps(plop) {
         const packageName = `${PROJECT_NAME_SPACE}/${folderOrFileName || name}`;
         const newPackageNameAndVersion = `${packageName}@1.0.0`;
 
+        process.env.SKIP_POST_INSTALL = "true";
+
         return [
           // we use yarn workspaces to manage the root deps it's easier
           // than lerna at this situation.
-          `yarn add ${newPackageNameAndVersion} -W`,
+          `yarn add "${newPackageNameAndVersion}" -W`,
+          `yarn bootstrap`,
         ];
       }
 

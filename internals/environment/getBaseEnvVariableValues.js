@@ -11,8 +11,8 @@ const formalizeValue = (value) => {
   return value < 10 ? `0${strValue}` : strValue;
 };
 
-const getBaseEnvVariableValues = (clientName) => {
-  clientName = clientName || "app";
+const getBaseEnvVariableValues = async (clientName) => {
+  clientName = clientName || "NAME";
   invariant(
     CLIENT_NAMES.includes(clientName),
     `wrong client name given clientName=${clientName}
@@ -28,17 +28,17 @@ const getBaseEnvVariableValues = (clientName) => {
   const hours = formalizeValue(date.getHours());
   const time = `${hours}${mins}`;
 
-  const { URL } = CLIENTS_DATA[clientName];
-
-  return {
-    BUILD_YEAR: year,
-    BUILD_MONTH: month,
-    BUILD_DAY: day,
-    BUILD_TIME: time,
-    SERVER_PORT: "9090",
-    API_BASE_URL: URL,
-    CLIENT_NAME: clientName,
-  };
+  return new Promise((resolve) =>
+    resolve({
+      BUILD_YEAR: year,
+      BUILD_MONTH: month,
+      BUILD_DAY: day,
+      BUILD_TIME: time,
+      SERVER_PORT: "9090",
+      API_BASE_URL: CLIENTS_DATA[clientName],
+      CLIENT_NAME: clientName,
+    }),
+  );
 };
 
 module.exports = getBaseEnvVariableValues;

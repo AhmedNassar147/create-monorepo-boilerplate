@@ -11,6 +11,7 @@ const definePageRouteRouteData = require("./react-package/utils/definePageRouteR
 const defineUpdateWorkSpacesRoots = require("./utils/defineUpdateWorkSpacesRoots");
 const definePlopPrettifyAction = require("./utils/definePlopPrettifyAction");
 const definePlopActionUpdateGeneratedRoutes = require("./utils/definePlopActionUpdateGeneratedRoutes");
+const definePlopOrHelper = require("./utils/definePlopOrHelper");
 
 module.exports = (plop) => {
   // generators
@@ -24,4 +25,5 @@ module.exports = (plop) => {
   definePageRouteRouteData(plop);
   definePlopUpdatePagesRoutesDataWithNewApp(plop);
   definePlopActionUpdateGeneratedRoutes(plop);
+  definePlopOrHelper(plop);
 };

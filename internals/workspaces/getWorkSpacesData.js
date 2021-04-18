@@ -3,6 +3,7 @@
  * `getWorkSpacesData`: `scripts`.
  *
  */
+const chalk = require("chalk");
 const { readdirSync } = require("fs");
 const path = require("path");
 const getWorksSpacesOnlyNamesSync = require("./getWorksSpacesOnlyNamesSync");
@@ -13,6 +14,13 @@ const invariant = require("../scripts/invariant");
 const { APPS_REGEX } = require("../constants/base");
 
 const PKG_JSON_EXT = "package.json";
+
+const createFoundEmptyWorkSpaceMsg = (workspace) => {
+  return chalk.red(
+    `Found an empty workspace ${chalk.bold.magenta(workspace)} ` +
+      "please remove it or add a package to it.",
+  );
+};
 
 const getWorkSpacesData = (options) => {
   const { withFileSrcPath, onlyTheseWorkSpacesNamesRegex, onlyPages } =
@@ -67,7 +75,16 @@ const getWorkSpacesData = (options) => {
       return [createWorkSpaceConfig(mainWorkspacePath)];
     }
 
+    const isFileExist = checkPathExistsSync(mainWorkspacePath);
+
+    if (!isFileExist) {
+      invariant(false, createFoundEmptyWorkSpaceMsg(workspace));
+      return false;
+    }
+
     const packagesPaths = readdirSync(mainWorkspacePath);
+
+    invariant(!!packagesPaths.length, createFoundEmptyWorkSpaceMsg(workspace));
 
     return packagesPaths.flat().map((packageFolderName) => {
       const packagePath = path.join(mainWorkspacePath, packageFolderName);
@@ -84,5 +101,7 @@ const getWorkSpacesData = (options) => {
     return acc;
   }, {});
 };
+
+getWorkSpacesData();
 
 module.exports = getWorkSpacesData;

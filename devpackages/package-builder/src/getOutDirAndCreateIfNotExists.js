@@ -1,11 +1,11 @@
 /*
  *
- * `getOutDirAndCreateIfNotExists`: `buildPackage`.
+ * `getOutDirAndCreateIfNotExists`: `@domain/package-builder`.
  *
  */
 const path = require("path");
 const { mkdir } = require("fs/promises");
-const checkPathExists = require("../scripts/checkPathExists");
+const checkPathExists = require("../../../internals/scripts/checkPathExists");
 
 const getOutDirAndCreateIfNotExists = async ({
   dirOfCurrentFile,

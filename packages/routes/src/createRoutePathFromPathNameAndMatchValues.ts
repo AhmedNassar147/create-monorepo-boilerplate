@@ -49,9 +49,11 @@ const createRoutePathFromPathNameAndMatchValues = <
   ] as PATH_TYPE;
 
   if (Array.isArray(pagePathName)) {
-    return pagePathName.map((pathName) =>
-      replacePathNameString(pathName, values),
-    ) as any;
+    return pagePathName.map(
+      (pathName) => replacePathNameString(pathName, values),
+
+      // @ts-ignore: ignore for now
+    ) as typeof PAGES_NAMES_TYPES[T];
   }
 
   return replacePathNameString(pagePathName, values) as PAGES_NAMES_TYPES[T];

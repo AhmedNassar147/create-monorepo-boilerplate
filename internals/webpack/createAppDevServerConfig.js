@@ -10,17 +10,15 @@ const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 const getBasePaths = require("./getBasePaths");
 const createWebpackConfig = require("./createWebpackConfig");
 const getWorkSpaceBasePath = require("../workspaces/getWorkSpaceBasePath");
+const collectProcessOptions = require("../command-line-utils/collectProcessOptions");
 
 process.env.NODE_ENV = "development";
 
-const createAppDevServerConfig = async (_, argv = {}) => {
-  const { analyze, port } = argv;
-
-  const basePath = getWorkSpaceBasePath(process.env.WEBPACK_APP_NAME);
-  const { public } = getBasePaths(basePath);
+const createAppDevServerConfig = async (_, { analyze, port } = {}) => {
+  const { appName } = await collectProcessOptions();
+  const { public } = getBasePaths(getWorkSpaceBasePath(appName));
 
   return await createWebpackConfig({
-    basePath,
     mode: "development",
     output: {
       filename: "[name].js",

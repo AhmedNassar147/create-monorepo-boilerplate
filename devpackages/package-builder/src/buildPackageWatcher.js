@@ -1,6 +1,6 @@
 /*
  *
- * `buildPackageWatcher`: `buildPackage`.
+ * `buildPackageWatcher`: `@domain/package-builder`.
  *
  */
 "use strict";
@@ -11,9 +11,9 @@ const getFilesContentsHash = require("./getFilesContentsHash");
 const getFileMd5 = require("./getFileMd5");
 const compileFile = require("./compileFile");
 const getOutDirAndCreateIfNotExists = require("./getOutDirAndCreateIfNotExists");
-const getDirNameFromPath = require("../scripts/getDirNameFromPath");
-const checkPathExists = require("../scripts/checkPathExists");
-const createWatcher = require("../scripts/createWatcher");
+const getDirNameFromPath = require("../../../internals/scripts/getDirNameFromPath");
+const checkPathExists = require("../../../internals/scripts/checkPathExists");
+const createWatcher = require("../../../internals/scripts/createWatcher");
 
 const watchingEvents = ["unlink", "add", "change"];
 

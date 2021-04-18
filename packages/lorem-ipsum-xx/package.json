@@ -1,8 +1,8 @@
 {
-  "name": "@domain/routes",
+  "name": "@domain/lorem-ipsum-xx",
   "version": "1.0.0",
   "private": true,
-  "description": "Contains app pages data.",
+  "description": "sasa.",
   "author": "exsys",
   "license": "ISC",
   "sideEffects": false,
@@ -16,9 +16,13 @@
   ],
   "scripts": {
     "ts:checker:declaration": "tsc -b .",
-    "prepare": "package-builder --packageName=@domain/routes --"
+    "prepare": "package-builder --packageName=@domain/lorem-ipsum-xx --"
   },
-  "devDependencies": {
-    "@domain/types": "1.0.0"
+  "dependencies": {
+    "@domain/labels-provider": "1.0.0"
+  },
+  "peerDependencies": {
+    "@types/react": "^17.x.x",
+    "@types/styled-components": "^5.x.x"
   }
 }

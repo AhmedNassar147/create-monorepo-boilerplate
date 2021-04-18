@@ -3,7 +3,25 @@
  * `createHelpMessage`: `command-line-utils`.
  *
  */
-const consoleColors = require("./consoleColors");
+const chalk = require("chalk");
+const sharedHelperKey = {
+  keyOrKeys: ["help", "h"],
+  description: "to See All options for this cli.",
+};
+
+const createKeyWithDesc = ({ description, keyOrKeys }) => {
+  const isString = typeof keyOrKeys === "string";
+  keyOrKeys = isString
+    ? `--${keyOrKeys}`
+    : keyOrKeys
+        .map((key) => `--${key} `)
+        .toString()
+        .replace(",", "| ");
+
+  return ` ${chalk.keyword("orange")(keyOrKeys)}         ${chalk.white(
+    description,
+  )}\n`;
+};
 
 const createHelpMessage = ({ scriptName, description, helpersKeys }) => {
   if (!scriptName) {
@@ -24,31 +42,11 @@ const createHelpMessage = ({ scriptName, description, helpersKeys }) => {
     );
   }
 
-  console.log(
-    consoleColors.fg.magenta,
-    consoleColors.bright,
-    `use this "${scriptName}" to ${description}.`,
-  );
+  helpersKeys = [...helpersKeys, sharedHelperKey];
 
-  console.log(consoleColors.reset, "");
+  console.log(chalk.bold.cyan(` Usage (${scriptName}): ${description}.\n`));
 
-  console.table(
-    helpersKeys.map(({ description, keyOrKeys }) => {
-      const isString = typeof keyOrKeys === "string";
-
-      keyOrKeys = isString
-        ? `--${keyOrKeys}`
-        : keyOrKeys
-            .map((key) => `--${key} `)
-            .toString()
-            .replace(",", " | ");
-
-      return {
-        key: keyOrKeys,
-        description,
-      };
-    }),
-  );
+  console.log(...helpersKeys.map(createKeyWithDesc));
 };
 
 module.exports = createHelpMessage;
