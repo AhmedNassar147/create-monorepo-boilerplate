@@ -15,8 +15,9 @@ const collectProcessOptions = require("../command-line-utils/collectProcessOptio
 process.env.NODE_ENV = "development";
 
 const createAppDevServerConfig = async (_, { analyze, port } = {}) => {
-  const { appName } = await collectProcessOptions();
-  const { public } = getBasePaths(getWorkSpaceBasePath(appName));
+  // const { appName } = await collectProcessOptions();
+  const basePath = getWorkSpaceBasePath("app");
+  const { public } = getBasePaths(basePath);
 
   return await createWebpackConfig({
     mode: "development",
@@ -55,7 +56,7 @@ const createAppDevServerConfig = async (_, { analyze, port } = {}) => {
     watchOptions: {
       aggregateTimeout: 1100,
       poll: 5000,
-      ignored: /node_modules|packages/,
+      ignored: /(node_modules\/(?!debug))|^(packages|\w.+-module)$/,
     },
     plugins: [
       // Watcher doesn't work well if you mistype casing in a path so we use

@@ -19,7 +19,8 @@
     "build-packages": "lerna run --parallel prepare --",
     "make:install": "yarn ts-check-packages && yarn build-packages",
     "// postinstall": "if [[ ${SKIP_POST_INSTALL} == \"true\" ]]; then echo 'skipped make:install.'; else yarn make:install; fi",
-    "start:js": "webpack serve --config ./internals/webpack/createAppDevServerConfig.js --node-env development -- --appName=app",
+    "webpack:dev": "webpack serve --config ./internals/webpack/createAppDevServerConfig.js --node-env=development --",
+    "start:js": "yarn webpack:dev",
     "start": "stmux -- [ [ -s 1/3 \"yarn ts-check-packages --watch\" .. \"yarn build-packages --watch\" ] : \"yarn start:js\" ]",
     "webpack-build": "webpack --config ./internals/webpack/createWebpackBuildConfig.js --node-env production -- --appName=app",
     "format": "prettier --write \"**/*.{js,ts,tsx,css,json,md}\"",
@@ -102,8 +103,6 @@
   "engines": {
     "node": ">= 15.8.0",
     "yarn": ">= 1.22.10",
-    "npm": ">= 7.5.1",
-    "lerna": ">= 3.20.2",
-    "typescript": ">= 4.1.4"
+    "npm": ">= 7.5.1"
   }
 }

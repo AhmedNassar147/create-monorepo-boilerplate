@@ -5,14 +5,44 @@
  */
 import { FC } from "react";
 import { ParentProps } from "@domain/types";
-import { AppHeader, MainLayout, Text } from "./styled";
 
 const BasePage: FC<ParentProps> = ({ children }) => (
   <>
-    <AppHeader>
-      <Text>app header</Text>
-    </AppHeader>
-    <MainLayout>{children}</MainLayout>
+    <header
+      css={`
+        height: 60px;
+        background-color: green;
+        width: 100%;
+        line-height: 1.5;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      `}
+    >
+      <p
+        css={`
+          text-align: center;
+          font-size: 18px;
+          font-weight: bold;
+        `}
+      >
+        App Header
+      </p>
+    </header>
+    <main
+      css={`
+        width: 100%;
+        max-width: 100%;
+        min-height: calc(100vh - 60px);
+        max-height: calc(100vh - 60px);
+        background-color: blue;
+        overflow-y: auto;
+        overflow-x: hidden;
+        line-height: 1.5;
+      `}
+    >
+      {children}
+    </main>
   </>
 );
 

@@ -28,6 +28,7 @@
   },
   "peerDependencies": {
     "@types/react": "^17.x.x",
-    "@types/react-router-dom": "^5.x.x"
+    "@types/react-router-dom": "^5.x.x",
+    "@types/styled-components": "^5.x.x"
   }
 }

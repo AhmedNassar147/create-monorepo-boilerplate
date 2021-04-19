@@ -27,7 +27,7 @@ module.exports = {
   rules: {
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/explicit-function-return-type": "off",
-    "@typescript-eslint/no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": 1,
     "@typescript-eslint/ban-ts-comment": [
       "error",
       {
@@ -38,8 +38,11 @@ module.exports = {
     "react/jsx-uses-react": "off",
     "react/react-in-jsx-scope": "off",
     "react/require-render-return": "off",
-    "react/no-deprecated": "off",
+    "react/no-deprecated": "error",
     "react/no-string-refs": "off",
+    "react/prop-types": "off",
+    "react/jsx-fragments": 2,
+    "react/jsx-key": 2,
     "react-hooks/rules-of-hooks": 2,
     "react-hooks/exhaustive-deps": 1,
     "react/no-danger": 2,

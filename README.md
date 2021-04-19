@@ -2,6 +2,15 @@
 
 ## Note: Please checkout the `engines` property in [package.json](./package.json) and make sure you have globally the required engines/versions installed.
 
+## Please also install the following globally on your machine.
+
+```sh
+ - lerna ">= 3.20.2".
+ - typescript ">= 4.1.4"
+```
+
+## Getting installation started.
+
 ```sh
 - yarn bootstrap (after finished) .
 - `cd devpackages/package-builder` and in your terminal run `npm link` .

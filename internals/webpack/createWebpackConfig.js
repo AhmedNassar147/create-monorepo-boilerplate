@@ -4,7 +4,10 @@
  *
  */
 const path = require("path");
-const { ProvidePlugin, DefinePlugin, ProgressPlugin } = require("webpack");
+const {
+  /* ProvidePlugin, */ DefinePlugin,
+  ProgressPlugin,
+} = require("webpack");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
@@ -23,8 +26,15 @@ const collectProcessOptions = require("../command-line-utils/collectProcessOptio
 const getWorkSpaceBasePath = require("../workspaces/getWorkSpaceBasePath");
 
 const createWebpackConfig = async ({ mode, ...webpackConfig }) => {
-  const { appName } = await collectProcessOptions();
-  const basePath = getWorkSpaceBasePath(appName);
+  const { devServer, watchOptions, plugins, alias = {} } = webpackConfig;
+
+  // const { appName } = await collectProcessOptions();
+  const context = await getCurrentRootDirectoryPath();
+  const { stringifiedVariables } = await getAppEnvVariables({
+    mode,
+  });
+
+  const basePath = getWorkSpaceBasePath("app");
 
   const {
     output,
@@ -34,13 +44,6 @@ const createWebpackConfig = async ({ mode, ...webpackConfig }) => {
     public,
     tsConfigPath,
   } = getBasePaths(basePath);
-  const { devServer, watchOptions, plugins, alias = {} } = webpackConfig;
-
-  const { stringifiedVariables } = await getAppEnvVariables({
-    mode,
-  });
-
-  const context = await getCurrentRootDirectoryPath();
 
   const isProduction = mode === "production";
 
@@ -62,8 +65,8 @@ const createWebpackConfig = async ({ mode, ...webpackConfig }) => {
 
     resolve: {
       modules: ["app", "node_modules"],
-      extensions: [".ts", ".tsx", ".js", ".jsx"],
-      mainFields: ["browser", "module", "main"],
+      extensions: [".ts", ".tsx", ".js", ".jsx", ".json"],
+      mainFields: ["module", "main", "browser"],
       mainFiles: ["index"],
       alias: {
         ...BASE_WEBPACK_RESOLVE_ALIAS,
@@ -124,7 +127,12 @@ const createWebpackConfig = async ({ mode, ...webpackConfig }) => {
         // js|jsx: Use swc to transpile JavaScript files
         {
           test: /\.(js|jsx)$/,
-          exclude: /(node_modules\/(?!debug))|packages/,
+          // The workspaces packages/modules are built and watched by `package-builder`.
+          // The `node_modules`, by convention, are expected to be shipped
+          // already transpiled.
+          // @see {@link https://github.com/visionmedia/debug/issues/745}
+          // @see {@link https://github.com/visionmedia/debug/issues/701}
+          exclude: /(node_modules\/(?!debug))|^(packages|\w.+-module)$/,
           use: {
             loader: "babel-loader",
             options: await getBabelConfig(mode),
@@ -132,12 +140,12 @@ const createWebpackConfig = async ({ mode, ...webpackConfig }) => {
         },
         {
           test: /\.(ts|tsx)$/,
-          // The `packages` are built and watched by `@dbh/package-builder`.
+          // The workspaces packages/modules are built and watched by `package-builder`.
           // The `node_modules`, by convention, are expected to be shipped
           // already transpiled.
           // @see {@link https://github.com/visionmedia/debug/issues/745}
           // @see {@link https://github.com/visionmedia/debug/issues/701}
-          exclude: /(node_modules\/(?!debug))|packages/,
+          exclude: /(node_modules\/(?!debug))|^(packages|\w.+-module)$/,
           use: [
             {
               loader: "ts-loader",
@@ -181,10 +189,10 @@ const createWebpackConfig = async ({ mode, ...webpackConfig }) => {
 
       new DefinePlugin(stringifiedVariables),
 
-      new ProvidePlugin({
-        // Make `fetch` available in all the browsers.
-        fetch: "exports-loader?self.fetch!cross-fetch",
-      }),
+      // new ProvidePlugin({
+      //   // Make `fetch` available in all the browsers.
+      //   fetch: "exports-loader?self.fetch!cross-fetch",
+      // }),
 
       new ForkTsCheckerWebpackPlugin({
         eslint: {

@@ -31,14 +31,11 @@ const getBabelConfig = async (env, useCjsFormat) => {
   const isEsModules = !useCjsFormat;
 
   return {
-    // `upward` is required in monorepos, see the comment above.
-    // rootMode: "upward",
     // `comments` strips the comments when `false`. We always set it to `true`
     // because we can't remove them, or `babel` would also remove the `webpack`
     // magic comments for dynamic imports (@example
     // `/* webpackChunkName: 'something' */`).
     comments: true,
-    // extensions: [".js", ".ts", ".tsx", ".json"],
     overrides: [
       // Like `react-boilerplate`, we run aggressive optimizations only on
       // the code that we can control and when the environment is production.
@@ -52,6 +49,9 @@ const getBabelConfig = async (env, useCjsFormat) => {
               "@babel/plugin-transform-react-inline-elements",
             ],
           },
+      {
+        plugins: [["transform-define", raw]],
+      },
     ].filter(Boolean),
     presets: [
       [
@@ -94,17 +94,14 @@ const getBabelConfig = async (env, useCjsFormat) => {
       isEnvProduction ? ["minify", { keepFnName: false }] : undefined,
     ].filter(Boolean),
     plugins: [
-      ["transform-define", raw],
       [
         // @see {link https://styled-components.com/docs/tooling#usage}
         "styled-components",
         {
           // @see {@link https://www.styled-components.com/docs/api#css-prop}
           cssProp: true,
-          ...(isEnvProduction
+          ...(!isEnvProduction
             ? {
-                // Disable optimizations in development, hopefully it's
-                // faster this way.
                 // @see {@link https://styled-components.com/docs/tooling#minification}
                 minify: false,
                 transpileTemplateLiterals: false,
@@ -124,16 +121,16 @@ const getBabelConfig = async (env, useCjsFormat) => {
           loose: true,
         },
       ],
-      packagesBuildEnv && [
+      [
         // @see {@link https://babeljs.io/docs/en/babel-plugin-transform-runtime}
         "@babel/plugin-transform-runtime",
         {
+          absoluteRuntime: false,
           version: require("@babel/runtime/package.json").version,
           corejs: false,
           helpers: true,
           regenerator: true,
           useESModules: isEsModules,
-          absoluteRuntime: false,
         },
       ],
       // isEnvDevelopment && "react-refresh/babel",

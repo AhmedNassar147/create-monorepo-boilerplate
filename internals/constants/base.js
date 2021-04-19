@@ -3,10 +3,10 @@
  * Base: `constants`.
  *
  */
-const MODULES_REGEX = /\b\w+(-module)\b/gi;
-const PACKAGES_REGEX = /\b(packages)\b/gi;
-const PACKAGES_MODULES_REGEX = /\b\w+-module|packages\b/;
-const APPS_REGEX = /\b((\w+-)?app)\b/;
+const MODULES_REGEX = /^\w.+-module$/;
+const PACKAGES_REGEX = /^packages$/;
+const PACKAGES_MODULES_REGEX = /^(\w.+-module|packages)$/;
+const APPS_REGEX = /^(\w.+-)?app$/;
 
 const SUPPORTED_IMAGES_REGEX = /\.(?:ico|gif|png|jpg|jpeg)$/i;
 const SUPPORTED_SVGS_FONTS_REGEX = /\.(woff(2)?|eot|ttf|otf|svg|)$/;

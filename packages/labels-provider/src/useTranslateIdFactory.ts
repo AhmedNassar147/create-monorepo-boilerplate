@@ -16,7 +16,7 @@ const useTranslateIdFactory = () => {
       }
       return labelId;
     },
-    [labels]
+    [labels],
   );
 
   return translateLabel;
