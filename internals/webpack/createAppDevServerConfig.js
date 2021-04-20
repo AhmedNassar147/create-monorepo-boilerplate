@@ -7,23 +7,16 @@
 // const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 const CaseSensitivePathsPlugin = require("case-sensitive-paths-webpack-plugin");
 const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
-const getBasePaths = require("./getBasePaths");
 const createWebpackConfig = require("./createWebpackConfig");
-const getWorkSpaceBasePath = require("../workspaces/getWorkSpaceBasePath");
-const collectProcessOptions = require("../command-line-utils/collectProcessOptions");
 
 process.env.NODE_ENV = "development";
 
 const createAppDevServerConfig = async (_, { analyze, port } = {}) => {
-  // const { appName } = await collectProcessOptions();
-  const basePath = getWorkSpaceBasePath("app");
-  const { public } = getBasePaths(basePath);
-
   return await createWebpackConfig({
     mode: "development",
     output: {
-      filename: "[name].js",
-      chunkFilename: "[name].chunk.js",
+      filename: "[name].[hash:10].js",
+      chunkFilename: "[name].[hash:10].js",
       crossOriginLoading: "anonymous",
     },
     alias: {
@@ -35,7 +28,6 @@ const createAppDevServerConfig = async (_, { analyze, port } = {}) => {
     },
     devServer: {
       historyApiFallback: true,
-      contentBase: public,
       open: true,
       compress: true,
       stats: { colors: true },

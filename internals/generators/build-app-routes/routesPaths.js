@@ -3,15 +3,20 @@
  * `routesPaths`: `build-app-routes`.
  *
  */
-const getAppGeneratedPagesRoutesDataPath = (appName) => {
+const getAppPagesRoutesDataPath = (appName) => {
   return `${process.cwd()}/${appName}/src/routes/pagesRoutesData.ts`;
 };
 
-const getPagesRoutesPathNamesPath = () => {
-  return `${process.cwd()}/packages/routes/src/pagesPathNames.json`;
+const getPathNamesPathInRoutesPackage = () => {
+  return `${process.cwd()}/packages/routes/src/pagesPathNames.ts`;
+};
+
+const getGeneratedPagesRoutesPathNamesPath = () => {
+  return `${process.cwd()}/internals/generateAppsRoutesConfig/generated/pagesPathNames.json`;
 };
 
 module.exports = {
-  getAppGeneratedPagesRoutesDataPath,
-  getPagesRoutesPathNamesPath,
+  getAppPagesRoutesDataPath,
+  getPathNamesPathInRoutesPackage,
+  getGeneratedPagesRoutesPathNamesPath,
 };

@@ -4,6 +4,7 @@
  *
  */
 const { ids } = require("webpack");
+const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
@@ -11,20 +12,26 @@ const createWebpackConfig = require("./createWebpackConfig");
 
 process.env.NODE_ENV = "production";
 
-const createWebpackBuildConfig = async () => {
+const createWebpackBuildConfig = async (_, { analyze } = {}) => {
   return await createWebpackConfig({
     mode: "production",
     output: {
-      filename: "static/js/[name].[chunkhash].js",
-      chunkFilename: "static/js/[name].[chunkhash].chunk.js",
+      filename: "static/js/[name].[chunkhash:10].js",
+      // chunkFilename: specifies the name of non-entry output files (e.g. dynamic import component)
+      chunkFilename: "static/js/[name].[chunkhash:10].js",
     },
     plugins: [
       // Extracts CSS into separate files
       // Note: style-loader is for development, MiniCssExtractPlugin is for production
       new MiniCssExtractPlugin({
-        filename: "static/css/[name].[contenthash].css",
-        chunkFilename: "[id].css",
+        filename: "static/css/[name].[contenthash:10].css",
+        chunkFilename: "[name].[contenthash:10].css",
       }),
+
+      analyze &&
+        new BundleAnalyzerPlugin({
+          analyzerMode: "static",
+        }),
 
       new ids.HashedModuleIdsPlugin({
         hashFunction: "sha256",

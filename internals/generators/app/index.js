@@ -42,6 +42,14 @@ module.exports = {
   actions: ({ name, selectedPages }) => {
     const realAppName = `${name}-app`;
 
+    // const appRoutesJsonConfigFilePath = join(
+    //   process.cwd(),
+    //   "internals",
+    //   "generateAppsRoutesConfig",
+    //   "generated",
+    //   `${appName}.json`,
+    // );
+
     let events = [
       {
         type: "add",
@@ -98,12 +106,12 @@ module.exports = {
       });
     }
 
-    events.push({
-      type: "update-generated-routes",
-      data: {
-        apps: [realAppName],
-      },
-    });
+    // events.push({
+    //   type: "update-generated-routes",
+    //   data: {
+    //     apps: [realAppName],
+    //   },
+    // });
 
     return [...events];
   },

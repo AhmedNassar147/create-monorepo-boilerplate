@@ -45,6 +45,7 @@ const getBabelConfig = async (env, useCjsFormat) => {
         : {
             include: workspaces,
             plugins: [
+              "transform-react-remove-prop-types",
               "@babel/plugin-transform-react-constant-elements",
               "@babel/plugin-transform-react-inline-elements",
             ],
@@ -59,7 +60,8 @@ const getBabelConfig = async (env, useCjsFormat) => {
         {
           // @see {@link https://webpack.js.org/guides/tree-shaking/#conclusion}
           // @see {@link https://babeljs.io/docs/en/babel-preset-env#modules}
-          modules: useCjsFormat ? "cjs" : false,
+          // modules: useCjsFormat ? "cjs" : false,
+          modules: false,
           // @see {@link https://babeljs.io/docs/en/babel-preset-env#usebuiltins}
           useBuiltIns: "entry",
           // @see {@link https://babeljs.io/docs/en/next/babel-preset-env.html#corejs}
@@ -69,9 +71,9 @@ const getBabelConfig = async (env, useCjsFormat) => {
           // version should be the major version of the `core-js` in the
           // root project's `package.json`.
           corejs: 3,
-          ...(isEsModules && packagesBuildEnv
-            ? { targets: { esmodules: true } }
-            : {}),
+          // ...(isEsModules && packagesBuildEnv
+          //   ? { targets: { esmodules: true } }
+          //   : {}),
           // Exclude transforms that make all code slower
           exclude: ["transform-typeof-symbol"],
         },

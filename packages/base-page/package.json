@@ -16,7 +16,7 @@
   ],
   "scripts": {
     "ts:checker:declaration": "tsc -b .",
-    "prepare": "package-builder --packageName=@domain/base-page --"
+    "prepare": "rollup -c ../../internals/rollup/index.js --configPackageName @domain/base-page"
   },
   "devDependencies": {
     "@domain/types": "1.0.0"

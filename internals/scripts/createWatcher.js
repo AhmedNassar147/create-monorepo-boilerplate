@@ -9,8 +9,8 @@ const options = {
   persistent: true,
   ignoreInitial: true,
   awaitWriteFinish: {
-    stabilityThreshold: 30,
-    pollInterval: 10,
+    stabilityThreshold: 50,
+    pollInterval: 20,
   },
 };
 

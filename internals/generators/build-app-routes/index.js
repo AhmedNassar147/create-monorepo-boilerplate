@@ -14,8 +14,9 @@ const defineFormatPageRoutePathHelpers = require("./defineFormatPageRoutePathHel
 const definePlopPrettifyAction = require("../utils/definePlopPrettifyAction");
 const generateAppsRoutesConfig = require("../../generateAppsRoutesConfig");
 const {
-  getAppGeneratedPagesRoutesDataPath,
-  getPagesRoutesPathNamesPath,
+  getAppPagesRoutesDataPath,
+  getPathNamesPathInRoutesPackage,
+  getGeneratedPagesRoutesPathNamesPath,
 } = require("./routesPaths");
 
 module.exports = (plop) => {
@@ -23,7 +24,7 @@ module.exports = (plop) => {
 
   invariant(
     APPS_REGEX.test(appName),
-    `\`(build app routes generator)\`: got non proper app name given ${appName}`,
+    `\`(build app routes generator)\`: got none proper app name given ${appName}`,
   );
 
   generateAppsRoutesConfig({
@@ -38,16 +39,15 @@ module.exports = (plop) => {
     `${appName}.json`,
   );
 
+  const pagesRoutesFilePathInCurrentApp = getAppPagesRoutesDataPath(appName);
+  const pathNamesFilePathInRoutesPackage = getPathNamesPathInRoutesPackage();
+  const internalGeneratedPathNamesFilePath = getGeneratedPagesRoutesPathNamesPath();
+
   invariant(
     checkPathExistsSync(appRoutesJsonConfigFilePath),
     `\`(build app routes generator)\`: couldn't find the app "(${appName})" routes config in` +
       `${appRoutesJsonConfigFilePath}`,
   );
-
-  const pagesRoutesFilePathInCurrentApp = getAppGeneratedPagesRoutesDataPath(
-    appName,
-  );
-  const pathNamesFilePathInRoutesPackage = getPagesRoutesPathNamesPath();
 
   const { pages, developmentPages } = readJsonFileSync(
     appRoutesJsonConfigFilePath,
@@ -60,12 +60,18 @@ module.exports = (plop) => {
   ] = [pages, developmentPages].map(createAppPagesRoutesData);
 
   const isGeneratedPathNamesFileExists = checkPathExistsSync(
-    pathNamesFilePathInRoutesPackage,
+    internalGeneratedPathNamesFilePath,
   );
 
   const previousPathNames = !isGeneratedPathNamesFileExists
     ? {}
-    : readJsonFileSync(pathNamesFilePathInRoutesPackage, true);
+    : readJsonFileSync(internalGeneratedPathNamesFilePath, true);
+
+  const newPathNames = JSON.stringify({
+    ...previousPathNames,
+    ...pagesPathNames,
+    ...devPagesPathNames,
+  });
 
   const getPrettifyPaths = (filePath) => ({
     containingFolderPath: dirname(filePath),
@@ -79,16 +85,23 @@ module.exports = (plop) => {
     actions: [
       {
         type: "add",
-        path: pathNamesFilePathInRoutesPackage,
-        templateFile: "./templates/pagesPathNames.json.hbs",
+        path: internalGeneratedPathNamesFilePath,
+        templateFile: "./templates/internals.generated.pathNames.json.hbs",
         abortOnFail: true,
         force: true,
         data: {
-          newPathNames: JSON.stringify({
-            ...previousPathNames,
-            ...pagesPathNames,
-            ...devPagesPathNames,
-          }),
+          newPathNames,
+        },
+      },
+      {
+        type: "add",
+        path: pathNamesFilePathInRoutesPackage,
+        templateFile: "./templates/pagesPathNames.ts.hbs",
+        abortOnFail: true,
+        force: true,
+        data: {
+          newPathNames,
+          PROJECT_NAME_SPACE,
         },
       },
       {
@@ -104,6 +117,11 @@ module.exports = (plop) => {
             ? devPagesRouterData
             : false,
         },
+      },
+      {
+        type: "prettify",
+        data: getPrettifyPaths(internalGeneratedPathNamesFilePath),
+        abortOnFail: true,
       },
       {
         type: "prettify",

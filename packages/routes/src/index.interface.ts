@@ -4,7 +4,7 @@
  *
  */
 import { KeysOfRecord } from "@domain/types";
-import PagesPathNames from "./pagesPathNames.json";
+import PagesPathNames from "./pagesPathNames";
 
 export type PATH_TYPE = string | string[];
 

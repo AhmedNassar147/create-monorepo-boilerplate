@@ -4,7 +4,7 @@
  *
  */
 import { RecordType } from "@domain/types";
-import PagesPathNames from "./pagesPathNames.json";
+import PagesPathNames from "./pagesPathNames";
 import {
   PAGES_NAMES_KEYS_TYPE,
   PATH_TYPE,

@@ -3,11 +3,12 @@
  * `createWebpackConfig`: `webpack`.
  *
  */
-const path = require("path");
 const {
   /* ProvidePlugin, */ DefinePlugin,
   ProgressPlugin,
 } = require("webpack");
+const path = require("path");
+const chalk = require("chalk");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
@@ -22,19 +23,29 @@ const BASE_WEBPACK_RESOLVE_ALIAS = require("./webpackResolveAlias");
 const getBabelConfig = require("../babel/getBabelConfig");
 const getCurrentRootDirectoryPath = require("../scripts/getCurrentRootDirectoryPath");
 const getAppEnvVariables = require("../environment/geEnvVariables");
-const collectProcessOptions = require("../command-line-utils/collectProcessOptions");
 const getWorkSpaceBasePath = require("../workspaces/getWorkSpaceBasePath");
 
 const createWebpackConfig = async ({ mode, ...webpackConfig }) => {
   const { devServer, watchOptions, plugins, alias = {} } = webpackConfig;
 
-  // const { appName } = await collectProcessOptions();
   const context = await getCurrentRootDirectoryPath();
-  const { stringifiedVariables } = await getAppEnvVariables({
+  const {
+    stringifiedVariables,
+    raw: { APP_NAME },
+  } = await getAppEnvVariables({
     mode,
   });
 
-  const basePath = getWorkSpaceBasePath("app");
+  if (!APP_NAME) {
+    console.log(
+      chalk.bold.red(
+        `[createWebpackConfig]: couldn't find \`APP_NAME\` in env files.`,
+      ),
+    );
+    process.exit(1);
+  }
+
+  const basePath = getWorkSpaceBasePath(APP_NAME);
 
   const {
     output,
@@ -59,7 +70,7 @@ const createWebpackConfig = async ({ mode, ...webpackConfig }) => {
       assetModuleFilename: "static/media/[hash][ext][query]",
       ...webpackConfig.output,
     },
-    ...(devServer ? { devServer } : {}),
+    ...(devServer ? { devServer: { ...devServer, contentBase: public } } : {}),
 
     ...(watchOptions ? { watchOptions } : {}),
 

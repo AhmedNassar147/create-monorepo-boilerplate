@@ -16,7 +16,7 @@
   ],
   "scripts": {
     "ts:checker:declaration": "tsc -b .",
-    "prepare": "package-builder --packageName=@domain/react-lazy --"
+    "prepare": "rollup -c ../../internals/rollup/index.js --configPackageName @domain/react-lazy"
   },
   "peerDependencies": {
     "@types/react": "^17.x.x",
