@@ -12,6 +12,8 @@ function definePlopUpdatePagesRoutesDataWithNewApp(plop) {
     plop,
     "update-pages-routes-data-with-app",
     ({ selectedPages, name }) => {
+      const appName = `${name}-app`;
+
       selectedPages.forEach((basePackagePath) => {
         const jsonFilePath = `${basePackagePath}/package.json`;
         updateJsonFileSync(
@@ -29,7 +31,7 @@ function definePlopUpdatePagesRoutesDataWithNewApp(plop) {
               ...data,
               routeData: {
                 ...routeData,
-                apps: [...(routeData.apps || []), `${name}-app`],
+                apps: [...(routeData.apps || []), appName],
               },
             };
           },

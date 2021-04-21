@@ -1,1 +1,1 @@
-{ "loremIpsum": "/loremIpsum", "sasasasas": "/sasasasas" }
+{ "loremIpsum": "/loremIpsum", "loremIpsum2": "/loremIpsum2/:some/:another" }

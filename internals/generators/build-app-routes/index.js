@@ -4,7 +4,7 @@
  *
  */
 const { join, basename, dirname } = require("path");
-const { APPS_REGEX, PROJECT_NAME_SPACE } = require("../../constants/base");
+const { APPS_REGEX, PROJECT_NAME_SPACE } = require("../../constants");
 const invariant = require("../../scripts/invariant");
 const collectProcessOptionsSync = require("../../command-line-utils/collectProcessOptionsSync");
 const readJsonFileSync = require("../../scripts/readJsonFileSync");

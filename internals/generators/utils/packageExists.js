@@ -6,7 +6,7 @@
  */
 const { readdirSync } = require("fs");
 const getWorksSpacesOnlyNamesSync = require("../../workspaces/getWorksSpacesOnlyNamesSync");
-const { APPS_REGEX } = require("../../constants/base");
+const { APPS_REGEX } = require("../../constants");
 
 const packageExists = (comp) => {
   const apps = [];

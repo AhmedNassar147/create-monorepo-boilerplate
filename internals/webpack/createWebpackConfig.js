@@ -4,8 +4,9 @@
  *
  */
 const {
-  /* ProvidePlugin, */ DefinePlugin,
+  DefinePlugin,
   ProgressPlugin,
+  /* ProvidePlugin, */
 } = require("webpack");
 const path = require("path");
 const chalk = require("chalk");
@@ -17,18 +18,18 @@ const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 const {
   SUPPORTED_IMAGES_REGEX,
   SUPPORTED_SVGS_FONTS_REGEX,
-} = require("../constants/base");
+} = require("../constants");
 const getBasePaths = require("./getBasePaths");
 const BASE_WEBPACK_RESOLVE_ALIAS = require("./webpackResolveAlias");
 const getBabelConfig = require("../babel/getBabelConfig");
-const getCurrentRootDirectoryPath = require("../scripts/getCurrentRootDirectoryPath");
+const findRootYarnWorkSpaces = require("../workspaces/findRootYarnWorkSpaces");
 const getAppEnvVariables = require("../environment/geEnvVariables");
 const getWorkSpaceBasePath = require("../workspaces/getWorkSpaceBasePath");
 
 const createWebpackConfig = async ({ mode, ...webpackConfig }) => {
   const { devServer, watchOptions, plugins, alias = {} } = webpackConfig;
 
-  const context = await getCurrentRootDirectoryPath();
+  const context = findRootYarnWorkSpaces();
   const {
     stringifiedVariables,
     raw: { APP_NAME },

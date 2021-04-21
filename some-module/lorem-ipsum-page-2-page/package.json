@@ -1,5 +1,5 @@
 {
-  "name": "@domain/lorem-ipsum-page",
+  "name": "@domain/lorem-ipsum-page-2-page",
   "version": "1.0.0",
   "private": true,
   "description": "sasas.",
@@ -16,7 +16,7 @@
   ],
   "scripts": {
     "ts:checker:declaration": "tsc -b .",
-    "prepare": "rollup -c ../../internals/rollup/index.js --configPackageName @domain/lorem-ipsum-page"
+    "prepare": "package-builder --packageName=@domain/lorem-ipsum-page-2-page --"
   },
   "dependencies": {
     "@domain/labels-provider": "1.0.0"
@@ -30,6 +30,10 @@
       "app",
       "lorem-ipsum-app"
     ],
-    "path": "/loremIpsum"
+    "path": "/loremIpsum2",
+    "params": [
+      "some",
+      "another"
+    ]
   }
 }

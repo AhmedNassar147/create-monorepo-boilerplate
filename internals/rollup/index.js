@@ -1,6 +1,6 @@
 /*
  *
- * `packages.config`: `@dbh/rollup-configurations`.
+ * `createRollupConfig`: `rollup`.
  *
  */
 const { nodeResolve } = require("@rollup/plugin-node-resolve");
@@ -12,9 +12,9 @@ const checkPathExists = require("../scripts/checkPathExists");
 const invariant = require("../scripts/invariant");
 const readJsonFile = require("../scripts/readJsonFile");
 const getBabelConfig = require("../babel/getBabelConfig");
-const { PACKAGES_MODULES_REGEX } = require("../constants/base");
+const { PACKAGES_MODULES_REGEX } = require("../constants");
 
-const packageBuilder = async ({ configPackageName }) => {
+const createRollupConfig = async ({ configPackageName }) => {
   const babelConfig = await getBabelConfig(envName);
   const {
     fullPathPackageSrcPath,
@@ -34,7 +34,7 @@ const packageBuilder = async ({ configPackageName }) => {
   invariant(
     !!inputFilePath,
     chalk.bold.red(
-      `[packageBuilder]: couldn\'t find any of ${chalk.white(
+      `[createRollupConfig =]: couldn\'t find any of ${chalk.white(
         POSSIBLE_ENTRIES.join(" , "),
       )} in ${chalk.white(configPackageName)}`,
     ),
@@ -106,4 +106,4 @@ const packageBuilder = async ({ configPackageName }) => {
   });
 };
 
-module.exports = packageBuilder;
+module.exports = createRollupConfig;

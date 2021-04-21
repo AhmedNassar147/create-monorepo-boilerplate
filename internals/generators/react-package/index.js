@@ -17,7 +17,7 @@ const {
   MODULES_REGEX,
   APPS_REGEX,
   PACKAGES_REGEX,
-} = require("../../constants/base");
+} = require("../../constants");
 
 const canShowPathNameOptions = ({ type }) => {
   const { isPage } = getTypeOfComponentPackage(type);

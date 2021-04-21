@@ -5,7 +5,7 @@
  */
 const isReactComponentSelected = require("./isReactComponentSelected");
 const definePlopActionAndExecuteScript = require("../../utils/definePlopActionAndExecuteScript");
-const { PROJECT_NAME_SPACE } = require("../../../constants/base");
+const { PROJECT_NAME_SPACE } = require("../../../constants");
 
 function definePlopActionsUpdateWorkSpacesDeps(plop) {
   // update `app/package.json` and working directory `package.json`.

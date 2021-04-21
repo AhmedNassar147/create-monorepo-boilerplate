@@ -7,7 +7,7 @@ const createDefaultPrompts = require("../utils/createDefaultPrompts");
 const {
   PROJECT_NAME_SPACE,
   PACKAGES_MODULES_REGEX,
-} = require("../../constants/base");
+} = require("../../constants");
 const createRootWorkSpacesEvent = require("../utils/createRootWorkSpacesEvent");
 const getWorkSpacesData = require("../../workspaces/getWorkSpacesData");
 
@@ -15,12 +15,6 @@ module.exports = {
   description: "Add app.",
   prompts: [
     ...createDefaultPrompts(true),
-    {
-      type: "confirm",
-      name: "needsToAddPages",
-      message: "Do you want to add pages to this app?",
-      default: false,
-    },
     {
       type: "checkbox",
       name: "selectedPages",
@@ -36,10 +30,17 @@ module.exports = {
           name: packageName,
         }));
       },
+      validate: (selectedPages) => {
+        if (!selectedPages || !selectedPages.length) {
+          return "please at least select one page.";
+        }
+
+        return true;
+      },
       default: [],
     },
   ],
-  actions: ({ name, selectedPages }) => {
+  actions: ({ name }) => {
     const realAppName = `${name}-app`;
 
     // const appRoutesJsonConfigFilePath = join(
@@ -98,21 +99,17 @@ module.exports = {
         abortOnFail: true,
       },
       createRootWorkSpacesEvent(realAppName),
+      {
+        type: "update-pages-routes-data-with-app",
+      },
+      {
+        type: "update-generated-routes",
+        data: {
+          apps: [realAppName],
+        },
+      },
     ];
 
-    if (selectedPages && selectedPages.length) {
-      events.push({
-        type: "update-pages-routes-data-with-app",
-      });
-    }
-
-    // events.push({
-    //   type: "update-generated-routes",
-    //   data: {
-    //     apps: [realAppName],
-    //   },
-    // });
-
-    return [...events];
+    return events;
   },
 };

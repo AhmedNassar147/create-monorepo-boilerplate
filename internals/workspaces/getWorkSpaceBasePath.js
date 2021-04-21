@@ -5,7 +5,7 @@
  */
 const getWorkSpacesData = require("./getWorkSpacesData");
 const invariant = require("../scripts/invariant");
-const { PROJECT_NAME_SPACE } = require("../constants/base");
+const { PROJECT_NAME_SPACE } = require("../constants");
 
 // given `@domain/pkg1` will return `basePath/create-react-monorepo-boilerplate/packages/pkg1`
 const getWorkSpaceBasePath = (name) => {

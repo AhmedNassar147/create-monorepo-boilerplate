@@ -11,7 +11,7 @@ const findRootYarnWorkSpaces = require("./findRootYarnWorkSpaces");
 const readJsonFileSync = require("../scripts/readJsonFileSync");
 const checkPathExistsSync = require("../scripts/checkPathExistsSync");
 const invariant = require("../scripts/invariant");
-const { APPS_REGEX } = require("../constants/base");
+const { APPS_REGEX } = require("../constants");
 
 const PKG_JSON_EXT = "package.json";
 

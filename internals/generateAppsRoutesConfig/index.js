@@ -5,7 +5,7 @@
  */
 const chalk = require("chalk");
 const invariant = require("../scripts/invariant");
-const { APPS_REGEX } = require("../constants/base");
+const { APPS_REGEX } = require("../constants");
 const getWorkSpacesData = require("../workspaces/getWorkSpacesData");
 const generateAppRoutesConfigFile = require("./generateAppRoutesConfigFile");
 

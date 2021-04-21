@@ -5,7 +5,8 @@
   "workspaces": [
     "app",
     "packages/*",
-    "some-module/*"
+    "some-module/*",
+    "lorem-ipsum-app"
   ],
   "scripts": {
     "clean": "rm -rf ./node_modules",
@@ -32,6 +33,7 @@
     "@domain/labels-provider": "1.0.0",
     "@domain/loader-fallback": "1.0.0",
     "@domain/lorem-ipsum-page": "1.0.0",
+    "@domain/lorem-ipsum-page-2-page": "1.0.0",
     "@domain/react-lazy": "1.0.0",
     "@domain/routes": "1.0.0",
     "react": "^17.0.1",

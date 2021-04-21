@@ -1,5 +1,5 @@
 {
-  "packages": ["packages/*", "app", "some-module/*"],
+  "packages": ["packages/*", "app", "some-module/*", "lorem-ipsum-app"],
   "version": "independent",
   "npmClient": "yarn",
   "useWorkspaces": true
