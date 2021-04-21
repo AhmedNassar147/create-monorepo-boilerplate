@@ -111,6 +111,7 @@ module.exports = (plop) => {
         abortOnFail: true,
         force: true,
         data: {
+          appName,
           PROJECT_NAME_SPACE,
           pagesRouterData: pagesRouterData.length ? pagesRouterData : false,
           devPagesRouterData: devPagesRouterData.length

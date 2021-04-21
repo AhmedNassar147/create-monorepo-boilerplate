@@ -16,6 +16,12 @@
     },
     {
       "path": "../base-page"
+    },
+    {
+      "path": "../routes"
+    },
+    {
+      "path": "../loader-fallback"
     }
   ]
 }

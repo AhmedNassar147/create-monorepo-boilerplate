@@ -9,6 +9,5 @@
     "typeRoots": ["../../node_modules/@types", "../../typings/*"]
   },
   "exclude": ["./dist"],
-  "include": ["./src", "../../typings/*"],
-  "references": [{ "path": "../../packages/labels-provider" }]
+  "include": ["./src", "../../typings/*"]
 }

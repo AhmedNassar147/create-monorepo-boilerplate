@@ -1,9 +1,10 @@
 /*
  *
- * Index: `{{{ PROJECT_NAME_SPACE }}}/{{{ name }}}-app.`
+ * Index: `{{{ PROJECT_NAME_SPACE }}}/{{{ name }}}-app`.
  *
 */
 import { render } from "react-dom";
-import App from "./app";
+import App from "@domain/base-app-wrapper";
+import pagesRoutesData from "./pagesRoutesData";
 
-render(<App />, document.getElementById("root"));
+render(<App routesData={pagesRoutesData} />,document.getElementById("root"));

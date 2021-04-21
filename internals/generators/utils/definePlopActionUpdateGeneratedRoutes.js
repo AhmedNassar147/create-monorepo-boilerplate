@@ -12,7 +12,7 @@ function definePlopActionUpdateGeneratedRoutes(plop) {
     ({ apps }) => {
       if (apps && apps.length) {
         return apps.map((appName) => {
-          return `yarn "generate-app-routes" --app=${appName}`;
+          return `yarn "generate-routes" --app=${appName}`;
         });
       }
 

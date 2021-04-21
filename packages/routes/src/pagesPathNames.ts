@@ -5,7 +5,7 @@
  */
 const PAGES_PATH_NAMES = {
   loremIpsum: "/loremIpsum",
-  loremIpsum2: "/loremIpsum2/:some/:another",
+  someNew: "/someNew/:param",
 };
 
 export default PAGES_PATH_NAMES;

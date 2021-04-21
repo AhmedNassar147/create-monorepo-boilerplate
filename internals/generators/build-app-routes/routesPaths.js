@@ -4,7 +4,7 @@
  *
  */
 const getAppPagesRoutesDataPath = (appName) => {
-  return `${process.cwd()}/${appName}/src/routes/pagesRoutesData.ts`;
+  return `${process.cwd()}/${appName}/src/pagesRoutesData.ts`;
 };
 
 const getPathNamesPathInRoutesPackage = () => {

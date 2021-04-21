@@ -23,7 +23,9 @@
   },
   "dependencies": {
     "@domain/base-page": "1.0.0",
-    "@domain/labels-provider": "1.0.0"
+    "@domain/labels-provider": "1.0.0",
+    "@domain/routes": "1.0.0",
+    "@domain/loader-fallback": "1.0.0"
   },
   "peerDependencies": {
     "@types/react": "^17.x.x",

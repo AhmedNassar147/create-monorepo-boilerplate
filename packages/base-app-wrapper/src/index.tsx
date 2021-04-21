@@ -3,21 +3,40 @@
  * Package: `@domain/base-app-wrapper`.
  *
  */
-import { BrowserRouter } from "react-router-dom";
+import { Suspense, memo } from "react";
+import SuspenseFallBack from "@domain/loader-fallback";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import LabelsProvider from "@domain/labels-provider";
 import BasePage from "@domain/base-page";
-import { ParentProps } from "@domain/types";
 import GlobalStyles from "./GlobalStyles";
+import IProps from "./index.interface";
 
-const BaseAppWrapper = ({ children }: ParentProps) => (
+const BaseAppWrapper = ({ routesData }: IProps) => (
   <>
     <GlobalStyles />
     <BrowserRouter basename="/">
       <LabelsProvider>
-        <BasePage>{children}</BasePage>
+        <BasePage>
+          <Suspense fallback={<SuspenseFallBack />}>
+            <Switch>
+              {routesData.map(({ path, loadPageComponent }) => {
+                const LazyLoadedPage = loadPageComponent().default;
+
+                return (
+                  <Route
+                    path={path}
+                    exact
+                    key={path.toString()}
+                    component={LazyLoadedPage}
+                  />
+                );
+              })}
+            </Switch>
+          </Suspense>
+        </BasePage>
       </LabelsProvider>
     </BrowserRouter>
   </>
 );
 
-export default BaseAppWrapper;
+export default memo(BaseAppWrapper);

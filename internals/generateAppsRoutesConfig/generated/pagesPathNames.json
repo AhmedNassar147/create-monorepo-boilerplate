@@ -1,1 +1,1 @@
-{ "loremIpsum": "/loremIpsum", "loremIpsum2": "/loremIpsum2/:some/:another" }
+{ "loremIpsum": "/loremIpsum", "someNew": "/someNew/:param" }

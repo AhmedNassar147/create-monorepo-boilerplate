@@ -67,15 +67,6 @@ module.exports = {
           PROJECT_NAME_SPACE,
         },
       },
-      {
-        type: "add",
-        path: `../../${realAppName}/src/app.tsx`,
-        templateFile: "app/templates/src.app.hbs",
-        abortOnFail: true,
-        data: {
-          PROJECT_NAME_SPACE,
-        },
-      },
       // {
       //   type: "add",
       //   path: "../../${realAppName}/package.json",

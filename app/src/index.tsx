@@ -1,13 +1,10 @@
+/*
+ *
+ * Index: `@domain/app`.
+ *
+ */
 import { render } from "react-dom";
-import BaseAppWrapper from "@domain/base-app-wrapper";
-import AppRouter from "./routes";
+import App from "@domain/base-app-wrapper";
+import pagesRoutesData from "./pagesRoutesData";
 
-console.log("BUILD_YEAR", BUILD_YEAR);
-
-const App = () => (
-  <BaseAppWrapper>
-    <AppRouter />
-  </BaseAppWrapper>
-);
-
-render(<App />, document.getElementById("root"));
+render(<App routesData={pagesRoutesData} />, document.getElementById("root"));
