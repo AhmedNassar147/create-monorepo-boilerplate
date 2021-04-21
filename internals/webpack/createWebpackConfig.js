@@ -22,14 +22,12 @@ const {
 const getBasePaths = require("./getBasePaths");
 const BASE_WEBPACK_RESOLVE_ALIAS = require("./webpackResolveAlias");
 const getBabelConfig = require("../babel/getBabelConfig");
-const findRootYarnWorkSpaces = require("../workspaces/findRootYarnWorkSpaces");
 const getAppEnvVariables = require("../environment/geEnvVariables");
 const getWorkSpaceBasePath = require("../workspaces/getWorkSpaceBasePath");
 
 const createWebpackConfig = async ({ mode, ...webpackConfig }) => {
   const { devServer, watchOptions, plugins, alias = {} } = webpackConfig;
 
-  const context = findRootYarnWorkSpaces();
   const {
     stringifiedVariables,
     raw: { APP_NAME },
@@ -60,7 +58,7 @@ const createWebpackConfig = async ({ mode, ...webpackConfig }) => {
   const isProduction = mode === "production";
 
   return {
-    context,
+    context: basePath,
     target: isProduction ? "browserslist" : "web",
     devtool: isProduction ? false : "inline-cheap-source-map",
     entry,

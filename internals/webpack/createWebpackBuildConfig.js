@@ -4,6 +4,7 @@
  *
  */
 const { ids } = require("webpack");
+const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
@@ -27,41 +28,19 @@ const createWebpackBuildConfig = async (_, { analyze } = {}) => {
         filename: "static/css/[name].[contenthash:10].css",
         chunkFilename: "[name].[contenthash:10].css",
       }),
-
-      analyze &&
-        new BundleAnalyzerPlugin({
-          analyzerMode: "static",
-        }),
-
       new ids.HashedModuleIdsPlugin({
         hashFunction: "sha256",
         hashDigest: "hex",
         hashDigestLength: 20,
       }),
-
-      // We emit assets.
-      // @see {@link https://github.com/webpack-contrib/compression-webpack-plugin#options}
-      // new CompressionPlugin({
-      //   filename: '[path].br[query]',
-      //   algorithm: 'brotliCompress',
-      //   test: testAssetsToCompress,
-      //   compressionOptions: { level: 10240 },
-      //   threshold: 10240,
-      //   minRatio: 0.8,
-      //   deleteOriginalAssets: false,
-      // }),
-      // new CompressionPlugin({
-      //   filename: '[path].gz[query]',
-      //   algorithm: 'gzip',
-      //   test: testAssetsToCompress,
-      //   compressionOptions: { level: 1024 },
-      //   threshold: 1024,
-      //   minRatio: 0.8,
-      //   deleteOriginalAssets: false,
-      // }),
+      analyze &&
+        new BundleAnalyzerPlugin({
+          analyzerMode: "static",
+        }),
     ],
     optimization: {
       minimize: true,
+      concatenateModules: false,
       minimizer: [
         new TerserPlugin({
           parallel: true,
@@ -88,6 +67,7 @@ const createWebpackBuildConfig = async (_, { analyze } = {}) => {
           },
         }),
         new CssMinimizerPlugin(),
+        new UglifyJsPlugin(),
       ],
       // Once your build outputs multiple chunks, this option will ensure they share the webpack runtime
       // instead of having their own. This also helps with long-term caching, since the chunks will only
