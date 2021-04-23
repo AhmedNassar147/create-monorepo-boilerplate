@@ -1,6 +1,6 @@
 /*
  *
- * `useTranslateIdFactory`: `@app-structure/labels-provider`.
+ * `useTranslateIdFactory`: `@domain/labels-provider`.
  *
  */
 import { useCallback } from "react";

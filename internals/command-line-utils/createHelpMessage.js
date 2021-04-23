@@ -18,7 +18,7 @@ const createKeyWithDesc = ({ description, keyOrKeys }) => {
         .toString()
         .replace(",", "| ");
 
-  return ` ${chalk.keyword("orange")(keyOrKeys)}         ${chalk.white(
+  return `${chalk.keyword("orange")(keyOrKeys)}         ${chalk.white(
     description,
   )}\n`;
 };
@@ -44,9 +44,10 @@ const createHelpMessage = ({ scriptName, description, helpersKeys }) => {
 
   helpersKeys = [...helpersKeys, sharedHelperKey];
 
-  console.log(chalk.bold.cyan(` Usage (${scriptName}): ${description}.\n`));
-
-  console.log(...helpersKeys.map(createKeyWithDesc));
+  console.log(
+    "\n" + chalk.bold.cyan(` Usage (${scriptName}): ${description}.\n\n`),
+    ...helpersKeys.map(createKeyWithDesc),
+  );
 };
 
 module.exports = createHelpMessage;

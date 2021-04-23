@@ -4,17 +4,21 @@
  *
  */
 import { memo } from "react";
-import FallbackWrapper from "./styled";
-import IProps from "./index.interface";
 
-const LoaderFallBack: React.FC<IProps> = ({ ...props }) => (
-  <FallbackWrapper {...props}>
+const LoaderFallBack = () => (
+  <div
+    css={`
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      width: inherit;
+      min-height: inherit;
+      max-height: inherit;
+    `}
+  >
     <p>loading...</p>
-  </FallbackWrapper>
+  </div>
 );
-
-// LoaderFallBack.defaultProps = {
-//   spinnerSize: "large",
-// };
 
 export default memo(LoaderFallBack);

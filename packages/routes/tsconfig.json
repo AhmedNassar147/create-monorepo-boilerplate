@@ -9,5 +9,10 @@
     "typeRoots": ["../../node_modules/@types", "../../typings/*"]
   },
   "exclude": ["./dist"],
-  "include": ["./src/*", "./src/*.json", "../../typings/*"]
+  "include": ["./src/*", "./src/*.json", "../../typings/*"],
+  "references": [
+    {
+      "path": "../types"
+    }
+  ]
 }

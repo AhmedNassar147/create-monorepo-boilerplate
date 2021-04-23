@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "description": "React component to render base page layout.",
-  "author": "exsys",
+  "author": "ahmed nassar",
   "license": "ISC",
   "sideEffects": false,
   "module": "dist/esm/index.js",
@@ -18,11 +18,10 @@
     "ts:checker:declaration": "tsc -b .",
     "prepare": "rollup -c ../../internals/rollup/index.js --configPackageName @domain/base-page"
   },
-  "devDependencies": {
+  "dependencies": {
     "@domain/types": "1.0.0"
   },
   "peerDependencies": {
-    "@types/react": "^17.x.x",
-    "@types/styled-components": "^5.x.x"
+    "react": "^17.x.x"
   }
 }

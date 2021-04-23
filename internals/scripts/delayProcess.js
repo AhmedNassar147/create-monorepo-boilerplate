@@ -1,6 +1,6 @@
 /*
  *
- * `delayProcess`: `command-line-utils`.
+ * `delayProcess`: `scripts`.
  *
  */
 const delayProcess = (fn, options, ms) =>

@@ -23,8 +23,12 @@ const createFoundEmptyWorkSpaceMsg = (workspace) => {
 };
 
 const getWorkSpacesData = (options) => {
-  const { withFileSrcPath, onlyTheseWorkSpacesNamesRegex, onlyPages } =
-    options || {};
+  const {
+    withFileSrcPath,
+    onlyTheseWorkSpacesNamesRegex,
+    onlyPages,
+    packageNamesFilterRegex,
+  } = options || {};
 
   const projectRoot = findRootYarnWorkSpaces();
 
@@ -51,6 +55,10 @@ const getWorkSpacesData = (options) => {
       peerDependencies,
       devDependencies,
     } = readJsonFileSync(packageJsonPath, true);
+
+    if (packageNamesFilterRegex && !packageNamesFilterRegex.test(name)) {
+      return false;
+    }
 
     return (onlyPages && routeData) || !onlyPages
       ? [
@@ -97,7 +105,9 @@ const getWorkSpacesData = (options) => {
     .filter(Boolean);
 
   return workspacesPackageJsonPaths.reduce((acc, [name, packageData]) => {
-    acc[name] = packageData;
+    if (name && packageData) {
+      acc[name] = packageData;
+    }
     return acc;
   }, {});
 };

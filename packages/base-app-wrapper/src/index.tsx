@@ -4,8 +4,8 @@
  *
  */
 import { Suspense, memo } from "react";
-import SuspenseFallBack from "@domain/loader-fallback";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
+import SuspenseFallBack from "@domain/loader-fallback";
 import LabelsProvider from "@domain/labels-provider";
 import BasePage from "@domain/base-page";
 import GlobalStyles from "./GlobalStyles";

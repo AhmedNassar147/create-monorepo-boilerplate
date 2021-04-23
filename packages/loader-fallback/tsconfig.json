@@ -5,8 +5,9 @@
     "incremental": true,
     "baseUrl": ".",
     "rootDir": "./src",
-    "declarationDir": "./dist/types"
+    "declarationDir": "./dist/types",
+    "typeRoots": ["../../node_modules/@types", "../../typings/*"]
   },
   "exclude": ["./dist"],
-  "include": ["./src"]
+  "include": ["./src", "../../typings/*"]
 }

@@ -1,6 +1,6 @@
 /*
  *
- * `useTranslateLabelsIds`: `@app-structure/labels-provider`.
+ * `useTranslateLabelsIds`: `@domain/labels-provider`.
  *
  */
 

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "description": "new desc.",
-  "author": "exsys",
+  "author": "ahmed nassar",
   "license": "ISC",
   "sideEffects": false,
   "module": "dist/esm/index.js",
@@ -19,7 +19,7 @@
     "prepare": "rollup -c ../../internals/rollup/index.js --configPackageName @domain/some-new-page"
   },
   "peerDependencies": {
-    "@types/react": "^17.x.x"
+    "react": "^17.x.x"
   },
   "routeData": {
     "apps": [

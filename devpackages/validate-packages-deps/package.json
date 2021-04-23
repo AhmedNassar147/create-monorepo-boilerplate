@@ -1,0 +1,13 @@
+{
+  "name": "@domain/validate-packages-deps",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A cli to validate packages dependencies.",
+  "author": "ahmed nassar",
+  "license": "ISC",
+  "sideEffects": false,
+  "main": "src/index.js",
+  "bin": {
+    "validate-packages-deps": "./bin/validate-packages-deps.js"
+  }
+}
