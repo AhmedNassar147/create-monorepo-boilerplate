@@ -3,13 +3,18 @@
  * `getBabelConfig`: `babel`.
  *
  */
-"use strict";
 const invariant = require("../scripts/invariant");
 const geEnvVariables = require("../environment/geEnvVariables");
-const getWorksSpacesOnlyNames = require("../workspaces/getWorksSpacesOnlyNames");
+const getWorksSpacesOnlyNamesSync = require("../workspaces/getWorksSpacesOnlyNamesSync");
 
-const getBabelConfig = async (env, useCjsFormat) => {
-  const isEnvDevelopment = env === "development";
+const getBabelConfig = (env, useCjsFormat) => {
+  let isBabeEslintRunner = typeof env === "object";
+
+  if (isBabeEslintRunner) {
+    env.cache.forever();
+  }
+
+  const isEnvDevelopment = env === "development" || isBabeEslintRunner;
   const isEnvProduction = env === "production";
   const packagesBuildEnv = env === "packagesBuildEnv";
 
@@ -22,13 +27,13 @@ const getBabelConfig = async (env, useCjsFormat) => {
       ".",
   );
 
-  const workspaces = await getWorksSpacesOnlyNames();
+  const workspaces = getWorksSpacesOnlyNamesSync();
 
-  const { raw } = await geEnvVariables({
+  const { raw } = geEnvVariables({
     mode: packagesBuildEnv || isEnvDevelopment ? "development" : env,
   });
 
-  const isEsModules = !useCjsFormat;
+  const isEsModules = !(useCjsFormat || isBabeEslintRunner);
 
   return {
     // `comments` strips the comments when `false`. We always set it to `true`
@@ -60,7 +65,6 @@ const getBabelConfig = async (env, useCjsFormat) => {
         {
           // @see {@link https://webpack.js.org/guides/tree-shaking/#conclusion}
           // @see {@link https://babeljs.io/docs/en/babel-preset-env#modules}
-          // modules: useCjsFormat ? "cjs" : false,
           modules: false,
           // @see {@link https://babeljs.io/docs/en/babel-preset-env#usebuiltins}
           useBuiltIns: "entry",

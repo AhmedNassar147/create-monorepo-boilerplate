@@ -11,7 +11,7 @@ const APPS_REGEX = /^(\w.+-)?app$/;
 const PROJECT_NAME_SPACE = "@domain";
 
 const PACKAGE_FULL_NAME_REGEXP = new RegExp(
-  `^${PROJECT_NAME_SPACE}\/[a-z|-]*\\w$`,
+  `^${PROJECT_NAME_SPACE}/[a-z|-]*\\w$`,
 );
 
 const SUPPORTED_IMAGES_REGEX = /\.(?:ico|gif|png|jpg|jpeg)$/i;

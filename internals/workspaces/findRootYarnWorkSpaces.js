@@ -43,7 +43,7 @@ const findRootYarnWorkSpaces = (initial, maxReties) => {
       initial = join(initial, "..");
       ++tries;
     }
-  } while (tries < (maxReties || 30));
+  } while (tries < (maxReties || 60));
 
   return result;
 };

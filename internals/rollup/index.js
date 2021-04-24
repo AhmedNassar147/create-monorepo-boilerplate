@@ -15,7 +15,7 @@ const getBabelConfig = require("../babel/getBabelConfig");
 const { PACKAGES_MODULES_REGEX } = require("../constants");
 
 const createRollupConfig = async ({ configPackageName }) => {
-  const babelConfig = await getBabelConfig(envName);
+  const babelConfig = getBabelConfig(envName);
   const {
     fullPathPackageSrcPath,
     cjsBuildFolder,
@@ -34,7 +34,7 @@ const createRollupConfig = async ({ configPackageName }) => {
   invariant(
     !!inputFilePath,
     chalk.bold.red(
-      `[createRollupConfig =]: couldn\'t find any of ${chalk.white(
+      `[createRollupConfig =]: couldn't find any of ${chalk.white(
         POSSIBLE_ENTRIES.join(" , "),
       )} in ${chalk.white(configPackageName)}`,
     ),

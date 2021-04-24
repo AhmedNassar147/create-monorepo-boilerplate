@@ -15,11 +15,13 @@ const {
   removeLineBreaksAndSpaces,
 } = require("./constants");
 
-const collectFileDeps = async (filePath) => {
+const collectFileDeps = async (filePath, noLogs) => {
   const rootWorkSpaces = findRootYarnWorkSpaces();
 
   const logFileName = filePath.replace(`${rootWorkSpaces}/`, "");
-  console.log(chalk.magenta(`[${scriptName}]: processing ${logFileName}`));
+  if (!noLogs) {
+    console.log(chalk.magenta(`[${scriptName}]: processing ${logFileName}`));
+  }
 
   let file = await readFile(filePath, { encoding: "utf8" });
 
@@ -29,12 +31,14 @@ const collectFileDeps = async (filePath) => {
 
   if (hasComments) {
     file = file.replace(removeComments, "");
-    console.log(
-      chalk.keyword("orange")(
-        `[collectFileDeps]: please remove comments '(not the \`webpackChunkName\` ones)'` +
-          `from ${chalk.white(logFileName)}`,
-      ),
-    );
+    if (!noLogs) {
+      console.log(
+        chalk.keyword("orange")(
+          `[collectFileDeps]: please remove comments '(not the \`webpackChunkName\` ones)'` +
+            `from ${chalk.white(logFileName)}`,
+        ),
+      );
+    }
   }
 
   if (/webpackChunkName/.test(file)) {
@@ -51,7 +55,7 @@ const collectFileDeps = async (filePath) => {
 
   let matchedImports = file.match(allImportsRegexp);
 
-  if (!Boolean(matchedImports)) {
+  if (!(Array.isArray(matchedImports) && !!matchedImports.length)) {
     return false;
   }
 

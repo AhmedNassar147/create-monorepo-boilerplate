@@ -3,19 +3,19 @@
  * `getEnvVariables`: `environment`.
  *
  */
-const { readFile } = require("fs/promises");
+const { readFileSync } = require("fs");
 const { join } = require("path");
 const { ENVIRONMENT_FILE_NAMES } = require("./constants");
 const getBaseEnvVariableValues = require("./getBaseEnvVariableValues");
 const findRootYarnWorkSpaces = require("../workspaces/findRootYarnWorkSpaces");
-const checkPathExists = require("../scripts/checkPathExists");
+const checkPathExistsSync = require("../scripts/checkPathExistsSync");
 
-const checkIsFileExistAndGetFilePath = async (envFileName) => {
+const checkIsFileExistAndGetFilePath = (envFileName) => {
   const fullFullPath = join(findRootYarnWorkSpaces(), envFileName);
-  return await checkPathExists(fullFullPath);
+  return checkPathExistsSync(fullFullPath);
 };
 
-const getEnvVariables = async ({ mode }) => {
+const getEnvVariables = ({ mode }) => {
   mode = mode || process.env.NODE_ENV;
 
   const isEnvProduction = mode === "production";
@@ -28,7 +28,7 @@ const getEnvVariables = async ({ mode }) => {
   let envFilePath = "";
 
   if (isEnvProduction) {
-    const fullFullPath = await checkIsFileExistAndGetFilePath(
+    const fullFullPath = checkIsFileExistAndGetFilePath(
       ENVIRONMENT_FILE_NAMES.PROD,
     );
 
@@ -40,7 +40,7 @@ const getEnvVariables = async ({ mode }) => {
 
   // if '.env.production' not found we always get them from '.env' if exists.
   if (!canReadEnvFile) {
-    const fullFullPath = await checkIsFileExistAndGetFilePath(
+    const fullFullPath = checkIsFileExistAndGetFilePath(
       ENVIRONMENT_FILE_NAMES.NORMAL,
     );
 
@@ -51,13 +51,13 @@ const getEnvVariables = async ({ mode }) => {
   }
 
   if (canReadEnvFile && envFilePath) {
-    let variablesString = await readFile(envFilePath, { encoding: "utf8" });
+    let variablesString = readFileSync(envFilePath, { encoding: "utf8" });
     variablesString = variablesString || "";
 
-    if (!!variablesString) {
+    if (variablesString) {
       const matchedVariables = variablesString.match(/.+/gim);
 
-      if (Boolean(matchedVariables)) {
+      if (Array.isArray(matchedVariables) && !!matchedVariables.length) {
         matchedVariables.map((variableString) => {
           const [name, value] = variableString.replace(/\s/g, "").split("=");
           envVariables[name] = value;
@@ -66,9 +66,7 @@ const getEnvVariables = async ({ mode }) => {
     }
   }
 
-  const baseEnvVariables = await getBaseEnvVariableValues(
-    envVariables.CLIENT_NAME,
-  );
+  const baseEnvVariables = getBaseEnvVariableValues(envVariables.CLIENT_NAME);
 
   envVariables = {
     ...envVariables,
@@ -82,12 +80,10 @@ const getEnvVariables = async ({ mode }) => {
     return env;
   }, {});
 
-  return new Promise((resolve) =>
-    resolve({
-      raw: envVariables,
-      stringifiedVariables,
-    }),
-  );
+  return {
+    raw: envVariables,
+    stringifiedVariables,
+  };
 };
 
 module.exports = getEnvVariables;

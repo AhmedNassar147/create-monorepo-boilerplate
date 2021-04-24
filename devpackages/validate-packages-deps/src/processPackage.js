@@ -25,13 +25,21 @@ const processPackage = async ({
   filesInSrcDir,
   dependencies: originalDependencies,
   peerDependencies: originalPeerDependencies,
+  logOnlyResults,
 }) => {
   console.log(
     chalk.bold.white(
       `[${scriptName}]: processing files in ${packageName} package.`,
     ),
   );
-  let packageDeps = (await Promise.all(filesInSrcDir.map(collectFileDeps)))
+
+  let packageDeps = (
+    await Promise.all(
+      filesInSrcDir.map((filePath) =>
+        collectFileDeps(filePath, logOnlyResults),
+      ),
+    )
+  )
     .flat()
     .filter(Boolean);
 
@@ -42,7 +50,7 @@ const processPackage = async ({
           "import statment to be includes in the package dependencies.",
       ),
     );
-    return false;
+    process.exit(0);
   }
 
   const {
@@ -86,7 +94,7 @@ const processPackage = async ({
 
   let curedPeerDependencies = {};
 
-  if (!!packagesPeerDependenciesKeys.length) {
+  if (packagesPeerDependenciesKeys.length) {
     const allRootDeps = {
       ...rootDependencies,
       ...rootDevDependencies,
@@ -98,10 +106,10 @@ const processPackage = async ({
         ? libName.replace(TYPES_PACKAGE_START, "")
         : libName;
 
-      const hasCurrentPackage = allRootDeps.hasOwnProperty(actualPackageName);
+      const hasCurrentPackage = !!allRootDeps[actualPackageName];
 
       if (!hasCurrentPackage) {
-        throw new Error(
+        console.log(
           chalk.red(`
           Couldn't Find library "[[${chalk.bold.white(
             libName || actualPackageName,
@@ -109,6 +117,8 @@ const processPackage = async ({
           Please Install It via Only "YARN" and try again.
         `),
         );
+
+        process.exit(1);
       }
 
       const libBaseVersion = allRootDeps[actualPackageName].split(".")[0];

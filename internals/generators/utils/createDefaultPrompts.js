@@ -7,7 +7,7 @@ const packageExists = require("./packageExists");
 const { PROJECT_NAME_SPACE } = require("../../constants");
 const whenComponentTypeIsPage = require("../react-package/utils/whenComponentTypeIsPage");
 
-const nameSpaceRegex = new RegExp(`^${PROJECT_NAME_SPACE}\/?.+`);
+const nameSpaceRegex = new RegExp(`^${PROJECT_NAME_SPACE}/?.+`);
 
 const getName = (generatingApp) => (generatingApp ? "app" : "package");
 

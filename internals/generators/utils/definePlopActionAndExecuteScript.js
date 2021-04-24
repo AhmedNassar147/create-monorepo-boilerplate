@@ -7,6 +7,7 @@ const { execSync } = require("child_process");
 
 function definePlopActionAndExecuteScript(plop, actionName, createCommands) {
   plop.setActionType(actionName, (answers, config) => {
+    // eslint-disable-next-line no-useless-catch
     try {
       if (createCommands) {
         let commands = createCommands(answers, config);

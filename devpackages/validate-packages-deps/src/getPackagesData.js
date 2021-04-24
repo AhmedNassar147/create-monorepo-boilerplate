@@ -48,10 +48,8 @@ const getPackagesData = (filter) => {
 
     if (!filesInSrcDir) {
       console.log(
-        chalk.bold.cyan(
-          `${[
-            scriptName,
-          ]}[getPackagesData] :  found no files to process in  ${packageName}` +
+        chalk.bold.keyword("orange")(
+          `[${scriptName}][getPackagesData]: found no files to process in  ${packageName}` +
             "please check if the package has no files to process remove it.",
         ),
       );

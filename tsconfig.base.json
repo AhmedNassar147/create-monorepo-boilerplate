@@ -45,6 +45,6 @@
     "skipLibCheck": true /* Skip type checking of declaration files. */,
     "forceConsistentCasingInFileNames": true /* Disallow inconsistently-cased references to the same file. */
   },
-  "include": ["src", "typings/*"],
-  "exclude": ["node_modules", "dist", "devpackages"]
+  "exclude": ["./node_modules", "./devpackages", "./internals", "dist"],
+  "include": ["src", "typings/*"]
 }

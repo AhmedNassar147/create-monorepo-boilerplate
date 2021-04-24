@@ -1,0 +1,13 @@
+{
+  "name": "@domain/precommit-linter",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A cli to lint and prettify staged files.",
+  "author": "ahmed nassar",
+  "license": "ISC",
+  "sideEffects": false,
+  "main": "src/index.js",
+  "bin": {
+    "precommit-linter": "./bin/precommit-linter.js"
+  }
+}

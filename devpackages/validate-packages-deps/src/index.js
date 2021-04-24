@@ -12,7 +12,7 @@ const {
 } = require("../../../internals/command-line-utils");
 const delayProcess = require("../../../internals/scripts/delayProcess");
 
-const runCli = async ({ filter }) => {
+const runCli = async ({ filter, exitKey, logOnlyResults }) => {
   const transpiledPackagesFiles = (
     await Promise.all(getPackagesData(filter))
   ).filter(Boolean);
@@ -28,10 +28,14 @@ const runCli = async ({ filter }) => {
 
   let depsErrorsInPackage = [];
 
-  while (!!processPackagesDataLength) {
+  while (processPackagesDataLength) {
     const selectedPackage = transpiledPackagesFiles.splice(0, 1)[0];
     if (selectedPackage) {
-      const result = await delayProcess(processPackage, selectedPackage, 100);
+      const result = await delayProcess(
+        processPackage,
+        { ...selectedPackage, logOnlyResults },
+        100,
+      );
       depsErrorsInPackage.push(result);
     } else {
       break;
@@ -44,7 +48,9 @@ const runCli = async ({ filter }) => {
   if (!depsErrorsInPackageLength) {
     console.log(
       chalk.bold.white(
-        `\n [${scriptName}]: ✨✨ all packages dependencies are fine. ✨✨`,
+        `[${scriptName}]: ${
+          filter ? filter : "packages"
+        } dependencies are fine. ✨✨`,
       ),
     );
     process.exit(0);
@@ -65,7 +71,7 @@ const runCli = async ({ filter }) => {
     ) => {
       console.log(
         chalk.keyword("orange")(
-          `\n[${scriptName}]: update the ${chalk.white(
+          `[${scriptName}]: update the ${chalk.white(
             packageName,
           )} "package.json" with the following.`,
         ),
@@ -97,8 +103,10 @@ const runCli = async ({ filter }) => {
   );
 
   if (shouldExit) {
-    console.log(chalk.bold.white(`[${scriptName}]: ✨✨happy hacking!✨✨`));
-    process.exit(0);
+    if (!logOnlyResults) {
+      console.log(chalk.bold.white(`[${scriptName}]: happy hacking✨✨`));
+    }
+    process.exit(exitKey ? +exitKey : 0);
   }
 };
 

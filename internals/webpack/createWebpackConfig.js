@@ -31,7 +31,7 @@ const createWebpackConfig = async ({ mode, ...webpackConfig }) => {
   const {
     stringifiedVariables,
     raw: { APP_NAME },
-  } = await getAppEnvVariables({
+  } = getAppEnvVariables({
     mode,
   });
 
@@ -145,7 +145,7 @@ const createWebpackConfig = async ({ mode, ...webpackConfig }) => {
           exclude: /(node_modules\/(?!debug))|^(packages|\w.+-module)$/,
           use: {
             loader: "babel-loader",
-            options: await getBabelConfig(mode),
+            options: getBabelConfig(mode),
           },
         },
         {

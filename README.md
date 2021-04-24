@@ -1,6 +1,10 @@
 # First installation ?
 
-## Note: Please checkout the `engines` property in [package.json](./package.json) and make sure you have globally the required engines/versions installed.
+## Note: Please checkout the `engines` property in [package.json](./package.json)
+
+```sh
+ make sure you have globally the required engines/versions installed.
+```
 
 ## Please also install the following globally on your machine.
 
@@ -13,7 +17,8 @@
 
 ```sh
 - yarn bootstrap (after finished) .
-- `cd devpackages/package-builder` and in your terminal run `npm link` .
+- `cd devpackages/validate-packages-deps` and in your terminal run `npm link` .
+- `cd devpackages/precommit-linter` and in your terminal run `npm link` .
 ```
 
 ## yarn bootstrap
@@ -22,11 +27,22 @@
 It will install the required dependencies for the project.
 ```
 
-## Linking the (package-builder)
+## Linking the (validate-packages-deps)
 
 ```sh
-It will symlink the package `bin` to the global `bins` on your machine so you can use
-the `cli` globally across the project you can also see how to use it by running `package-builder --h` in your terminal.
+- It will symlink the package `bin` to the global `bins` on your machine so you can use
+  the `cli` globally across the project you can also see how to use it by running
+  `validate-packages-deps --h` in your terminal.
+- the package will validate the packages and modules dependencies along with typescript references.
+```
+
+## Linking the (precommit-linter)
+
+```sh
+- It will symlink the package `bin` to the global `bins` on your machine so you can use
+  the `cli` globally across the project you can run `precommit-linter` in your terminal.
+- the package will prettify and linting only staged files if you want to include also unstaged
+  files run `yarn lint:modified`
 ```
 
 ---
@@ -54,19 +70,14 @@ An `app` can contain packages and modules to render pages on the browser.
 ## What is the `devpackages` folder
 
 ```sh
-The `devpackages` contains packages like `clis` eg. `package-builder`.
-```
-
-## `package-builder` cli
-
-```sh
-It builds/watches changed files in specified packages and compile it with babel.
+The `devpackages` contains packages like `clis` eg. `validate-packages-deps`.
 ```
 
 ## What is the `internals` folder
 
 ```sh
-The `internals` folder contains utilities like helpers to control the process (webpack / generators / nodejs process) .
+  The `internals` folder contains utilities like helpers to control the process (webpack / generators
+  / nodejs process) .
 ```
 
 ---
