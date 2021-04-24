@@ -4,10 +4,10 @@
  *
  */
 const chalk = require("chalk");
+const generateAppRoutesConfigFile = require("./generateAppRoutesConfigFile");
 const invariant = require("../scripts/invariant");
 const { APPS_REGEX } = require("../constants");
 const getWorkSpacesData = require("../workspaces/getWorkSpacesData");
-const generateAppRoutesConfigFile = require("./generateAppRoutesConfigFile");
 
 const generateAppsRoutesConfig = ({ filter }) => {
   invariant(

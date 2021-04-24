@@ -6,7 +6,7 @@
 const { nodeResolve } = require("@rollup/plugin-node-resolve");
 const { babel: babelPlugin } = require("@rollup/plugin-babel");
 const chalk = require("chalk");
-const { POSSIBLE_ENTRIES, BABEL_EXTENSIONS, envName } = require("./constants");
+const { POSSIBLE_ENTRIES, BABEL_EXTENSIONS } = require("./constants");
 const getPaths = require("./getPaths");
 const checkPathExists = require("../scripts/checkPathExists");
 const invariant = require("../scripts/invariant");
@@ -14,8 +14,9 @@ const readJsonFile = require("../scripts/readJsonFile");
 const getBabelConfig = require("../babel/getBabelConfig");
 const { PACKAGES_MODULES_REGEX } = require("../constants");
 
-const createRollupConfig = async ({ configPackageName }) => {
-  const babelConfig = getBabelConfig(envName);
+const createRollupConfig = async ({ configPackageName, configEnvName }) => {
+  configEnvName = configEnvName || "development";
+  const babelConfig = getBabelConfig(configEnvName);
   const {
     fullPathPackageSrcPath,
     cjsBuildFolder,
@@ -40,15 +41,18 @@ const createRollupConfig = async ({ configPackageName }) => {
     ),
   );
 
-  const { dependencies } = await readJsonFile(packageJsonPath, true);
+  const { dependencies, peerDependencies } = await readJsonFile(
+    packageJsonPath,
+    true,
+  );
   let external = [];
 
-  if (dependencies) {
-    const packages = Object.keys(dependencies);
+  const packages = [dependencies, peerDependencies]
+    .map((obj) => Object.keys(obj || {}))
+    .flat();
 
-    if (packages.length) {
-      external = packages;
-    }
+  if (packages.length) {
+    external = packages;
   }
 
   return Promise.resolve({
@@ -59,13 +63,13 @@ const createRollupConfig = async ({ configPackageName }) => {
         dir: esmBuildFolder,
         format: "es",
         exports: "named",
-        preserveModules: true,
+        // preserveModules: true,
       },
       {
         dir: cjsBuildFolder,
         format: "cjs",
         exports: "auto",
-        preserveModules: true,
+        // preserveModules: true,
       },
     ],
     treeshake: {
@@ -96,7 +100,7 @@ const createRollupConfig = async ({ configPackageName }) => {
       babelPlugin({
         configFile: false,
         babelrc: false,
-        envName,
+        envName: configEnvName,
         exclude: ["node_modules/**"],
         extensions: BABEL_EXTENSIONS,
         babelHelpers: "runtime",

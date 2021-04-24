@@ -3,8 +3,8 @@
  * `getBaseEnvVariableValues`: `environment`.
  *
  */
-const invariant = require("../scripts/invariant");
 const { CLIENTS_DATA, CLIENT_NAMES } = require("./constants");
+const invariant = require("../scripts/invariant");
 
 const formalizeValue = (value) => {
   const strValue = value.toString();

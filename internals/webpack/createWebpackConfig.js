@@ -3,24 +3,24 @@
  * `createWebpackConfig`: `webpack`.
  *
  */
+const path = require("path");
 const {
   DefinePlugin,
   ProgressPlugin,
   /* ProvidePlugin, */
 } = require("webpack");
-const path = require("path");
 const chalk = require("chalk");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
+const getBasePaths = require("./getBasePaths");
+const BASE_WEBPACK_RESOLVE_ALIAS = require("./webpackResolveAlias");
 const {
   SUPPORTED_IMAGES_REGEX,
   SUPPORTED_SVGS_FONTS_REGEX,
 } = require("../constants");
-const getBasePaths = require("./getBasePaths");
-const BASE_WEBPACK_RESOLVE_ALIAS = require("./webpackResolveAlias");
 const getBabelConfig = require("../babel/getBabelConfig");
 const getAppEnvVariables = require("../environment/geEnvVariables");
 const getWorkSpaceBasePath = require("../workspaces/getWorkSpaceBasePath");

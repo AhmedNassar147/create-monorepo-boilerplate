@@ -16,10 +16,9 @@ const getBabelConfig = (env, useCjsFormat) => {
 
   const isEnvDevelopment = env === "development" || isBabeEslintRunner;
   const isEnvProduction = env === "production";
-  const packagesBuildEnv = env === "packagesBuildEnv";
 
   invariant(
-    isEnvDevelopment || isEnvProduction || packagesBuildEnv,
+    isEnvDevelopment || isEnvProduction,
     "Using `babel-preset` requires that you specify `NODE_ENV` or " +
       '`BABEL_ENV` environment variables. Valid values are "development", ' +
       '"packagesBuildEnv", and "production". Instead, received: ' +
@@ -30,7 +29,7 @@ const getBabelConfig = (env, useCjsFormat) => {
   const workspaces = getWorksSpacesOnlyNamesSync();
 
   const { raw } = geEnvVariables({
-    mode: packagesBuildEnv || isEnvDevelopment ? "development" : env,
+    mode: isEnvDevelopment ? "development" : env,
   });
 
   const isEsModules = !(useCjsFormat || isBabeEslintRunner);
@@ -45,7 +44,7 @@ const getBabelConfig = (env, useCjsFormat) => {
       // Like `react-boilerplate`, we run aggressive optimizations only on
       // the code that we can control and when the environment is production.
       // @see {@link https://github.com/react-boilerplate/react-boilerplate/blob/master/babel.config.js#L18}
-      isEnvDevelopment || packagesBuildEnv
+      isEnvDevelopment
         ? undefined
         : {
             include: workspaces,
@@ -75,9 +74,6 @@ const getBabelConfig = (env, useCjsFormat) => {
           // version should be the major version of the `core-js` in the
           // root project's `package.json`.
           corejs: 3,
-          // ...(isEsModules && packagesBuildEnv
-          //   ? { targets: { esmodules: true } }
-          //   : {}),
           // Exclude transforms that make all code slower
           exclude: ["transform-typeof-symbol"],
         },

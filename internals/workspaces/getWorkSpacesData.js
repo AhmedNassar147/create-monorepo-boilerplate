@@ -3,9 +3,9 @@
  * `getWorkSpacesData`: `scripts`.
  *
  */
-const chalk = require("chalk");
 const { readdirSync } = require("fs");
 const path = require("path");
+const chalk = require("chalk");
 const getWorksSpacesOnlyNamesSync = require("./getWorksSpacesOnlyNamesSync");
 const findRootYarnWorkSpaces = require("./findRootYarnWorkSpaces");
 const readJsonFileSync = require("../scripts/readJsonFileSync");

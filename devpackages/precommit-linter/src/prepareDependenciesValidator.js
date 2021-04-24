@@ -5,9 +5,9 @@
  */
 const { execSync } = require("child_process");
 const chalk = require("chalk");
-const { PROJECT_NAME_SPACE } = require("../../../internals/constants");
 const createCliLogMessage = require("./createCliLogMessage");
 const { filesInPackagesRegexp, pathToPackageName } = require("./constants");
+const { PROJECT_NAME_SPACE } = require("../../../internals/constants");
 
 // const execAsync = promisify(exec);
 

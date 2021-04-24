@@ -3,8 +3,8 @@
  * `defineReactComponentPlopHelpers`: `utils`.
  *
  */
-const { REACT_PACKAGE_TYPES_KEYS } = require("../constants");
 const isReactComponentSelected = require("./isReactComponentSelected");
+const { REACT_PACKAGE_TYPES_KEYS } = require("../constants");
 
 const { page, lazy, normal } = REACT_PACKAGE_TYPES_KEYS;
 

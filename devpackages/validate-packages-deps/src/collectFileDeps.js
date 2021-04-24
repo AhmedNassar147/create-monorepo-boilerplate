@@ -3,9 +3,8 @@
  * `collectFileDeps`: `@domain/validate-packages-deps`
  *
  */
-const chalk = require("chalk");
 const { readFile } = require("fs/promises");
-const findRootYarnWorkSpaces = require("../../../internals/workspaces/findRootYarnWorkSpaces");
+const chalk = require("chalk");
 const {
   scriptName,
   charsAndImportsRegex,
@@ -14,6 +13,7 @@ const {
   removeWebpackCommentsRegex,
   removeLineBreaksAndSpaces,
 } = require("./constants");
+const findRootYarnWorkSpaces = require("../../../internals/workspaces/findRootYarnWorkSpaces");
 
 const collectFileDeps = async (filePath, noLogs) => {
   const rootWorkSpaces = findRootYarnWorkSpaces();

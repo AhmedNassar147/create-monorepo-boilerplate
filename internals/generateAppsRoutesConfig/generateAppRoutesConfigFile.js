@@ -3,10 +3,10 @@
  * `generateAppRoutesConfigFile`: `generateAppsRoutesConfig`.
  *
  */
-const chalk = require("chalk");
 const { writeFileSync } = require("fs");
 const { join } = require("path");
 const { execSync } = require("child_process");
+const chalk = require("chalk");
 const createAppRoutesConfig = require("./createAppRoutesConfig");
 
 const generateAppRoutesConfigFile = (appName, pagesData) => {

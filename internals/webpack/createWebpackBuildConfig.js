@@ -3,7 +3,7 @@
  * `createWebpackBuildConfig`: `webpack`
  *
  */
-const { ids } = require("webpack");
+const { ids, optimize } = require("webpack");
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
@@ -12,6 +12,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const createWebpackConfig = require("./createWebpackConfig");
 
 process.env.NODE_ENV = "production";
+process.env.BABEL_ENV = "production";
 
 const createWebpackBuildConfig = async (_, { analyze } = {}) => {
   return await createWebpackConfig({
@@ -67,6 +68,7 @@ const createWebpackBuildConfig = async (_, { analyze } = {}) => {
           },
         }),
         new CssMinimizerPlugin(),
+        new optimize.SplitChunksPlugin(),
         new UglifyJsPlugin(),
       ],
       // Once your build outputs multiple chunks, this option will ensure they share the webpack runtime

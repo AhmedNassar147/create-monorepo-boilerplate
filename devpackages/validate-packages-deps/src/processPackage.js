@@ -8,8 +8,8 @@ const collectFileDeps = require("./collectFileDeps");
 const areDepsNotEqual = require("./areDepsNotEqual");
 const sortDeps = require("./sortDeps");
 const { scriptName } = require("./constants");
-const getRootPackageJsonSync = require("../../../internals/scripts/getRootPackageJsonSync");
 const { PACKAGE_FULL_NAME_REGEXP } = require("../../../internals/constants");
+const getRootPackageJsonSync = require("../../../internals/scripts/getRootPackageJsonSync");
 
 const TYPES_PACKAGE_START = "@types/";
 

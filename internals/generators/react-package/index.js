@@ -7,10 +7,10 @@ const { REACT_PACKAGE_TYPES /* REACT_PAGE_TYPES */ } = require("./constants");
 const { NEW_CONTAINING_FOLDER_KEY } = require("./constants");
 const getTypeOfComponentPackage = require("./utils/getTypeOfComponentPackage");
 const whenComponentTypeIsPage = require("./utils/whenComponentTypeIsPage");
-const createDefaultPrompts = require("../utils/createDefaultPrompts");
 const toCamelCase = require("./utils/toCamelCase");
 const afterCreationEvents = require("./utils/afterCreationEvents");
 const createTsReferences = require("./utils/createTsReferences");
+const createDefaultPrompts = require("../utils/createDefaultPrompts");
 const getWorksSpacesOnlyNamesSync = require("../../workspaces/getWorksSpacesOnlyNamesSync");
 const {
   PROJECT_NAME_SPACE,

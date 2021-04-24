@@ -4,20 +4,20 @@
  *
  */
 const { join, basename, dirname } = require("path");
-const { APPS_REGEX, PROJECT_NAME_SPACE } = require("../../constants");
-const invariant = require("../../scripts/invariant");
-const collectProcessOptionsSync = require("../../command-line-utils/collectProcessOptionsSync");
-const readJsonFileSync = require("../../scripts/readJsonFileSync");
-const checkPathExistsSync = require("../../scripts/checkPathExistsSync");
 const createAppPagesRoutesData = require("./createAppPagesRoutesData");
 const defineFormatPageRoutePathHelpers = require("./defineFormatPageRoutePathHelpers");
-const definePlopPrettifyAction = require("../utils/definePlopPrettifyAction");
-const generateAppsRoutesConfig = require("../../generateAppsRoutesConfig");
 const {
   getAppPagesRoutesDataPath,
   getPathNamesPathInRoutesPackage,
   getGeneratedPagesRoutesPathNamesPath,
 } = require("./routesPaths");
+const { APPS_REGEX, PROJECT_NAME_SPACE } = require("../../constants");
+const invariant = require("../../scripts/invariant");
+const collectProcessOptionsSync = require("../../command-line-utils/collectProcessOptionsSync");
+const readJsonFileSync = require("../../scripts/readJsonFileSync");
+const checkPathExistsSync = require("../../scripts/checkPathExistsSync");
+const generateAppsRoutesConfig = require("../../generateAppsRoutesConfig");
+const definePlopPrettifyAction = require("../utils/definePlopPrettifyAction");
 
 module.exports = (plop) => {
   const { app: appName } = collectProcessOptionsSync();

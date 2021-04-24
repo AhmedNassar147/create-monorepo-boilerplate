@@ -3,8 +3,8 @@
  * Index: `{{{ PROJECT_NAME_SPACE }}}/{{{ name }}}-app`.
  *
 */
-import { render } from "react-dom";
-import App from "@domain/base-app-wrapper";
+import renderAppWithRedBox from "{{{ PROJECT_NAME_SPACE }}}/app-with-redbox";
+import App from "{{{ PROJECT_NAME_SPACE }}}/base-app-wrapper";
 import pagesRoutesData from "./pagesRoutesData";
 
-render(<App routesData={pagesRoutesData} />,document.getElementById("root"));
+renderAppWithRedBox(<App routesData={pagesRoutesData} />);

@@ -10,6 +10,7 @@ const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 const createWebpackConfig = require("./createWebpackConfig");
 
 process.env.NODE_ENV = "development";
+process.env.BABEL_ENV = "development";
 
 const createAppDevServerConfig = async (_, { analyze, port } = {}) => {
   return await createWebpackConfig({
@@ -34,13 +35,7 @@ const createAppDevServerConfig = async (_, { analyze, port } = {}) => {
       hot: true,
       watchContentBase: true,
       port: port || 3000,
-      overlay: {
-        warnings: true,
-        errors: true,
-      },
-      // overlay: { warnings: true, errors: true },
-      // Silence WebpackDevServer's own logs since they're generally not useful.
-      // It will still show compile warnings and errors with this setting.
+      overlay: { warnings: true, errors: true },
       clientLogLevel: "none",
       inline: true,
       // quiet: true,

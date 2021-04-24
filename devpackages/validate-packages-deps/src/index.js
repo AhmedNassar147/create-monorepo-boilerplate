@@ -7,10 +7,10 @@ const chalk = require("chalk");
 const processPackage = require("./processPackage");
 const getPackagesData = require("./getPackagesData");
 const { cliOptions, scriptName } = require("./constants");
+const delayProcess = require("../../../internals/scripts/delayProcess");
 const {
   createCliController,
 } = require("../../../internals/command-line-utils");
-const delayProcess = require("../../../internals/scripts/delayProcess");
 
 const runCli = async ({ filter, exitKey, logOnlyResults }) => {
   const transpiledPackagesFiles = (
