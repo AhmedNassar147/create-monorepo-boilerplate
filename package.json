@@ -130,7 +130,7 @@
   ],
   "husky": {
     "hooks": {
-      "pre-commit": "lint:modified"
+      "pre-commit": "precommit-linter"
     }
   },
   "preserveModulesImportPathName": []

@@ -6,7 +6,7 @@
 const { PACKAGES_MODULES_REGEX } = require("../../../internals/constants");
 
 const filesExtensionToLint = /\.(tsx|js|ts)$/;
-const ignoredFilesRegexp = /^\file.(\w.+ignore|.production)|env|lock$/;
+const ignoredFilesRegexp = /^\.(\w.+ignore|.production)|env|lock|husky(\/.+)?$/;
 
 const PACKAGES_MODULES_REGEX_STRING = `${PACKAGES_MODULES_REGEX}`.replace(
   /\/|\$/g,
