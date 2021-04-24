@@ -11,24 +11,20 @@ const findRootYarnWorkSpaces = require("./findRootYarnWorkSpaces");
 const readJsonFileSync = require("../scripts/readJsonFileSync");
 const checkPathExistsSync = require("../scripts/checkPathExistsSync");
 const invariant = require("../scripts/invariant");
-const { APPS_REGEX } = require("../constants");
+const { APPS_REGEX, PROJECT_NAME_SPACE } = require("../constants");
 
 const PKG_JSON_EXT = "package.json";
 
 const createFoundEmptyWorkSpaceMsg = (workspace) => {
   return chalk.red(
-    `Found an empty workspace ${chalk.bold.magenta(workspace)} ` +
+    `Found an empty workspace ${chalk.bold.white(workspace)} ` +
       "please remove it or add a package to it.",
   );
 };
 
 const getWorkSpacesData = (options) => {
-  const {
-    withFileSrcPath,
-    onlyTheseWorkSpacesNamesRegex,
-    onlyPages,
-    packageNamesFilterRegex,
-  } = options || {};
+  const { onlyTheseWorkSpacesNamesRegex, onlyPages, packageNamesFilterRegex } =
+    options || {};
 
   const projectRoot = findRootYarnWorkSpaces();
 
@@ -64,10 +60,7 @@ const getWorkSpacesData = (options) => {
       ? [
           name,
           {
-            packagePath: packageJsonPath.replace(
-              `/${PKG_JSON_EXT}`,
-              withFileSrcPath ? "/src" : "",
-            ),
+            packagePath: packageJsonPath.replace(`/${PKG_JSON_EXT}`, ""),
             dependencies,
             peerDependencies,
             devDependencies,
@@ -79,15 +72,22 @@ const getWorkSpacesData = (options) => {
 
   const workspacesPackageJsonPathsData = workspaces.map((workspace) => {
     const mainWorkspacePath = path.join(projectRoot, workspace);
-    if (APPS_REGEX.test(workspace)) {
-      return [createWorkSpaceConfig(mainWorkspacePath)];
-    }
+    const isPathExist = checkPathExistsSync(mainWorkspacePath);
 
-    const isFileExist = checkPathExistsSync(mainWorkspacePath);
-
-    if (!isFileExist) {
+    if (!isPathExist) {
       invariant(false, createFoundEmptyWorkSpaceMsg(workspace));
       return false;
+    }
+
+    if (APPS_REGEX.test(workspace)) {
+      return [
+        [
+          `${PROJECT_NAME_SPACE}/${workspace}`,
+          {
+            packagePath: mainWorkspacePath,
+          },
+        ],
+      ];
     }
 
     const packagesPaths = readdirSync(mainWorkspacePath);
@@ -111,7 +111,5 @@ const getWorkSpacesData = (options) => {
     return acc;
   }, {});
 };
-
-getWorkSpacesData();
 
 module.exports = getWorkSpacesData;

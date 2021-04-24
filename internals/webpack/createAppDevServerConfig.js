@@ -3,7 +3,7 @@
  * `createAppDevServerConfig`: `webpack`
  *
  */
-// const webpack = require("webpack");
+const { HotModuleReplacementPlugin } = require("webpack");
 // const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 const CaseSensitivePathsPlugin = require("case-sensitive-paths-webpack-plugin");
 const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
@@ -53,6 +53,7 @@ const createAppDevServerConfig = async (_, { analyze, port } = {}) => {
         new BundleAnalyzerPlugin({
           analyzerMode: "server",
         }),
+      new HotModuleReplacementPlugin(),
       // new ReactRefreshWebpackPlugin({
       //   overlay: false,
       //   exclude: [/\/node_modules\/(?!frontend-lazy)\//],

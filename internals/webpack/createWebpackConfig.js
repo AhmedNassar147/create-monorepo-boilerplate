@@ -225,7 +225,6 @@ const createWebpackConfig = async ({ mode, ...webpackConfig }) => {
       new HtmlWebpackPlugin({
         // inject: true,
         hash: isProduction,
-        title: "app title",
         // favicon: path.join(srcEntry, "assets/favicon.ico"),
         template: path.join(public, "index.html"),
         minify: isProduction && {
