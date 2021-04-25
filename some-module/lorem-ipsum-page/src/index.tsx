@@ -23,18 +23,22 @@ const LoremIpsumPage = () => {
   );
 
   return (
-    <div
-      css={`
+    <>
+      <div
+        css={`
         display: flex;
         width: 300px;
         margin 50px auto;
         justify-content: space-between;
       `}
-    >
-      <button onClick={onButtonClicked("decrease")}>-</button>
-      <input value={counter} onChange={onChange} />
-      <button onClick={onButtonClicked("increase")}>+</button>
-    </div>
+      >
+        <button onClick={onButtonClicked("decrease")}>-</button>
+        <input value={counter} onChange={onChange} />
+        <button onClick={onButtonClicked("increase")}>+</button>
+      </div>
+
+      <img src="assets/image1.jpg" alt="some-alt" />
+    </>
   );
 };
 

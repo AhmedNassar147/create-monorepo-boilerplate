@@ -1,0 +1,13 @@
+{
+  "name": "@domain/generate-app-assets",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A cli to assign only needed assets to selected app.",
+  "author": "ahmed nassar",
+  "license": "ISC",
+  "sideEffects": false,
+  "main": "src/index.js",
+  "bin": {
+    "generate-app-assets": "./bin/generate-app-assets.js"
+  }
+}

@@ -3,7 +3,7 @@
  * `createAppDevServerConfig`: `webpack`
  *
  */
-const { HotModuleReplacementPlugin } = require("webpack");
+const { HotModuleReplacementPlugin, ProgressPlugin } = require("webpack");
 // const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 const CaseSensitivePathsPlugin = require("case-sensitive-paths-webpack-plugin");
 const createWebpackConfig = require("./createWebpackConfig");
@@ -15,8 +15,8 @@ const createAppDevServerConfig = async (_, { port } = {}) => {
   return await createWebpackConfig({
     mode: "development",
     output: {
-      filename: "[name].[hash:10].js",
-      chunkFilename: "[name].[hash:10].js",
+      filename: "[name].[contenthash].js",
+      chunkFilename: "[name].[contenthash].js",
       crossOriginLoading: "anonymous",
     },
     alias: {
@@ -45,6 +45,7 @@ const createAppDevServerConfig = async (_, { port } = {}) => {
       ignored: /(node_modules\/(?!debug))|^(packages|\w.+-module)$/,
     },
     plugins: [
+      new ProgressPlugin({ percentBy: "entries" }),
       // Watcher doesn't work well if you mistype casing in a path so we use
       // a plugin that prints an error when you attempt to do this.
       new CaseSensitivePathsPlugin(),

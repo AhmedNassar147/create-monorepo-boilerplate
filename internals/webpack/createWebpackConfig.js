@@ -4,9 +4,9 @@
  *
  */
 const path = require("path");
+const { exec } = require("child_process");
 const {
   DefinePlugin,
-  ProgressPlugin,
   /* ProvidePlugin, */
 } = require("webpack");
 const chalk = require("chalk");
@@ -43,6 +43,8 @@ const createWebpackConfig = async ({ mode, ...webpackConfig }) => {
     );
     process.exit(1);
   }
+
+  exec(`generate-app-assets --appName=${APP_NAME} --mode=${mode}`);
 
   const basePath = getWorkSpaceBasePath(APP_NAME);
 
@@ -179,8 +181,6 @@ const createWebpackConfig = async ({ mode, ...webpackConfig }) => {
     },
     // Customize the webpack build process
     plugins: [
-      isProduction ? undefined : new ProgressPlugin({ percentBy: "entries" }),
-
       // Removes/cleans build folders and unused assets when rebuilding
       new CleanWebpackPlugin(),
       // Copies files from target to destination folder

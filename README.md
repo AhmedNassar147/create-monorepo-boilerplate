@@ -19,6 +19,7 @@
 - yarn bootstrap (after finished) .
 - `cd devpackages/validate-packages-deps` and in your terminal run `npm link` .
 - `cd devpackages/precommit-linter` and in your terminal run `npm link` .
+- `cd devpackages/generate-app-assets` and in your terminal run `npm link` .
 ```
 
 ## yarn bootstrap
@@ -43,6 +44,16 @@ It will install the required dependencies for the project.
   the `cli` globally across the project you can run `precommit-linter` in your terminal.
 - the package will prettify and linting only staged files if you want to include also unstaged
   files run `yarn lint:modified`
+```
+
+## Linking the (generate-app-assets)
+
+```sh
+- It will symlink the package `bin` to the global `bins` on your machine so you can use
+  the `cli` globally across the project you can also see how to use it by running
+  `generate-app-assets --h` in your terminal.
+- the package will generate the appreciated app assets from it's routes data config
+  by checking `assetsPaths` in their package.json file.
 ```
 
 ---

@@ -50,6 +50,7 @@ const getWorkSpacesData = (options) => {
       dependencies,
       peerDependencies,
       devDependencies,
+      assetsPaths,
     } = readJsonFileSync(packageJsonPath, true);
 
     if (packageNamesFilterRegex && !packageNamesFilterRegex.test(name)) {
@@ -65,6 +66,7 @@ const getWorkSpacesData = (options) => {
             peerDependencies,
             devDependencies,
             routeData,
+            assetsPaths,
           },
         ]
       : false;

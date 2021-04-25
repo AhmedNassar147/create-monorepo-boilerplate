@@ -21,7 +21,9 @@ const definePlopPrettifyAction = require("../utils/definePlopPrettifyAction");
 const defineRemoveAtHelper = require("../utils/defineRemoveAtHelper");
 
 module.exports = (plop) => {
-  const { app: appName } = collectProcessOptionsSync();
+  let { app: appName } = collectProcessOptionsSync();
+
+  appName = appName || "app";
 
   invariant(
     APPS_REGEX.test(appName),

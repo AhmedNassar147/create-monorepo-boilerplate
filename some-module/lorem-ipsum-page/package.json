@@ -27,5 +27,8 @@
       "lorem-ipsum-app"
     ],
     "path": "/loremIpsum"
-  }
+  },
+  "assetsPaths": [
+    "image1.jpg"
+  ]
 }

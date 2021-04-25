@@ -19,9 +19,9 @@ const createWebpackBuildConfig = async (_, { analyze } = {}) => {
   return await createWebpackConfig({
     mode: "production",
     output: {
-      filename: "static/js/[name].[chunkhash:10].js",
+      filename: "static/js/[name].js",
       // chunkFilename: specifies the name of non-entry output files (e.g. dynamic import component)
-      chunkFilename: "static/js/[name].[chunkhash:10].js",
+      chunkFilename: "static/js/[name].chunk.js",
     },
     plugins: [
       // Extracts CSS into separate files
