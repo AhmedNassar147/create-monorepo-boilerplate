@@ -1,6 +1,6 @@
 /*
  *
- * `SomeNew`: `@domain/some-new-page`.
+ * Package: `@domain/some-new-page`.
  *
  */
 import { memo } from "react";

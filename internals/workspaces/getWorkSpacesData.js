@@ -79,7 +79,7 @@ const getWorkSpacesData = (options) => {
       return false;
     }
 
-    if (APPS_REGEX.test(workspace)) {
+    if (APPS_REGEX.test(workspace) && !onlyPages) {
       return [
         [
           `${PROJECT_NAME_SPACE}/${workspace}`,

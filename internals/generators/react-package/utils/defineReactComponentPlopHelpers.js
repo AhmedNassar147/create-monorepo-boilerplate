@@ -13,10 +13,6 @@ function defineReactComponentPlopHelpers(plop) {
     return isReactComponentSelected({ type });
   });
 
-  plop.setHelper("removeAt", function (value) {
-    return (value || "").replace(/@/, "");
-  });
-
   [
     ["isPage", page],
     ["isLazy", lazy],

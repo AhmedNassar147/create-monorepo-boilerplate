@@ -3,13 +3,14 @@
  * `pagesRoutesData`: `{{{ PROJECT_NAME_SPACE }}}/{{appName}}`.
  *
  */
+import { lazy } from "react";
 import { PAGES_PATH_NAMES, RouteItemDataType } from "{{{ PROJECT_NAME_SPACE }}}/routes";
 
 {{#if devPagesRouterData}}let{{else}}const{{/if}} PAGES_ROUTER_DATA: RouteItemDataType[] = [
 {{#each pagesRouterData}}
     {
       path: PAGES_PATH_NAMES.{{{ pageName }}},
-      loadPageComponent: () => require("{{{ pageIndexPath }}}")
+      lazyPageComponent: lazy(() => import("{{{ pageIndexPath }}}" /* webpackChunkName: "{{{ removeAt pageIndexPath }}}" */))
     },
 {{/each}}
 ];
@@ -20,7 +21,7 @@ if (process.env.NODE_ENV === "development") {
     {{#each devPagesRouterData}}
       {
         path: PAGES_PATH_NAMES.{{{ pageName }}},
-        loadPageComponent: () => require("{{{ pageIndexPath }}}")
+        lazyPageComponent: lazy(() => import("{{{ pageIndexPath }}}" /* webpackChunkName: "{{{ removeAt pageIndexPath }}}" */))
       },
   {{/each}}
   ]).flat();

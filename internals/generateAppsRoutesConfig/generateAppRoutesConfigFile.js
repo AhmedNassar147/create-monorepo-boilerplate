@@ -26,7 +26,7 @@ const generateAppRoutesConfigFile = (appName, pagesData) => {
 
   execSync(`yarn prettify "${generatedFilePath}"`);
   console.log(
-    chalk.green(
+    chalk.magenta(
       `[generateAppsRoutesConfig => (${appName})]: finished generating routes config ✨✨`,
     ),
   );

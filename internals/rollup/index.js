@@ -5,24 +5,21 @@
  */
 const { nodeResolve } = require("@rollup/plugin-node-resolve");
 const { babel: babelPlugin } = require("@rollup/plugin-babel");
+const alias = require("@rollup/plugin-alias");
 const chalk = require("chalk");
 const { POSSIBLE_ENTRIES, BABEL_EXTENSIONS } = require("./constants");
 const getPaths = require("./getPaths");
 const checkPathExists = require("../scripts/checkPathExists");
 const invariant = require("../scripts/invariant");
-const readJsonFile = require("../scripts/readJsonFile");
 const getBabelConfig = require("../babel/getBabelConfig");
 const { PACKAGES_MODULES_REGEX } = require("../constants");
 
 const createRollupConfig = async ({ configPackageName, configEnvName }) => {
   configEnvName = configEnvName || "development";
   const babelConfig = getBabelConfig(configEnvName);
-  const {
-    fullPathPackageSrcPath,
-    cjsBuildFolder,
-    esmBuildFolder,
-    packageJsonPath,
-  } = getPaths(configPackageName);
+  const { fullPathPackageSrcPath, cjsBuildFolder, esmBuildFolder } = getPaths(
+    configPackageName,
+  );
 
   const [inputFilePath] = (
     await Promise.all(
@@ -41,23 +38,8 @@ const createRollupConfig = async ({ configPackageName, configEnvName }) => {
     ),
   );
 
-  const { dependencies, peerDependencies } = await readJsonFile(
-    packageJsonPath,
-    true,
-  );
-  let external = [];
-
-  const packages = [dependencies, peerDependencies]
-    .map((obj) => Object.keys(obj || {}))
-    .flat();
-
-  if (packages.length) {
-    external = packages;
-  }
-
   return Promise.resolve({
     input: inputFilePath,
-    external,
     output: [
       {
         dir: esmBuildFolder,
@@ -93,6 +75,12 @@ const createRollupConfig = async ({ configPackageName, configEnvName }) => {
 
     inlineDynamicImports: false,
     plugins: [
+      alias({
+        entries: [
+          { find: "react", replacement: "preact/compat" },
+          { find: "react-dom", replacement: "preact/compat" },
+        ],
+      }),
       nodeResolve({
         resolveOnly: [PACKAGES_MODULES_REGEX],
         extensions: [...BABEL_EXTENSIONS, ".json"],

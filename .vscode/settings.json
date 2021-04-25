@@ -12,6 +12,6 @@
     "editor.formatOnPaste": false
   },
   "files.trimTrailingWhitespace": true,
-  "editor.rulers": [100],
+  "editor.rulers": [90],
   "typescript.tsdk": "node_modules/typescript/lib"
 }

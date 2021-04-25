@@ -18,6 +18,7 @@ const readJsonFileSync = require("../../scripts/readJsonFileSync");
 const checkPathExistsSync = require("../../scripts/checkPathExistsSync");
 const generateAppsRoutesConfig = require("../../generateAppsRoutesConfig");
 const definePlopPrettifyAction = require("../utils/definePlopPrettifyAction");
+const defineRemoveAtHelper = require("../utils/defineRemoveAtHelper");
 
 module.exports = (plop) => {
   const { app: appName } = collectProcessOptionsSync();
@@ -138,4 +139,5 @@ module.exports = (plop) => {
   });
   defineFormatPageRoutePathHelpers(plop);
   definePlopPrettifyAction(plop);
+  defineRemoveAtHelper(plop);
 };

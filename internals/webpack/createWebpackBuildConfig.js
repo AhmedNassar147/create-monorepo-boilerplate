@@ -10,6 +10,7 @@ const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const createWebpackConfig = require("./createWebpackConfig");
+const findRootYarnWorkSpaces = require("../workspaces/findRootYarnWorkSpaces");
 
 process.env.NODE_ENV = "production";
 process.env.BABEL_ENV = "production";
@@ -37,6 +38,7 @@ const createWebpackBuildConfig = async (_, { analyze } = {}) => {
       analyze &&
         new BundleAnalyzerPlugin({
           analyzerMode: "static",
+          reportFilename: `${findRootYarnWorkSpaces()}/report.html`,
         }),
     ],
     optimization: {

@@ -82,6 +82,8 @@ const getBabelConfig = (env, useCjsFormat) => {
         "@babel/preset-react",
         {
           runtime: "automatic",
+          // @see {@link https://github.com/preactjs/preact/releases/tag/10.5.0}
+          importSource: "preact",
         },
       ],
       [

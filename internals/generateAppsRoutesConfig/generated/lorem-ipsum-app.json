@@ -1,10 +1,5 @@
 {
   "pages": [
-    { "path": "/loremIpsum", "pageIndexPath": "@domain/lorem-ipsum-page" },
-    {
-      "path": "/someNew",
-      "pageIndexPath": "@domain/some-new-page",
-      "params": ["param"]
-    }
+    { "path": "/loremIpsum", "pageIndexPath": "@domain/lorem-ipsum-page" }
   ]
 }

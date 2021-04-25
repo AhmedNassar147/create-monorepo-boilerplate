@@ -40,7 +40,9 @@
     "@domain/react-lazy": "1.0.0",
     "@domain/routes": "1.0.0",
     "@domain/some-new-page": "1.0.0",
+    "@domain/some-other-page": "1.0.0",
     "@domain/types": "1.0.0",
+    "preact": "^10.5.13",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-router-dom": "^5.2.0",
@@ -58,6 +60,7 @@
     "@babel/preset-env": "^7.13.10",
     "@babel/preset-react": "^7.12.13",
     "@babel/preset-typescript": "^7.13.0",
+    "@rollup/plugin-alias": "^3.1.2",
     "@rollup/plugin-babel": "^5.3.0",
     "@rollup/plugin-node-resolve": "^11.2.1",
     "@types/react": "^17.0.3",
@@ -126,7 +129,8 @@
   "eslintIgnore": [
     "/**/dist",
     "/**/**/dist",
-    "/**/build"
+    "/**/build",
+    "**/*.hbs"
   ],
   "husky": {
     "hooks": {

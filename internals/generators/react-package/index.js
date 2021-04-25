@@ -143,8 +143,6 @@ module.exports = {
 
     const { isLazy, isPage } = getTypeOfComponentPackage(type);
 
-    const isPackageUsingLazyTech = isLazy || isPage;
-
     const packageContainingFolderPath =
       newModuleName || selectedContainingFolderWay;
 
@@ -156,9 +154,7 @@ module.exports = {
 
     const packageBasePath = `../../${packageContainingFolderPath}/${properName}`;
 
-    const uiComponentPath = isPackageUsingLazyTech
-      ? "component.tsx"
-      : "index.tsx";
+    const uiComponentPath = isLazy ? "component.tsx" : "index.tsx";
 
     let events = [
       {
@@ -216,7 +212,7 @@ module.exports = {
       },
     ];
 
-    if (isPackageUsingLazyTech) {
+    if (isLazy) {
       events = events.concat({
         type: "add",
         path: `${packageBasePath}/src/index.ts`,

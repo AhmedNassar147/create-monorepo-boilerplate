@@ -19,18 +19,14 @@ const BaseAppWrapper = ({ routesData }: IProps) => (
         <BasePage>
           <Suspense fallback={<SuspenseFallBack />}>
             <Switch>
-              {routesData.map(({ path, loadPageComponent }) => {
-                const LazyLoadedPage = loadPageComponent().default;
-
-                return (
-                  <Route
-                    path={path}
-                    exact
-                    key={path.toString()}
-                    component={LazyLoadedPage}
-                  />
-                );
-              })}
+              {routesData.map(({ path, lazyPageComponent }) => (
+                <Route
+                  path={path}
+                  exact
+                  key={path.toString()}
+                  component={lazyPageComponent}
+                />
+              ))}
             </Switch>
           </Suspense>
         </BasePage>

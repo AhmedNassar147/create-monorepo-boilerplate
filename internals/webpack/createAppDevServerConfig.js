@@ -6,13 +6,12 @@
 const { HotModuleReplacementPlugin } = require("webpack");
 // const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 const CaseSensitivePathsPlugin = require("case-sensitive-paths-webpack-plugin");
-const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 const createWebpackConfig = require("./createWebpackConfig");
 
 process.env.NODE_ENV = "development";
 process.env.BABEL_ENV = "development";
 
-const createAppDevServerConfig = async (_, { analyze, port } = {}) => {
+const createAppDevServerConfig = async (_, { port } = {}) => {
   return await createWebpackConfig({
     mode: "development",
     output: {
@@ -49,10 +48,6 @@ const createAppDevServerConfig = async (_, { analyze, port } = {}) => {
       // Watcher doesn't work well if you mistype casing in a path so we use
       // a plugin that prints an error when you attempt to do this.
       new CaseSensitivePathsPlugin(),
-      analyze &&
-        new BundleAnalyzerPlugin({
-          analyzerMode: "server",
-        }),
       new HotModuleReplacementPlugin(),
       // new ReactRefreshWebpackPlugin({
       //   overlay: false,

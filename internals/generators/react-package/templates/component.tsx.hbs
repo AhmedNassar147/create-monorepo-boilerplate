@@ -1,6 +1,6 @@
 /*
 *
-* {{#if (isNormal type)}}Package{{else}}`{{ properCase name }}`{{/if}}: `{{{ PROJECT_NAME_SPACE }}}/{{ properName }}`.
+* {{#if (isLazy type)}}`{{ properCase name }}`{{else}}Package{{/if}}: `{{{ PROJECT_NAME_SPACE }}}/{{ properName }}`.
 *
 */
 import { memo } from 'react';

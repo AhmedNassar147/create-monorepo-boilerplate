@@ -12,8 +12,8 @@ const resolveAliasPath = (name) =>
 module.exports = {
   // @see {@link https://github.com/styled-components/styled-components-website/blob/master/sections/faqs/duplicated-styled-components.md#duplicated-module-in-node_modules}
   "styled-components": resolveAliasPath("styled-components"),
-  react: resolveAliasPath("react"),
-  "react-dom": resolveAliasPath("react-dom"),
+  react: resolveAliasPath("preact/compat"),
+  "react-dom": resolveAliasPath("preact/compat"),
   typescript: resolveAliasPath("typescript"),
   "react-router-dom": resolveAliasPath("react-router-dom"),
   // "react-redux": resolveAliasPath("react-redux"),

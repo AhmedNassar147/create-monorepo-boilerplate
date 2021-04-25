@@ -12,6 +12,7 @@ const defineUpdateWorkSpacesRoots = require("./utils/defineUpdateWorkSpacesRoots
 const definePlopPrettifyAction = require("./utils/definePlopPrettifyAction");
 const definePlopActionUpdateGeneratedRoutes = require("./utils/definePlopActionUpdateGeneratedRoutes");
 const definePlopOrHelper = require("./utils/definePlopOrHelper");
+const defineRemoveAtHelper = require("./utils/defineRemoveAtHelper");
 
 module.exports = (plop) => {
   // generators
@@ -26,4 +27,5 @@ module.exports = (plop) => {
   definePlopUpdatePagesRoutesDataWithNewApp(plop);
   definePlopActionUpdateGeneratedRoutes(plop);
   definePlopOrHelper(plop);
+  defineRemoveAtHelper(plop);
 };

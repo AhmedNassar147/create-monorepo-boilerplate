@@ -14,9 +14,7 @@ export type PAGES_NAMES_TYPES = typeof PagesPathNames;
 
 export type RouteItemDataType = {
   path: string | string[];
-  loadPageComponent: () => {
-    default: React.LazyExoticComponent<
-      React.MemoExoticComponent<() => JSX.Element>
-    >;
-  };
+  lazyPageComponent: React.LazyExoticComponent<
+    React.MemoExoticComponent<() => JSX.Element>
+  >;
 };
