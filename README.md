@@ -20,6 +20,7 @@
 - `cd devpackages/validate-packages-deps` and in your terminal run `npm link` .
 - `cd devpackages/precommit-linter` and in your terminal run `npm link` .
 - `cd devpackages/generate-app-assets` and in your terminal run `npm link` .
+- `cd devpackages/prepush-linter` and in your terminal run `npm link` .
 ```
 
 ## yarn bootstrap
@@ -42,8 +43,16 @@ It will install the required dependencies for the project.
 ```sh
 - It will symlink the package `bin` to the global `bins` on your machine so you can use
   the `cli` globally across the project you can run `precommit-linter` in your terminal.
-- the package will prettify and linting only staged files if you want to include also unstaged
-  files run `yarn lint:modified`
+- the package will prettify, linting and validate dependencies staged files only if you
+  want to include also unstaged files run `yarn lint:modified`
+```
+
+## Linking the (prepush-linter)
+
+```sh
+- It will symlink the package `bin` to the global `bins` on your machine so you can use
+  the `cli` globally across the project you can run `prepush-linter` in your terminal.
+- the package will prettify, linting, validate dependencies if current branch is `master`.
 ```
 
 ## Linking the (generate-app-assets)
