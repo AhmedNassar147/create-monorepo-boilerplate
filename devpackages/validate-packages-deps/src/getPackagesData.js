@@ -4,14 +4,14 @@
  *
  */
 const chalk = require("chalk");
-const { scriptName } = require("./constants");
-const getAllFilesFromFolder = require("./getAllFilesFromFolder");
+const { scriptName, ignoredPathsRegex } = require("./constants");
 const {
   PROJECT_NAME_SPACE,
   PACKAGES_MODULES_REGEX,
   PACKAGE_FULL_NAME_REGEXP,
 } = require("../../../internals/constants");
 const getWorkSpacesData = require("../../../internals/workspaces/getWorkSpacesData");
+const getAllFilesFromFolder = require("../../../internals/scripts/getAllFilesFromFolder");
 
 const getPackagesData = (filter) => {
   let packageNamesFilterRegex;
@@ -42,7 +42,10 @@ const getPackagesData = (filter) => {
       packagePath,
     } = allModulesAndPackages[packageName];
 
-    let filesInSrcDir = await getAllFilesFromFolder(`${packagePath}/src`);
+    let filesInSrcDir = await getAllFilesFromFolder(
+      `${packagePath}/src`,
+      ignoredPathsRegex,
+    );
     filesInSrcDir =
       filesInSrcDir && !!filesInSrcDir.length ? filesInSrcDir : false;
 

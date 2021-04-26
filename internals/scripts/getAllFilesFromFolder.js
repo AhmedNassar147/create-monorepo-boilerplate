@@ -1,13 +1,15 @@
 /*
  *
- * `getAllFilesFromFolder`: `@domain/validate-packages-deps`.
+ * `getAllFilesFromFolder`: `scripts`.
  *
  */
 const { join } = require("path");
 const { readdir, stat } = require("fs/promises");
-const { ignoredPathsRegex } = require("./constants");
 
-const getAllFilesFromFolder = async (folderPath) => {
+const getAllFilesFromFolder = async (
+  folderPath,
+  ignoreFilesExtensionsRegex,
+) => {
   let files = await readdir(folderPath);
 
   files = await Promise.all(
@@ -26,13 +28,15 @@ const getAllFilesFromFolder = async (folderPath) => {
           all
             .concat(folderContents)
             .filter((filePath) => {
-              const isAcceptableFilePathLength = filePath.length >= 3;
+              const isAcceptableFilePathLength = filePath.length >= 2;
 
               if (!isAcceptableFilePathLength) {
                 return false;
               }
 
-              return !ignoredPathsRegex.test(filePath);
+              return ignoreFilesExtensionsRegex
+                ? !ignoreFilesExtensionsRegex.test(filePath)
+                : isAcceptableFilePathLength;
             })
             .filter(Boolean),
         [],
