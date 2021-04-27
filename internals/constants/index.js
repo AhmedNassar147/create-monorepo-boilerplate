@@ -15,7 +15,7 @@ const PACKAGE_FULL_NAME_REGEXP = new RegExp(
 );
 
 const SUPPORTED_IMAGES_REGEX = /\.(?:ico|gif|png|jpg|jpeg)$/i;
-const SUPPORTED_SVGS_FONTS_REGEX = /\.(woff(2)?|eot|ttf|otf|svg|)$/;
+const SUPPORTED_SVGS_FONTS_REGEX = /\.(woff(2)?|eot|ttf|otf|svg)$/;
 
 module.exports = {
   MODULES_REGEX,

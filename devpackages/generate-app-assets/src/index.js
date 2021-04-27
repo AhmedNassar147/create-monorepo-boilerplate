@@ -3,7 +3,7 @@
  * Package: `@domain/generate-app-assets`.
  *
  */
-const { copyFile, rmdir, mkdir } = require("fs/promises");
+const { copyFile, mkdir /* rmdir, */ } = require("fs/promises");
 const { join, dirname } = require("path");
 const chalk = require("chalk");
 const {
@@ -16,12 +16,12 @@ const {
   PACKAGES_MODULES_REGEX,
   PROJECT_NAME_SPACE,
 } = require("../../../internals/constants");
-const invariant = require("../../../internals/scripts/invariant");
 const checkPathExists = require("../../../internals/scripts/checkPathExists");
 const readJsonFile = require("../../../internals/scripts/readJsonFile");
 const getAllFilesFromFolder = require("../../../internals/scripts/getAllFilesFromFolder");
 const createCliController = require("../../../internals/command-line-utils/createCliController");
 const getWorkSpacesData = require("../../../internals/workspaces/getWorkSpacesData");
+const collectEnvVariablesFromEnvFiles = require("../../../internals/environment/collectEnvVariablesFromEnvFiles");
 
 const logSucceedMessage = () =>
   console.log(
@@ -29,8 +29,12 @@ const logSucceedMessage = () =>
   );
 
 const generateAppAssets = async ({ appName, mode }) => {
-  appName = appName || "app";
   mode = mode || POSSIBLE_MODE_OPTIONS[1];
+
+  if (!appName) {
+    const { APP_NAME } = collectEnvVariablesFromEnvFiles(mode);
+    appName = APP_NAME;
+  }
 
   if (nameSpaceRegexp.test(appName)) {
     appName = appName.replace(nameSpaceRegexp, "");
@@ -40,12 +44,27 @@ const generateAppAssets = async ({ appName, mode }) => {
     (modeOption) => modeOption === mode,
   );
 
-  invariant(
-    appName ? APPS_REGEX.test(appName) : true,
-    `${chalk.magenta(`[${scriptName}]`)} ${chalk.red(
-      `you have passed the "appName" option with non proper name given appName="${appName}".`,
-    )}`,
-  );
+  if (!APPS_REGEX.test(appName)) {
+    console.log(
+      `${chalk.magenta(`[${scriptName}]`)} ${chalk.red(
+        `you have passed the "appName" option with non proper name given appName="${appName}".`,
+      )}`,
+    );
+
+    process.exit(1);
+  }
+
+  const isAppExist = await checkPathExists(join(process.cwd(), appName));
+
+  if (!isAppExist) {
+    console.log(
+      `${chalk.magenta(`[${scriptName}]`)} ${chalk.red(
+        `you have passed the "appName" as "${appName}" but this app does not exist yet.`,
+      )}`,
+    );
+
+    process.exit(1);
+  }
 
   if (!(isDevelopment || isProduction)) {
     console.log(
@@ -55,7 +74,7 @@ const generateAppAssets = async ({ appName, mode }) => {
         `--mode=${mode}`,
       )}`,
     );
-    process.exit(0);
+    process.exit(1);
   }
 
   const appRoutesJsonConfigFilePath = join(
@@ -222,24 +241,36 @@ const generateAppAssets = async ({ appName, mode }) => {
       ? await getAllFilesFromFolder(fullPathToAppAssets)
       : []
     ).map((filePath) => filePath.replace(`${fullPathToAppAssets}/`, ""));
+    const appAssetsFolderLength = assetsFilesInAppAssetsFolder.length;
 
-    if (assetsFilesInAppAssetsFolder.length) {
+    if (appAssetsFolderLength) {
       const [assetsFilesInAppAssetsFolderString, allPackagesAssetsString] = [
         assetsFilesInAppAssetsFolder,
         allPackagesAssets,
       ].map((assetsArray) => JSON.stringify(assetsArray.sort()));
 
-      if (assetsFilesInAppAssetsFolderString === allPackagesAssetsString) {
+      let isAppAssetsHasCollectedAssets =
+        assetsFilesInAppAssetsFolderString === allPackagesAssetsString;
+
+      // if(!isAppAssetsHasCollectedAssets){
+      //   const shouldSearchIntoAssets =
+      //   const folderThatHavMuchAssets = appAssetsFolderLength >
+      //   assetsFilesInAppAssetsFolder.forEach(assetPath => {
+
+      //   })
+
+      // }
+
+      if (isAppAssetsHasCollectedAssets) {
         console.log(
           `${chalk.magenta(`[${scriptName}]`)} ${chalk.keyword("orange")(
             `it seems like collected assets from packages are the same with assets found \n` +
               `                      in ${fullPathToAppAssets}`,
           )}`,
         );
+        logSucceedMessage();
+        process.exit(0);
       }
-
-      logSucceedMessage();
-      process.exit(0);
     }
 
     const configPromises = allPackagesAssets.map(async (assetPath) => {
@@ -271,9 +302,9 @@ const generateAppAssets = async ({ appName, mode }) => {
             : [fullPathToAppAssets]),
         );
 
-        if (isAppAssetsPathExist) {
-          await rmdir(fullPathToAppAssets, { recursive: true });
-        }
+        // if (isAppAssetsPathExist) {
+        //   await rmdir(fullPathToAppAssets, { recursive: true });
+        // }
 
         await mkdir(fullAppAssetsDirs, {
           recursive: true,
@@ -307,7 +338,8 @@ createCliController({
   helpersKeys: [
     {
       keyOrKeys: "appName",
-      description: "pass --appName=some-app-name to create the assets.",
+      description:
+        "if not passed we read it from `.env files` (eg: --appName=some-app-name)",
     },
     {
       keyOrKeys: "mode",

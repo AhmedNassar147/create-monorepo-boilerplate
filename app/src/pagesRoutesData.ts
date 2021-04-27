@@ -12,8 +12,14 @@ const PAGES_ROUTER_DATA: RouteItemDataType[] = [
     lazyPageComponent: lazy(
       () =>
         import(
-          "@domain/lorem-ipsum-page" /* webpackChunkName: "domain/lorem-ipsum-page" */
+          "@domain/lorem-ipsum-page" /* webpackChunkName: "domain.lorem-ipsum-page" */
         ),
+    ),
+  },
+  {
+    path: PAGES_PATH_NAMES.login,
+    lazyPageComponent: lazy(
+      () => import("./pages/somePage" /* webpackChunkName: "pages.somePage" */),
     ),
   },
 ];

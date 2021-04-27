@@ -23,6 +23,7 @@ const createAppPagesRoutesData = (pagesRoutesConfig) => {
       const isLoginPage = /login/.test(path.toString());
       pageName = path[isLoginPage ? 1 : 0];
     }
+
     const properPageName = pageName.replace(/\//g, "");
     const routePath = processPath(path, params);
 

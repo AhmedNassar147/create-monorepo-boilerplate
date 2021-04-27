@@ -3,9 +3,30 @@
  * `defineRemoveAtHelper`: `utils`.
  *
  */
+const {
+  PACKAGE_FULL_NAME_REGEXP,
+  PROJECT_NAME_SPACE,
+} = require("../../constants");
+
+const normalPageRegexp = /.+\//;
+
 function defineRemoveAtHelper(plop) {
   plop.setHelper("removeAt", function (value) {
-    return (value || "").replace(/@/, "");
+    value = value || "";
+
+    const isPackage = PACKAGE_FULL_NAME_REGEXP.test(value);
+
+    if (isPackage) {
+      console.log("isPackage", isPackage, value);
+      return value.replace(
+        new RegExp(`${PROJECT_NAME_SPACE}/`),
+        `${PROJECT_NAME_SPACE.replace("@", "")}.`,
+      );
+    }
+
+    const matchesPage = normalPageRegexp.test(value);
+
+    return matchesPage ? value.replace(normalPageRegexp, "pages.") : value;
   });
 }
 

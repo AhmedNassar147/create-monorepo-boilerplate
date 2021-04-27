@@ -4,12 +4,10 @@
  *
  */
 const path = require("path");
-const { exec } = require("child_process");
 const {
   DefinePlugin,
   /* ProvidePlugin, */
 } = require("webpack");
-const chalk = require("chalk");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
@@ -34,17 +32,6 @@ const createWebpackConfig = async ({ mode, ...webpackConfig }) => {
   } = getAppEnvVariables({
     mode,
   });
-
-  if (!APP_NAME) {
-    console.log(
-      chalk.bold.red(
-        `[createWebpackConfig]: couldn't find \`APP_NAME\` in env files.`,
-      ),
-    );
-    process.exit(1);
-  }
-
-  exec(`generate-app-assets --appName=${APP_NAME} --mode=${mode}`);
 
   const basePath = getWorkSpaceBasePath(APP_NAME);
 
@@ -147,7 +134,7 @@ const createWebpackConfig = async ({ mode, ...webpackConfig }) => {
           exclude: /(node_modules\/(?!debug))|^(packages|\w.+-module)$/,
           use: {
             loader: "babel-loader",
-            options: getBabelConfig(mode),
+            options: getBabelConfig(mode, undefined),
           },
         },
         {
@@ -168,7 +155,7 @@ const createWebpackConfig = async ({ mode, ...webpackConfig }) => {
         // Images: Copy image files to build folder
         {
           test: SUPPORTED_IMAGES_REGEX,
-          type: "asset",
+          type: "asset/resource",
           parser: {
             dataUrlConditions: {
               maxSize: 4 * 1024,

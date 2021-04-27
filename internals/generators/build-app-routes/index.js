@@ -42,20 +42,50 @@ module.exports = (plop) => {
     `${appName}.json`,
   );
 
+  const appInternalRoutesConfig = join(
+    process.cwd(),
+    appName,
+    "internal-routes-config.json",
+  );
+
   const pagesRoutesFilePathInCurrentApp = getAppPagesRoutesDataPath(appName);
   const pathNamesFilePathInRoutesPackage = getPathNamesPathInRoutesPackage();
   const internalGeneratedPathNamesFilePath = getGeneratedPagesRoutesPathNamesPath();
 
-  invariant(
-    checkPathExistsSync(appRoutesJsonConfigFilePath),
-    `\`(build app routes generator)\`: couldn't find the app "(${appName})" routes config in` +
-      `${appRoutesJsonConfigFilePath}`,
+  const isAppRoutesJsonConfigFileExists = checkPathExistsSync(
+    appRoutesJsonConfigFilePath,
+  );
+  const isInternalAppRoutesJsonConfigFileExists = checkPathExistsSync(
+    appInternalRoutesConfig,
   );
 
-  const { pages, developmentPages } = readJsonFileSync(
-    appRoutesJsonConfigFilePath,
-    true,
+  invariant(
+    isAppRoutesJsonConfigFileExists || isInternalAppRoutesJsonConfigFileExists,
+    `\`(build app routes generator)\`: couldn't find the app "(${appName})" routes config in` +
+      `${appRoutesJsonConfigFilePath} or ${appInternalRoutesConfig}`,
   );
+
+  let pages = [];
+  let developmentPages = [];
+
+  [
+    isAppRoutesJsonConfigFileExists,
+    isInternalAppRoutesJsonConfigFileExists,
+  ].forEach((filePathIfExist) => {
+    if (filePathIfExist) {
+      const configData = readJsonFileSync(filePathIfExist, true);
+
+      if (configData.pages) {
+        pages.push(...configData.pages);
+      }
+      if (configData.developmentPages) {
+        pages.push(...configData.developmentPages);
+      }
+    }
+  });
+
+  pages = pages.filter(Boolean);
+  developmentPages = developmentPages.filter(Boolean);
 
   const [
     { routerPagesData: pagesRouterData, pathNames: pagesPathNames },
