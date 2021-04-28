@@ -9,6 +9,15 @@ export interface ParentProps {
   children?: React.ReactNode;
 }
 
+export interface BaseSvgProps {
+  width?: string;
+  height?: string;
+  className?: string;
+  color?: string;
+  style?: React.CSSProperties;
+  onClick?: () => void;
+}
+
 export type KeysOfRecord<T> = keyof T;
 
 /**

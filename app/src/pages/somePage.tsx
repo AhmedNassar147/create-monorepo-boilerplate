@@ -4,6 +4,7 @@
  *
  */
 import { memo } from "react";
+import { MaleIcon } from "@domain/jsx-icons";
 import imageSrc from "../assets/addUser.svg";
 
 const SomePage = () => {
@@ -12,6 +13,8 @@ const SomePage = () => {
       <h1>login page</h1>
 
       <img src={imageSrc} />
+      <br />
+      <MaleIcon />
     </div>
   );
 };

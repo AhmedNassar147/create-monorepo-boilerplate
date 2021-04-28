@@ -1,8 +1,8 @@
 {
-  "name": "@domain/lorem-ipsum-page",
+  "name": "@domain/jsx-icons",
   "version": "1.0.0",
   "private": true,
-  "description": "desc.",
+  "description": "contains react icons components.",
   "author": "ahmed nassar",
   "license": "ISC",
   "sideEffects": false,
@@ -16,22 +16,12 @@
   ],
   "scripts": {
     "ts:checker:declaration": "tsc -b .",
-    "prepare": "rollup -c ../../internals/rollup/index.js --configPackageName @domain/lorem-ipsum-page"
+    "prepare": "rollup -c ../../internals/rollup/index.js --configPackageName @domain/jsx-icons"
   },
   "dependencies": {
-    "@domain/jsx-icons": "1.0.0"
+    "@domain/types": "1.0.0"
   },
   "peerDependencies": {
-    "react": "^17.x.x"
-  },
-  "routeData": {
-    "apps": [
-      "app",
-      "lorem-ipsum-app"
-    ],
-    "path": "/loremIpsum"
-  },
-  "assetsPaths": [
-    "image1.jpg"
-  ]
+    "@types/react": "^17.x.x"
+  }
 }

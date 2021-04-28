@@ -3,7 +3,7 @@
  * Package: `@domain/generate-app-assets`.
  *
  */
-const { copyFile, mkdir /* rmdir, */ } = require("fs/promises");
+const { copyFile, mkdir } = require("fs/promises");
 const { join, dirname } = require("path");
 const chalk = require("chalk");
 const {
@@ -24,9 +24,7 @@ const getWorkSpacesData = require("../../../internals/workspaces/getWorkSpacesDa
 const collectEnvVariablesFromEnvFiles = require("../../../internals/environment/collectEnvVariablesFromEnvFiles");
 
 const logSucceedMessage = () =>
-  console.log(
-    `\n${chalk.magenta(`[${scriptName}]`)} done successfully. ✨✨\n`,
-  );
+  console.log(`${chalk.magenta(`[${scriptName}]`)} done successfully. ✨✨`);
 
 const generateAppAssets = async ({ appName, mode }) => {
   mode = mode || POSSIBLE_MODE_OPTIONS[1];
@@ -252,20 +250,17 @@ const generateAppAssets = async ({ appName, mode }) => {
       let isAppAssetsHasCollectedAssets =
         assetsFilesInAppAssetsFolderString === allPackagesAssetsString;
 
-      // if(!isAppAssetsHasCollectedAssets){
-      //   const shouldSearchIntoAssets =
-      //   const folderThatHavMuchAssets = appAssetsFolderLength >
-      //   assetsFilesInAppAssetsFolder.forEach(assetPath => {
-
-      //   })
-
-      // }
+      if (!isAppAssetsHasCollectedAssets) {
+        isAppAssetsHasCollectedAssets = allPackagesAssets.every((assetPath) =>
+          assetsFilesInAppAssetsFolder.includes(assetPath),
+        );
+      }
 
       if (isAppAssetsHasCollectedAssets) {
         console.log(
           `${chalk.magenta(`[${scriptName}]`)} ${chalk.keyword("orange")(
-            `it seems like collected assets from packages are the same with assets found \n` +
-              `                      in ${fullPathToAppAssets}`,
+            `nothing to do, it seems like collected assets from packages are the same \n` +
+              `  with assets found in ${fullPathToAppAssets}`,
           )}`,
         );
         logSucceedMessage();
@@ -274,7 +269,8 @@ const generateAppAssets = async ({ appName, mode }) => {
     }
 
     const configPromises = allPackagesAssets.map(async (assetPath) => {
-      const fullPathToMainAssets = join(process.cwd(), "assets", assetPath);
+      const mainAssetsFolderPath = join(process.cwd(), "assets");
+      const fullPathToMainAssets = join(mainAssetsFolderPath, assetPath);
 
       const isAssetFoundMainAssetsFolder = await checkPathExists(
         fullPathToMainAssets,
@@ -283,9 +279,8 @@ const generateAppAssets = async ({ appName, mode }) => {
       if (!isAssetFoundMainAssetsFolder) {
         console.log(
           `${chalk.magenta(`[${scriptName}]`)} ${chalk.red(
-            `couldn't find ${chalk.white(
-              assetPath,
-            )} \`assetsPaths\` in the main assets folder`,
+            `couldn't find ${chalk.white(assetPath)} in ` +
+              `${mainAssetsFolderPath}`,
           )}`,
         );
 
@@ -301,10 +296,6 @@ const generateAppAssets = async ({ appName, mode }) => {
             ? [fullPathToAppAssets, dirNameFromAssets]
             : [fullPathToAppAssets]),
         );
-
-        // if (isAppAssetsPathExist) {
-        //   await rmdir(fullPathToAppAssets, { recursive: true });
-        // }
 
         await mkdir(fullAppAssetsDirs, {
           recursive: true,

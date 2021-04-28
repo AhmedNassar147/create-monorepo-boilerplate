@@ -4,6 +4,7 @@
  *
  */
 import { memo, useState, useCallback, ChangeEvent } from "react";
+import { MaleIcon } from "@domain/jsx-icons";
 
 const LoremIpsumPage = () => {
   const [counter, setState] = useState(0);
@@ -38,6 +39,8 @@ const LoremIpsumPage = () => {
       </div>
 
       <img src="assets/image1.jpg" alt="some-alt" />
+      <br />
+      <MaleIcon color="green" />
     </>
   );
 };

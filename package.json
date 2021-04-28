@@ -35,6 +35,7 @@
     "@domain/app-with-redbox": "1.0.0",
     "@domain/base-app-wrapper": "1.0.0",
     "@domain/base-page": "1.0.0",
+    "@domain/jsx-icons": "1.0.0",
     "@domain/labels-provider": "1.0.0",
     "@domain/loader-fallback": "1.0.0",
     "@domain/lorem-ipsum-page": "1.0.0",
