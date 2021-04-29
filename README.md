@@ -17,7 +17,7 @@
 
 ```sh
 - yarn bootstrap (after finished) .
-- yarn `setup-bins`.
+- yarn `link-bins`.
 ```
 
 ## yarn bootstrap

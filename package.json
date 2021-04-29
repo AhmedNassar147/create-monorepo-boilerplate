@@ -10,7 +10,7 @@
   ],
   "scripts": {
     "prepare": "husky install",
-    "setup-bins": "sh setup-bins.sh",
+    "link-bins": "sh link-bins.sh",
     "clean": "rm -rf ./node_modules",
     "clean-locks": "rm -rf ./yarn.lock",
     "bootstrap": "lerna bootstrap",
