@@ -5,21 +5,16 @@
  */
 const chalk = require("chalk");
 const { scriptName, ignoredPathsRegex } = require("./constants");
-const {
-  PROJECT_NAME_SPACE,
-  PACKAGES_MODULES_REGEX,
-  PACKAGE_FULL_NAME_REGEXP,
-} = require("../../../internals/constants");
+const { PACKAGES_MODULES_REGEX } = require("../../../internals/constants");
 const getWorkSpacesData = require("../../../internals/workspaces/getWorkSpacesData");
 const getAllFilesFromFolder = require("../../../internals/scripts/getAllFilesFromFolder");
+const toPackageNameWithScope = require("../../../internals/workspaces/toPackageNameWithScope");
 
 const getPackagesData = (filter) => {
   let packageNamesFilterRegex;
 
   if (filter) {
-    const packageName = PACKAGE_FULL_NAME_REGEXP.test(filter)
-      ? filter
-      : `${PROJECT_NAME_SPACE}/${filter}`;
+    const packageName = toPackageNameWithScope(filter);
 
     packageNamesFilterRegex = new RegExp(packageName);
   }

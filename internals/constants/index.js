@@ -14,8 +14,10 @@ const PACKAGE_FULL_NAME_REGEXP = new RegExp(
   `^${PROJECT_NAME_SPACE}/[a-z|-]*\\w$`,
 );
 
+const PACKAGE_PATH_LIKE_REGEXP = /^(\w.+-module|packages)\/[\w|-]*/gi;
+
 const SUPPORTED_IMAGES_REGEX = /\.(?:ico|gif|png|jpg|jpeg)$/i;
-const SUPPORTED_SVGS_FONTS_REGEX = /\.(woff(2)?|eot|ttf|otf|svg)$/;
+const SUPPORTED_FONTS_REGEX = /\.(woff(2)?|eot|ttf|otf|svg)$/;
 
 module.exports = {
   MODULES_REGEX,
@@ -24,6 +26,7 @@ module.exports = {
   PACKAGES_REGEX,
   PACKAGES_MODULES_REGEX,
   SUPPORTED_IMAGES_REGEX,
-  SUPPORTED_SVGS_FONTS_REGEX,
+  SUPPORTED_FONTS_REGEX,
   PACKAGE_FULL_NAME_REGEXP,
+  PACKAGE_PATH_LIKE_REGEXP,
 };

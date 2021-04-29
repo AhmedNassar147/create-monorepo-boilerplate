@@ -19,7 +19,6 @@
     "prepare": "rollup -c ../../internals/rollup/index.js --configPackageName @domain/app-with-redbox"
   },
   "peerDependencies": {
-    "@types/react-dom": "^17.x.x",
     "react-dom": "^17.x.x"
   }
 }

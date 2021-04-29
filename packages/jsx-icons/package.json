@@ -22,6 +22,6 @@
     "@domain/types": "1.0.0"
   },
   "peerDependencies": {
-    "@types/react": "^17.x.x"
+    "react": "^17.x.x"
   }
 }

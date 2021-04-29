@@ -1,0 +1,10 @@
+cd devpackages/validate-packages-deps
+  npm link
+cd ../validate-packages-assets
+  npm link
+cd ../precommit-linter
+  npm link
+cd ../validate-app-assets
+  npm link
+cd ../prepush-linter
+  npm link

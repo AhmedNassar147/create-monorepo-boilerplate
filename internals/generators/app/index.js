@@ -39,17 +39,15 @@ module.exports = {
       },
       default: [],
     },
+    {
+      type: "confirm",
+      name: "useInternalRoutesFile",
+      default: false,
+      message: "does this app uses internal routes config file ?",
+    },
   ],
-  actions: ({ name }) => {
+  actions: ({ name, useInternalRoutesFile }) => {
     const realAppName = `${name}-app`;
-
-    // const appRoutesJsonConfigFilePath = join(
-    //   process.cwd(),
-    //   "internals",
-    //   "generateAppsRoutesConfig",
-    //   "generated",
-    //   `${appName}.json`,
-    // );
 
     let events = [
       {
@@ -67,21 +65,22 @@ module.exports = {
           PROJECT_NAME_SPACE,
         },
       },
-      // {
-      //   type: "add",
-      //   path: "../../${realAppName}/package.json",
-      //   templateFile: "app/pkg.json.hbs",
-      //   abortOnFail: true,
-      //   data: {
-      //     PROJECT_NAME_SPACE,
-      //   },
-      // },
       {
         type: "add",
         path: `../../${realAppName}/tsconfig.json`,
         templateFile: "app/templates/tsconfig.json.hbs",
         abortOnFail: true,
       },
+      ...(useInternalRoutesFile
+        ? [
+            {
+              type: "add",
+              path: `../../${realAppName}/internal-routes-config.json`,
+              templateFile: "app/templates/internal-routes-config.json.hbs",
+              abortOnFail: true,
+            },
+          ]
+        : []),
       {
         type: "prettify",
         data: {

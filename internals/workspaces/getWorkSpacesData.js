@@ -1,6 +1,6 @@
 /*
  *
- * `getWorkSpacesData`: `scripts`.
+ * `getWorkSpacesData`: `workspaces`.
  *
  */
 const { readdirSync } = require("fs");
@@ -8,10 +8,11 @@ const path = require("path");
 const chalk = require("chalk");
 const getWorksSpacesOnlyNamesSync = require("./getWorksSpacesOnlyNamesSync");
 const findRootYarnWorkSpaces = require("./findRootYarnWorkSpaces");
+const toPackageNameWithScope = require("./toPackageNameWithScope");
 const readJsonFileSync = require("../scripts/readJsonFileSync");
 const checkPathExistsSync = require("../scripts/checkPathExistsSync");
 const invariant = require("../scripts/invariant");
-const { APPS_REGEX, PROJECT_NAME_SPACE } = require("../constants");
+const { APPS_REGEX } = require("../constants");
 
 const PKG_JSON_EXT = "package.json";
 
@@ -84,7 +85,7 @@ const getWorkSpacesData = (options) => {
     if (APPS_REGEX.test(workspace) && !onlyPages) {
       return [
         [
-          `${PROJECT_NAME_SPACE}/${workspace}`,
+          toPackageNameWithScope(workspace),
           {
             packagePath: mainWorkspacePath,
           },

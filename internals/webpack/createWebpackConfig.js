@@ -17,7 +17,7 @@ const getBasePaths = require("./getBasePaths");
 const BASE_WEBPACK_RESOLVE_ALIAS = require("./webpackResolveAlias");
 const {
   SUPPORTED_IMAGES_REGEX,
-  SUPPORTED_SVGS_FONTS_REGEX,
+  SUPPORTED_FONTS_REGEX,
 } = require("../constants");
 const getBabelConfig = require("../babel/getBabelConfig");
 const getAppEnvVariables = require("../environment/geEnvVariables");
@@ -123,20 +123,6 @@ const createWebpackConfig = async ({ mode, ...webpackConfig }) => {
             "css-loader",
           ],
         },
-        // js|jsx: Use swc to transpile JavaScript files
-        {
-          test: /\.(js|jsx)$/,
-          // The workspaces packages/modules are built and watched by `package-builder`.
-          // The `node_modules`, by convention, are expected to be shipped
-          // already transpiled.
-          // @see {@link https://github.com/visionmedia/debug/issues/745}
-          // @see {@link https://github.com/visionmedia/debug/issues/701}
-          exclude: /(node_modules\/(?!debug))|^(packages|\w.+-module)$/,
-          use: {
-            loader: "babel-loader",
-            options: getBabelConfig(mode, undefined),
-          },
-        },
         {
           test: /\.(ts|tsx)$/,
           // The workspaces packages/modules are built and watched by `package-builder`.
@@ -152,6 +138,20 @@ const createWebpackConfig = async ({ mode, ...webpackConfig }) => {
             },
           ],
         },
+        // js|jsx: Use swc to transpile JavaScript files
+        {
+          test: /\.(js|jsx|tsx)$/,
+          // The workspaces packages/modules are built and watched by `package-builder`.
+          // The `node_modules`, by convention, are expected to be shipped
+          // already transpiled.
+          // @see {@link https://github.com/visionmedia/debug/issues/745}
+          // @see {@link https://github.com/visionmedia/debug/issues/701}
+          exclude: /(node_modules\/(?!debug))|^(packages|\w.+-module)$/,
+          use: {
+            loader: "babel-loader",
+            options: getBabelConfig(mode, undefined),
+          },
+        },
         // Images: Copy image files to build folder
         {
           test: SUPPORTED_IMAGES_REGEX,
@@ -163,7 +163,7 @@ const createWebpackConfig = async ({ mode, ...webpackConfig }) => {
           },
         },
         // Fonts and SVGs: Inline files
-        { test: SUPPORTED_SVGS_FONTS_REGEX, type: "asset/inline" },
+        { test: SUPPORTED_FONTS_REGEX, type: "asset/inline" },
       ],
     },
     // Customize the webpack build process

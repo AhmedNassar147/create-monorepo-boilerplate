@@ -10,6 +10,8 @@ const prepareEslint = require("./prepareEslint");
 const createCliLogMessage = require("./createCliLogMessage");
 const prepareDependenciesValidator = require("./prepareDependenciesValidator");
 const { filesExtensionToLint } = require("./constants");
+const preparePackagesAssetsValidator = require("./preparePackagesAssetsValidator");
+const getPackageNameAndContainingFolder = require("../../../internals/workspaces/getPackageNameAndContainingFolder");
 
 const preCommitLinter = async () => {
   process.on("onError", (error) => {
@@ -58,7 +60,15 @@ const preCommitLinter = async () => {
     );
   }
 
-  prepareDependenciesValidator(stagedFiles);
+  let packagesNamesToValidate = stagedFiles
+    .map((filePath) => getPackageNameAndContainingFolder(filePath, false))
+    .filter(Boolean);
+
+  packagesNamesToValidate = Array.from(new Set(packagesNamesToValidate));
+
+  prepareDependenciesValidator(packagesNamesToValidate);
+
+  preparePackagesAssetsValidator(packagesNamesToValidate);
 };
 
 module.exports = preCommitLinter;

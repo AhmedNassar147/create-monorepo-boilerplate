@@ -50,6 +50,8 @@ const processPackage = async ({
           "import statment to be includes in the package dependencies.",
       ),
     );
+
+    return false;
   }
 
   const {

@@ -9,6 +9,8 @@
     "lorem-ipsum-app"
   ],
   "scripts": {
+    "prepare": "husky install",
+    "setup-bins": "sh setup-bins.sh",
     "clean": "rm -rf ./node_modules",
     "clean-locks": "rm -rf ./yarn.lock",
     "bootstrap": "lerna bootstrap",
@@ -21,14 +23,13 @@
     "make:install": "yarn ts-check-packages && yarn build-packages",
     "postinstall": "if [[ ${SKIP_POST_INSTALL} == \"true\" ]]; then echo 'skipped make:install.'; else yarn make:install; fi",
     "start:js": "webpack serve --config ./internals/webpack/createAppDevServerConfig.js --node-env=development",
-    "prestart": "generate-app-assets --mode=development",
+    "prestart": "validate-app-assets --mode=development",
     "start": "stmux -- [ [ -s 1/3 \"yarn ts-check-packages --watch\" .. \"yarn build-packages --watch\" ] : \"yarn start:js\" ]",
-    "prebuild": "generate-app-assets --mode=production && yarn build-packages --configEnvName production",
+    "prebuild": "validate-app-assets --mode=production && yarn build-packages --configEnvName production",
     "build": "webpack --config ./internals/webpack/createWebpackBuildConfig.js --node-env production --analyze",
     "format": "prettier --write \"**/*.{js,ts,tsx,css,json,md}\"",
     "lint:modified": "git add . && precommit-linter",
-    "lint": "eslint . || true",
-    "prepare": "husky install"
+    "lint": "eslint . || true"
   },
   "dependencies": {
     "@babel/runtime": "^7.13.10",

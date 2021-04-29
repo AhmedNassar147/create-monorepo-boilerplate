@@ -10,7 +10,13 @@ import imageSrc from "../assets/addUser.svg";
 const SomePage = () => {
   return (
     <div>
-      <h1>login page</h1>
+      <h1
+        css={`
+          color: green;
+        `}
+      >
+        login page
+      </h1>
 
       <img src={imageSrc} />
       <br />

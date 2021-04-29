@@ -17,10 +17,7 @@
 
 ```sh
 - yarn bootstrap (after finished) .
-- `cd devpackages/validate-packages-deps` and in your terminal run `npm link` .
-- `cd devpackages/precommit-linter` and in your terminal run `npm link` .
-- `cd devpackages/generate-app-assets` and in your terminal run `npm link` .
-- `cd devpackages/prepush-linter` and in your terminal run `npm link` .
+- yarn `setup-bins`.
 ```
 
 ## yarn bootstrap
@@ -36,6 +33,15 @@ It will install the required dependencies for the project.
   the `cli` globally across the project you can also see how to use it by running
   `validate-packages-deps --h` in your terminal.
 - the package will validate the packages and modules dependencies along with typescript references.
+```
+
+## Linking the (validate-packages-assets)
+
+```sh
+- It will symlink the package `bin` to the global `bins` on your machine so you can use
+  the `cli` globally across the project you can also see how to use it by running
+  `validate-packages-assets --h` in your terminal.
+- the package will validate the packages and modules assets.
 ```
 
 ## Linking the (precommit-linter)
@@ -55,14 +61,14 @@ It will install the required dependencies for the project.
 - the package will prettify, linting, validate dependencies if current branch is `master`.
 ```
 
-## Linking the (generate-app-assets)
+## Linking the (validate-app-assets)
 
 ```sh
 - It will symlink the package `bin` to the global `bins` on your machine so you can use
   the `cli` globally across the project you can also see how to use it by running
-  `generate-app-assets --h` in your terminal.
-- the package will generate the appreciated app assets from it's routes data config
-  by checking `assetsPaths` in their package.json file.
+  `validate-app-assets --h` in your terminal.
+- the package will validate the current app assets from it's routes data config up
+  to their dependencies by checking `assetsPaths` in their package.json file.
 ```
 
 ---

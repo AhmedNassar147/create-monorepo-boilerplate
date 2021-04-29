@@ -5,7 +5,7 @@
  */
 const isReactComponentSelected = require("./isReactComponentSelected");
 const definePlopActionAndExecuteScript = require("../../utils/definePlopActionAndExecuteScript");
-const { PROJECT_NAME_SPACE } = require("../../../constants");
+const toPackageNameWithScope = require("../../../workspaces/toPackageNameWithScope");
 
 function definePlopActionsUpdateWorkSpacesDeps(plop) {
   // update `app/package.json` and working directory `package.json`.
@@ -18,7 +18,7 @@ function definePlopActionsUpdateWorkSpacesDeps(plop) {
 
       if (isReactPackage) {
         const { name, folderOrFileName } = answers;
-        const packageName = `${PROJECT_NAME_SPACE}/${folderOrFileName || name}`;
+        const packageName = toPackageNameWithScope(folderOrFileName || name);
         const newPackageNameAndVersion = `${packageName}@1.0.0`;
 
         process.env.SKIP_POST_INSTALL = "true";

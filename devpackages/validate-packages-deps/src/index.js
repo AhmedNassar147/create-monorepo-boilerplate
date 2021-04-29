@@ -92,9 +92,7 @@ const runCli = async ({ filter, exitKey, logOnlyResults }) => {
               ),
             );
           }
-          console.log(
-            chalk.red(`${name}: ====> ${JSON.stringify(data, null, 2)}`),
-          );
+          console.log(chalk.red(`"${name}": ${JSON.stringify(data, null, 2)}`));
         }
       });
 

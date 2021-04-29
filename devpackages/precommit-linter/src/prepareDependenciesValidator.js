@@ -6,30 +6,9 @@
 const { execSync } = require("child_process");
 const chalk = require("chalk");
 const createCliLogMessage = require("./createCliLogMessage");
-const { filesInPackagesRegexp, pathToPackageName } = require("./constants");
-const { PROJECT_NAME_SPACE } = require("../../../internals/constants");
+const toPackageNameWithScope = require("../../../internals/workspaces/toPackageNameWithScope");
 
-// const execAsync = promisify(exec);
-
-const prepareDependenciesValidator = (stagedFiles) => {
-  let packagesNamesToValidate = stagedFiles
-    .filter((file) => filesInPackagesRegexp.test(file))
-    .map((file) => {
-      if (file && typeof file === "string") {
-        const [matchedPackage] = file.match(pathToPackageName);
-        return filesInPackagesRegexp.test(matchedPackage)
-          ? matchedPackage
-              .replace(filesInPackagesRegexp, "")
-              .replace(/\//, "")
-              .replace(/\/.+|\//g, "")
-          : false;
-      }
-      return false;
-    })
-    .filter(Boolean);
-
-  packagesNamesToValidate = [...new Set(packagesNamesToValidate)];
-
+const prepareDependenciesValidator = (packagesNamesToValidate) => {
   const packagesToValidateDepsLength = packagesNamesToValidate.length;
 
   console.log(
@@ -44,7 +23,7 @@ const prepareDependenciesValidator = (stagedFiles) => {
 
   if (packagesToValidateDepsLength) {
     let validatorResults = packagesNamesToValidate.map((package) => {
-      package = `${PROJECT_NAME_SPACE}/${package}`;
+      package = toPackageNameWithScope(package);
       let errorResult = "";
 
       try {

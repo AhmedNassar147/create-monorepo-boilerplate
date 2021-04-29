@@ -22,18 +22,21 @@ const collectProcessOptionsSync = () => {
   const computedArgv = argv
     .toString()
     .replace(/-h|--h|--help/gim, "")
-    .split(",");
+    .split("--")
+    .filter(Boolean);
 
   computedArgv.forEach((key) => {
-    key = key.replace(/\s/gm, "");
+    key = key.replace(/\s/g, "");
     const isBooleanOption = !key.includes("=");
 
-    const [keyName, value] = (isBooleanOption ? ` ${key}=true` : key).split(
-      "=",
-    );
+    let [keyName, value] = (isBooleanOption ? ` ${key}=true` : key).split("=");
+
+    if (value.endsWith(",")) {
+      value[value.length - 1] = "";
+    }
 
     let properKeyName = keyName.replace(/--|\s/g, "");
-    const valuesArray = value.split(",");
+    const valuesArray = value.split(",").filter(Boolean);
 
     const valueLength = valuesArray.length;
     const isOptionValueOption = valueLength === 1;

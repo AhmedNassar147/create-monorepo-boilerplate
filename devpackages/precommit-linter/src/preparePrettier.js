@@ -13,7 +13,7 @@ const execAsync = promisify(exec);
 const preparePrettier = async (stagedFiles) => {
   const prettierPromises = stagedFiles.map(async (file) => {
     const { stderr: nodeError } = await execAsync(
-      `./node_modules/.bin/prettier --check "${file}"`,
+      `./node_modules/.bin/prettier --write "${file}"`,
     );
 
     console.log(
