@@ -23,7 +23,14 @@
 ## yarn bootstrap
 
 ```sh
-It will install the required dependencies for the project.
+  It will install the required dependencies for the project.
+```
+
+## yarn link-bins
+
+```sh
+  It will link the internal cli bins to your global machine bins so you can access them
+  link `validate-packages-deps --h`.
 ```
 
 ## Linking the (validate-packages-deps)
