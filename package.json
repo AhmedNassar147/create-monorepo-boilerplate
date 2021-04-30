@@ -9,7 +9,7 @@
     "lorem-ipsum-app"
   ],
   "scripts": {
-    "prepare": "husky install",
+    "husky": "husky install",
     "link-bins": "sh link-bins.sh",
     "clean": "rm -rf ./node_modules",
     "clean-locks": "rm -rf ./yarn.lock",

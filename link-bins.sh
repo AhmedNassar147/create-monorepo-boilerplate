@@ -1,3 +1,4 @@
+yarn husky
 cd devpackages/validate-packages-deps
   npm link
 cd ../validate-packages-assets
