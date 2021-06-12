@@ -3,10 +3,8 @@
  * Index: `eslint`.
  *
  */
-const baseOptions = require("./constants");
+const { extendsPlugins, rules } = require("./constants");
 const tsLinter = require("./tsLinter");
-
-const { extendsPlugins, rules } = baseOptions;
 
 module.exports = {
   root: true,

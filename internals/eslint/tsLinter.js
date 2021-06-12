@@ -3,17 +3,11 @@
  * `tsLinter`: `eslint`.
  *
  */
-const baseOptions = require("./constants");
-
-const { extendsPlugins, rules } = baseOptions;
+const { extendsPlugins, rules, appAndPackagesFiles } = require("./constants");
+const noRestrictedSyntax = require("./noRestrictedSyntax");
 
 module.exports = {
-  files: [
-    "app/**/*.{tsx,ts,js}",
-    "*-app/**/*.{tsx,ts,js}",
-    "packages/**/*.{js,ts,tsx}",
-    "*-module/**/*.{js,ts,tsx}",
-  ],
+  files: appAndPackagesFiles,
   parser: "@typescript-eslint/parser",
   parserOptions: {
     sourceType: "module",
@@ -35,6 +29,7 @@ module.exports = {
   plugins: ["@typescript-eslint", "react", "react-hooks", "import"],
   rules: {
     ...rules,
+    "no-restricted-syntax": [2, ...noRestrictedSyntax],
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/explicit-function-return-type": "off",
     "default-case": "off",

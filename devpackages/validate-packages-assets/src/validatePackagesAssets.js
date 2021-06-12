@@ -18,7 +18,7 @@ const logSucceedMessage = (success) =>
 const validatePackagesAssets = async ({ packages, logOnlyResults }) => {
   try {
     const { errors, mismatchedAssets } = await collectAssetsFormGivenPackages({
-      packages,
+      packages: typeof packages === "string" ? packages.split(",") : packages,
       logInfo: !logOnlyResults,
       scriptName,
     });

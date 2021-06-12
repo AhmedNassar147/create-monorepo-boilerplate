@@ -36,6 +36,7 @@ const collectEnvVariablesFromEnvFiles = (mode) => {
 
   const envVariables = {
     "process.env.NODE_ENV": mode,
+    IS_PRODUCTION: isEnvProduction,
   };
 
   let canReadEnvFile = false;

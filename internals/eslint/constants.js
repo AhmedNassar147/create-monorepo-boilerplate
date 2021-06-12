@@ -69,4 +69,11 @@ module.exports = {
     // "import/no-unused-modules": [1, { unusedExports: true }],
     // "no-console": process.env.NODE_ENV === "production" ? 2 : "off",
   },
+  appAndPackagesFiles: [
+    "app/**/*.{tsx,ts,js}",
+    "*-app/**/*.{tsx,ts,js}",
+    "packages/**/*.{js,ts,tsx}",
+    "*-module/**/*.{js,ts,tsx}",
+    "typings/*.d.ts",
+  ],
 };
