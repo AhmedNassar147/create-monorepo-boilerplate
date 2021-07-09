@@ -9,3 +9,5 @@ cd ../validate-app-assets
   npm link
 cd ../prepush-linter
   npm link
+cd ../post-whatsapp-build-message
+  npm link

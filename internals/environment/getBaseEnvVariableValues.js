@@ -4,12 +4,8 @@
  *
  */
 const { CLIENTS_DATA, CLIENT_NAMES } = require("./constants");
+const createBuildDateAndTimes = require("./createBuildDateAndTimes");
 const invariant = require("../scripts/invariant");
-
-const formalizeValue = (value) => {
-  const strValue = value.toString();
-  return value < 10 ? `0${strValue}` : strValue;
-};
 
 const getBaseEnvVariableValues = (clientName) => {
   clientName = clientName || "NAME";
@@ -19,14 +15,7 @@ const getBaseEnvVariableValues = (clientName) => {
     client name must be one of these "${CLIENT_NAMES.join(",")}" clients.`,
   );
 
-  const date = new Date();
-  const year = date.getFullYear().toString().substr(-1);
-
-  const month = formalizeValue(date.getMonth() + 1);
-  const day = formalizeValue(date.getDate());
-  const mins = formalizeValue(date.getMinutes());
-  const hours = formalizeValue(date.getHours());
-  const time = `${hours}${mins}`;
+  const { year, month, day, time } = createBuildDateAndTimes();
 
   return {
     BUILD_YEAR: year,

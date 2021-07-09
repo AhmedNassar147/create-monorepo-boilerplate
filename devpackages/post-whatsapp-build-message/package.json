@@ -1,0 +1,13 @@
+{
+  "name": "@domain/post-whatsapp-build-message",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A cli to compress and post the current build emails.",
+  "author": "ahmed nassar",
+  "license": "ISC",
+  "sideEffects": false,
+  "main": "src/index.js",
+  "bin": {
+    "post-whatsapp-build-message": "./bin/post-whatsapp-build-message.js"
+  }
+}

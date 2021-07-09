@@ -4,3 +4,5 @@
 /**/node_modules
 /**/tsconfig.tsbuildinfo
 /report.html
+/devpackages/post-whatsapp-build-message/src/constants.js
+/devpackages/post-whatsapp-build-message/src/session.json

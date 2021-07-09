@@ -78,6 +78,15 @@
   to their dependencies by checking `assetsPaths` in their package.json file.
 ```
 
+## Linking the (post-whatsapp-build-message)
+
+```sh
+- It will symlink the package `bin` to the global `bins` on your machine so you can use
+  the `cli` globally across the project.
+- the package post zip the build folder and upload it to 'https://file.io'
+  then will post a message to whatsapp with build info and downloadable file link.
+```
+
 ---
 
 # Project overview
