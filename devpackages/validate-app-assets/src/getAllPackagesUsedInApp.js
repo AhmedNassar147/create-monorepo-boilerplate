@@ -12,10 +12,11 @@ const {
 const {
   PACKAGES_MODULES_REGEX,
   APPS_REGEX,
-} = require("../../../internals/constants");
-const checkPathExistsSync = require("../../../internals/scripts/checkPathExistsSync");
-const readJsonFileSync = require("../../../internals/scripts/readJsonFileSync");
-const getWorkSpacesData = require("../../../internals/workspaces/getWorkSpacesData");
+  getWorkSpacesData,
+  readJsonFileSync,
+  checkPathExistsSync,
+  getGeneratedRoutesFilePath,
+} = require("../../scripts");
 
 const getAllPackagesUsedInApp = ({ mode, appName, scriptName }) => {
   scriptName = scriptName || `\`(getAllPackagesUsedInApp):\``;
@@ -59,11 +60,7 @@ const getAllPackagesUsedInApp = ({ mode, appName, scriptName }) => {
     process.exit(1);
   }
 
-  const appRoutesJsonConfigFilePath = join(
-    process.cwd(),
-    "internals",
-    "generateAppsRoutesConfig",
-    "generated",
+  const appRoutesJsonConfigFilePath = getGeneratedRoutesFilePath(
     `${appName}.json`,
   );
 

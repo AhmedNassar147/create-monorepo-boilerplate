@@ -14,19 +14,19 @@
     "clean": "rm -rf ./node_modules",
     "clean-locks": "rm -rf ./yarn.lock",
     "bootstrap": "lerna bootstrap",
+    "bootstrap:packages": "lerna bootstrap",
     "reset": "yarn clean && yarn clean-locks && yarn bootstrap",
+    "postbootstrap": "yarn link-bins && yarn ts-check-packages && yarn build-packages",
     "prettify": "prettier --write",
-    "generate": "plop --plopfile ./internals/generators/index.js",
-    "generate-routes": "plop --plopfile ./internals/generators/build-app-routes/index.js",
+    "generate": "plop --plopfile ./devpackages/generators/src/index.js",
+    "generate-routes": "plop --plopfile ./devpackages/generators/src/build-app-routes/index.js",
     "ts-check-packages": "lerna run --parallel ts:checker:declaration --",
     "build-packages": "lerna run --parallel prepare --",
-    "make:install": "yarn ts-check-packages && yarn build-packages",
-    "postinstall": "if [[ ${SKIP_POST_INSTALL} == \"true\" ]]; then echo 'skipped make:install.'; else yarn make:install; fi",
-    "start:js": "webpack serve --config ./internals/webpack/createAppDevServerConfig.js --node-env=development",
+    "start:js": "webpack serve --config ./devpackages/webpack --node-env=development",
     "validate-dev-assets": "validate-app-assets --mode=development",
     "start": "stmux -- [ [ -s 1/3 \"yarn ts-check-packages --watch\" .. \"yarn build-packages --watch\" ] : \"yarn start:js\" ]",
     "prebuild": "validate-app-assets --mode=production && yarn build-packages --configEnvName production",
-    "build": "webpack --config ./internals/webpack/createWebpackBuildConfig.js --node-env production --analyze",
+    "build": "webpack --config ./devpackages/webpack --node-env=production --analyze",
     "postbuild": "post-whatsapp-build-message",
     "format": "prettier --write \"**/*.{js,ts,tsx,css,json,md}\"",
     "lint:modified": "git add . && precommit-linter",
@@ -77,6 +77,7 @@
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
     "babel-preset-minify": "^0.5.1",
     "case-sensitive-paths-webpack-plugin": "^2.4.0",
+    "chalk": "^4.1.1",
     "clean-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^8.0.0",
     "css-loader": "^5.1.2",
@@ -130,14 +131,15 @@
   },
   "eslintConfig": {
     "extends": [
-      "./internals/eslint/index.js"
+      "./devpackages/eslint-config"
     ]
   },
   "eslintIgnore": [
     "/**/dist",
     "/**/**/dist",
     "/**/build",
-    "**/*.hbs"
+    "**/*.hbs",
+    "/typings/cssProp.d.ts"
   ],
   "husky": {
     "hooks": {

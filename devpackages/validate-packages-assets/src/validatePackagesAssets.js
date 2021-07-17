@@ -4,7 +4,7 @@
  *
  */
 const chalk = require("chalk");
-const collectAssetsFormGivenPackages = require("../../../internals/assetsHelpers/collectAssetsFormGivenPackages");
+const { collectAssetsFormGivenPackages } = require("../../assets-helpers");
 
 const scriptName = "validate-packages-assets";
 

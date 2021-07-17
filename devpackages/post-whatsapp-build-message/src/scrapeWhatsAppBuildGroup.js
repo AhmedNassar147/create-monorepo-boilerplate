@@ -8,8 +8,8 @@ const { join } = require("path");
 const chalk = require("chalk");
 const { Client } = require("whatsapp-web.js");
 const createMessage = require("./createMessage");
-const getBaseEnvVariableValues = require("../../../internals/environment/getBaseEnvVariableValues");
-const checkPathExists = require("../../../internals/scripts/checkPathExists");
+const { getBaseEnvVariableValues } = require("../../environment");
+const { checkPathExists } = require("../../scripts");
 
 const SESSION_FILE_PATH = join(__dirname, "session.json");
 

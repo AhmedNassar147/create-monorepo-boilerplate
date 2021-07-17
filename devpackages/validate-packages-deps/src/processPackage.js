@@ -8,8 +8,10 @@ const collectFileDeps = require("./collectFileDeps");
 const areDepsNotEqual = require("./areDepsNotEqual");
 const sortDeps = require("./sortDeps");
 const { scriptName } = require("./constants");
-const { PACKAGE_FULL_NAME_REGEXP } = require("../../../internals/constants");
-const getRootPackageJsonSync = require("../../../internals/scripts/getRootPackageJsonSync");
+const {
+  PACKAGE_FULL_NAME_REGEXP,
+  getRootPackageJsonSync,
+} = require("../../scripts");
 
 const TYPES_PACKAGE_START = "@types/";
 
@@ -28,9 +30,7 @@ const processPackage = async ({
   logOnlyResults,
 }) => {
   console.log(
-    chalk.bold.white(
-      `[${scriptName}]: processing files in ${packageName} package.`,
-    ),
+    chalk.bold.white(`[${scriptName}]: processing files from ${packageName}.`),
   );
 
   let packageDeps = (

@@ -5,10 +5,12 @@
  */
 const chalk = require("chalk");
 const { scriptName, ignoredPathsRegex } = require("./constants");
-const { PACKAGES_MODULES_REGEX } = require("../../../internals/constants");
-const getWorkSpacesData = require("../../../internals/workspaces/getWorkSpacesData");
-const getAllFilesFromFolder = require("../../../internals/scripts/getAllFilesFromFolder");
-const toPackageNameWithScope = require("../../../internals/workspaces/toPackageNameWithScope");
+const {
+  PACKAGES_MODULES_REGEX,
+  getWorkSpacesData,
+  toPackageNameWithScope,
+  getAllFilesFromFolder,
+} = require("../../scripts");
 
 const getPackagesData = (filter) => {
   let packageNamesFilterRegex;

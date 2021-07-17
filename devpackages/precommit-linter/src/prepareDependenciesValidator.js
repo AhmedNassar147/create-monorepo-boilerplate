@@ -6,7 +6,7 @@
 const { execSync } = require("child_process");
 const chalk = require("chalk");
 const createCliLogMessage = require("./createCliLogMessage");
-const toPackageNameWithScope = require("../../../internals/workspaces/toPackageNameWithScope");
+const { toPackageNameWithScope } = require("../../scripts");
 
 const prepareDependenciesValidator = (packagesNamesToValidate) => {
   const packagesToValidateDepsLength = packagesNamesToValidate.length;

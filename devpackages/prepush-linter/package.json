@@ -9,5 +9,8 @@
   "main": "src/index.js",
   "bin": {
     "prepush-linter": "./bin/prepush-linter.js"
+  },
+  "dependencies": {
+    "chalk": "^4.1.1"
   }
 }

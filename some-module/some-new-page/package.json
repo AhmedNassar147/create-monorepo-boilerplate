@@ -16,15 +16,14 @@
   ],
   "scripts": {
     "ts:checker:declaration": "tsc -b .",
-    "prepare": "rollup -c ../../internals/rollup/index.js --configPackageName @domain/some-new-page"
+    "prepare": "rollup -c ../../devpackages/package-builder/src/index.js --configPackageName @domain/some-new-page"
   },
   "peerDependencies": {
     "react": "^17.x.x"
   },
   "routeData": {
     "apps": [
-      "lorem-ipsum-app",
-      "some-new-ahmed-app"
+      "lorem-ipsum-app"
     ],
     "path": "/someNew",
     "params": [

@@ -7,7 +7,7 @@ const {
   validatePackagesAssets,
   scriptName,
 } = require("./validatePackagesAssets");
-const createCliController = require("../../../internals/command-line-utils/createCliController");
+const { createCliController } = require("../../command-line-utils");
 
 createCliController({
   scriptName,

@@ -13,7 +13,7 @@ const {
   removeWebpackCommentsRegex,
   removeLineBreaksAndSpaces,
 } = require("./constants");
-const findRootYarnWorkSpaces = require("../../../internals/workspaces/findRootYarnWorkSpaces");
+const { findRootYarnWorkSpaces } = require("../../scripts");
 
 const collectFileDeps = async (filePath, noLogs) => {
   const rootWorkSpaces = findRootYarnWorkSpaces();

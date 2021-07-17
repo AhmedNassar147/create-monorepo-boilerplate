@@ -1,0 +1,16 @@
+{
+  "name": "@domain/command-line-utils",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A package contains helpers `clis`.",
+  "author": "ahmed nassar",
+  "license": "ISC",
+  "sideEffects": false,
+  "files": [
+    "src"
+  ],
+  "main": "src/index.js",
+  "dependencies": {
+    "chalk": "^4.1.1"
+  }
+}

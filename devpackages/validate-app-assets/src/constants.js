@@ -3,7 +3,7 @@
  * `Constants`: `@domain/validate-app-assets`.
  *
  */
-const { PROJECT_NAME_SPACE } = require("../../../internals/constants");
+const { PROJECT_NAME_SPACE } = require("../../scripts");
 
 module.exports = {
   scriptName: "validate-app-assets",

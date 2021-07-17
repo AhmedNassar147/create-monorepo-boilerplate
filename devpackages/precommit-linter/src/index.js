@@ -11,7 +11,7 @@ const createCliLogMessage = require("./createCliLogMessage");
 const prepareDependenciesValidator = require("./prepareDependenciesValidator");
 const { filesExtensionToLint } = require("./constants");
 const preparePackagesAssetsValidator = require("./preparePackagesAssetsValidator");
-const getPackageNameAndContainingFolder = require("../../../internals/workspaces/getPackageNameAndContainingFolder");
+const { getPackageNameAndContainingFolder } = require("../../scripts");
 
 const preCommitLinter = async () => {
   process.on("onError", (error) => {

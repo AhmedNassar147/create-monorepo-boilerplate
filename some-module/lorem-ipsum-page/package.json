@@ -16,7 +16,7 @@
   ],
   "scripts": {
     "ts:checker:declaration": "tsc -b .",
-    "prepare": "rollup -c ../../internals/rollup/index.js --configPackageName @domain/lorem-ipsum-page"
+    "prepare": "rollup -c ../../devpackages/package-builder/src/index.js --configPackageName @domain/lorem-ipsum-page"
   },
   "dependencies": {
     "@domain/jsx-icons": "1.0.0"
@@ -27,8 +27,7 @@
   "routeData": {
     "apps": [
       "app",
-      "lorem-ipsum-app",
-      "some-new-ahmed-app"
+      "lorem-ipsum-app"
     ],
     "path": "/loremIpsum"
   },

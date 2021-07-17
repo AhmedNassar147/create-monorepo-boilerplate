@@ -1,0 +1,20 @@
+{
+  "name": "@domain/package-builder",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A package uses babel and rollup to build packages.",
+  "author": "ahmed nassar",
+  "license": "ISC",
+  "sideEffects": false,
+  "files": [
+    "src"
+  ],
+  "module": "src/index.js",
+  "main": "src/index.js",
+  "dependencies": {
+    "chalk": "^4.1.1",
+    "@rollup/plugin-node-resolve": "^11.2.1",
+    "@rollup/plugin-babel": "^5.3.0",
+    "@rollup/plugin-alias": "^3.1.2"
+  }
+}

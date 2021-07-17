@@ -16,7 +16,7 @@
   ],
   "scripts": {
     "ts:checker:declaration": "tsc -b .",
-    "prepare": "rollup -c ../../internals/rollup/index.js --configPackageName @domain/app-with-redbox"
+    "prepare": "rollup -c ../../devpackages/package-builder/src/index.js --configPackageName @domain/app-with-redbox"
   },
   "peerDependencies": {
     "react-dom": "^17.x.x"

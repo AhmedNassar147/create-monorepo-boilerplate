@@ -17,13 +17,12 @@
 
 ```sh
 - yarn bootstrap (after finished) .
-- yarn `link-bins`.
 ```
 
 ## yarn bootstrap
 
 ```sh
-  It will install the required dependencies for the project.
+  It will install the required dependencies / bins for the project and builds the packages .
 ```
 
 ## yarn link-bins
@@ -114,15 +113,6 @@ An `app` can contain packages and modules to render pages on the browser.
 ```sh
 The `devpackages` contains packages like `clis` eg. `validate-packages-deps`.
 ```
-
-## What is the `internals` folder
-
-```sh
-  The `internals` folder contains utilities like helpers to control the process (webpack / generators
-  / nodejs process) .
-```
-
----
 
 ## `workspaces` folder
 

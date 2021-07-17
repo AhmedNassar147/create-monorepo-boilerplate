@@ -10,14 +10,16 @@ const uploadZippedFile = require("./uploadZippedFile");
 const zipBuildFolder = require("./zipBuildFolder");
 const createMessage = require("./createMessage");
 const { uploadFileAuthToken } = require("./constants");
-const checkIsFileExistAndGetFilePath = require("../../../internals/environment/checkIsFileExistAndGetFilePath");
 const {
+  checkIsFileExistAndGetFilePath,
   ENVIRONMENT_FILE_NAMES,
-} = require("../../../internals/environment/constants");
-const getWorkSpaceBasePath = require("../../../internals/workspaces/getWorkSpaceBasePath");
-const getBasePaths = require("../../../internals/webpack/getBasePaths");
-const invariant = require("../../../internals/scripts/invariant");
-const checkPathExists = require("../../../internals/scripts/checkPathExists");
+} = require("../../environment");
+const {
+  invariant,
+  checkPathExists,
+  getWorkSpaceBasePath,
+} = require("../../scripts");
+const getBasePaths = require("../../webpack/src/getBasePaths");
 
 const PostWhatsAppBuildMessage = async () => {
   if (!uploadFileAuthToken) {

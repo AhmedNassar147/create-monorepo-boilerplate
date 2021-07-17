@@ -12,18 +12,22 @@ const {
 } = require("./constants");
 const getAllPackagesUsedInApp = require("./getAllPackagesUsedInApp");
 const getAssetsDiff = require("./getAssetsDiff");
-const { PACKAGES_MODULES_REGEX } = require("../../../internals/constants");
 const {
   validatePackagesAssets,
 } = require("../../validate-packages-assets/src/validatePackagesAssets");
-const haveAssetsChanged = require("../../../internals/assetsHelpers/haveAssetsChanged");
-const checkPathExists = require("../../../internals/scripts/checkPathExists");
-const getAllFilesFromFolder = require("../../../internals/scripts/getAllFilesFromFolder");
-const collectAssetsFromPath = require("../../../internals/assetsHelpers/collectAssetsFromPath");
-const createCliController = require("../../../internals/command-line-utils/createCliController");
-const getWorkSpacesData = require("../../../internals/workspaces/getWorkSpacesData");
-const collectEnvVariablesFromEnvFiles = require("../../../internals/environment/collectEnvVariablesFromEnvFiles");
-const getPackageNameFromScopedPackage = require("../../../internals/workspaces/getPackageNameFromScopedPackage");
+const {
+  PACKAGES_MODULES_REGEX,
+  checkPathExists,
+  getAllFilesFromFolder,
+  getWorkSpacesData,
+  getPackageNameFromScopedPackage,
+} = require("../../scripts");
+const {
+  haveAssetsChanged,
+  collectAssetsFromPath,
+} = require("../../assets-helpers");
+const { collectEnvVariablesFromEnvFiles } = require("../../environment");
+const { createCliController } = require("../../command-line-utils");
 
 const logSucceedMessage = () =>
   console.log(`${chalk.magenta(`[${scriptName}]`)} done successfully. ✨✨`);
