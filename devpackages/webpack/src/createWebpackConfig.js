@@ -11,6 +11,7 @@ const {
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
+const WorkboxPlugin = require("workbox-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 const getBasePaths = require("./getBasePaths");
@@ -49,20 +50,14 @@ const createWebpackConfig = async ({ mode, ...webpackConfig }) => {
   return {
     context: basePath,
     target: isProduction ? "browserslist" : "web",
-    devtool: isProduction ? "source-map" : "inline-cheap-source-map",
+    devtool: isProduction ? false : "inline-cheap-source-map",
     entry: entrypoint,
     mode,
     output: {
       path: buildDirPath,
       publicPath: "/",
       assetModuleFilename: "static/assets/[hash][ext][query]",
-      // clean: true,
-      // Prevents conflicts when multiple webpack runTimes (from different apps)
-      // are used on the same page.
-      // jsonpFunction: `webpackJsonp${appPackageJson.name}`,
-      // this defaults to 'window', but by setting it to 'this' then
-      // module chunks which are built will work in web workers as well.
-      // globalObject: "this",
+      clean: true,
       ...webpackConfig.output,
     },
     ...(devServer
@@ -223,18 +218,25 @@ const createWebpackConfig = async ({ mode, ...webpackConfig }) => {
         // favicon: path.join(srcEntry, "assets/favicon.ico"),
         template: path.join(publicPath, "index.html"),
         // chunks: ["main"],
-        // minify: isProduction && {
-        //   removeComments: true,
-        //   collapseWhitespace: true,
-        //   removeRedundantAttributes: true,
-        //   useShortDoctype: true,
-        //   removeEmptyAttributes: true,
-        //   removeStyleLinkTypeAttributes: true,
-        //   keepClosingSlash: true,
-        //   minifyJS: true,
-        //   minifyCSS: true,
-        //   minifyURLs: true,
-        // },
+        minify: isProduction && {
+          removeComments: true,
+          collapseWhitespace: true,
+          removeRedundantAttributes: true,
+          useShortDoctype: true,
+          removeEmptyAttributes: true,
+          removeStyleLinkTypeAttributes: true,
+          keepClosingSlash: true,
+          minifyJS: true,
+          minifyCSS: true,
+          minifyURLs: true,
+        },
+      }),
+      new WorkboxPlugin.GenerateSW({
+        // these options encourage the ServiceWorkers to get in there fast
+        // and not allow any straggling "old" SWs to hang around
+        clientsClaim: true,
+        skipWaiting: true,
+        cleanupOutdatedCaches: true,
       }),
       ...(plugins || []),
     ].filter(Boolean),

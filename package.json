@@ -80,7 +80,6 @@
     "case-sensitive-paths-webpack-plugin": "^2.4.0",
     "chalk": "^4.1.1",
     "clean-webpack-plugin": "^4.0.0-alpha.0",
-    "compression-webpack-plugin": "^8.0.1",
     "copy-webpack-plugin": "^9.0.1",
     "cors": "^2.8.5",
     "css-loader": "^6.1.0",
@@ -114,6 +113,7 @@
     "webpack-cli": "^4.7.2",
     "webpack-dev-server": "^3.11.2",
     "whatsapp-web.js": "^1.13.2",
+    "workbox-webpack-plugin": "^6.1.5",
     "zip-local": "^0.3.4"
   },
   "browserslist": {

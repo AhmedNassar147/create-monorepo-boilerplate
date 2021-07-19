@@ -38,7 +38,6 @@ const createAppDevServerConfig = async ({ port } = {}) => {
       overlay: { warnings: true, errors: true },
       clientLogLevel: "none",
       inline: true,
-      quiet: true,
     },
     watchOptions: {
       aggregateTimeout: 1100,
@@ -69,6 +68,7 @@ const createAppDevServerConfig = async ({ port } = {}) => {
       removeEmptyChunks: false,
       splitChunks: false,
       runtimeChunk: "single",
+      moduleIds: "deterministic",
     },
   });
 };

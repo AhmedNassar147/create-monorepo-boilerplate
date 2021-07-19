@@ -3,10 +3,9 @@
  * `createWebpackBuildConfig`: `@domain/webpack`.
  *
  */
-const { /* ids ,*/ optimize } = require("webpack");
+const { optimize } = require("webpack");
 // const zlib = require("zlib");
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
-// const CompressionPlugin = require("compression-webpack-plugin");
 const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
@@ -59,6 +58,40 @@ const createWebpackBuildConfig = async ({ analyze } = {}) => {
       runtimeChunk: {
         name: (entrypoint) => `runtime-${entrypoint.name}`,
       },
+      // splitChunks: {
+      //   chunks: "all",
+      //   minSize: 0,
+      //   minRemainingSize: 0,
+      //   minChunks: 1,
+      //   maxAsyncRequests: 30,
+      //   maxInitialRequests: 30,
+      //   maxSize: 244000,
+      //   enforceSizeThreshold: 50000,
+      //   cacheGroups: {
+      //     defaultVendors: {
+      //       test: /[\\/]node_modules[\\/]/,
+      //       priority: -10,
+      //       reuseExistingChunk: true,
+      //     },
+      //     json: {
+      //       type: "json",
+      //     },
+      //     default: {
+      //       minChunks: 2,
+      //       priority: -20,
+      //       reuseExistingChunk: true,
+      //     },
+      //     vendor: {
+      //       test: /[\\/]node_modules[\\/]/,
+      //       name(module) {
+      //         const packageName = module.context.match(
+      //           /[\\/]node_modules[\\/](.*?)([\\/]|$)/,
+      //         )[1];
+      //         return `npm.${packageName.replace("@", "")}`;
+      //       },
+      //     },
+      //   },
+      // },
       splitChunks: {
         chunks: "all",
         maxInitialRequests: 30,
@@ -95,11 +128,6 @@ const createWebpackBuildConfig = async ({ analyze } = {}) => {
         filename: "static/css/[name].[contenthash:10].css",
         chunkFilename: "[name].[contenthash:10].css",
       }),
-      // new ids.HashedModuleIdsPlugin({
-      //   hashFunction: "sha256",
-      //   hashDigest: "hex",
-      //   hashDigestLength: 20,
-      // }),
       // new CompressionPlugin({
       //   filename: "[path][base].br",
       //   algorithm: "brotliCompress",
