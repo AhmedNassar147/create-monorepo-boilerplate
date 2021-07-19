@@ -6,7 +6,7 @@
 const { getWorksSpacesOnlyNamesSync, invariant } = require("../../scripts");
 const { geEnvVariables } = require("../../environment");
 
-const getBabelConfig = (env, useCjsFormat) => {
+const getBabelConfig = (env, { enableReactRefresh } = {}) => {
   const isBabeEslintRunner = typeof env === "object";
 
   if (isBabeEslintRunner) {
@@ -31,7 +31,7 @@ const getBabelConfig = (env, useCjsFormat) => {
     mode: isEnvDevelopment ? "development" : env,
   });
 
-  const isEsModules = !(useCjsFormat || isBabeEslintRunner);
+  const isEsModules = !isBabeEslintRunner;
 
   return {
     // `comments` strips the comments when `false`. We always set it to `true`
@@ -143,7 +143,7 @@ const getBabelConfig = (env, useCjsFormat) => {
           useESModules: isEsModules,
         },
       ],
-      // isEnvDevelopment && "react-refresh/babel",
+      enableReactRefresh && "react-refresh/babel",
     ].filter(Boolean),
   };
 };

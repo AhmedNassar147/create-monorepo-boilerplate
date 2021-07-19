@@ -19,6 +19,8 @@ const getBabelConfig = require("../../babel");
 const createRollupConfig = async ({ configPackageName, configEnvName }) => {
   configEnvName = configEnvName || "development";
 
+  // const isDevelopmentEnv = configEnvName == "development";
+
   const babelConfig = getBabelConfig(configEnvName);
 
   const { fullPathPackageSrcPath, cjsBuildFolder, esmBuildFolder } =

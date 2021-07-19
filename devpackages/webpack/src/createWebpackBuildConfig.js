@@ -27,6 +27,10 @@ const createWebpackBuildConfig = async ({ analyze } = {}) => {
     optimization: {
       minimize: true,
       concatenateModules: true,
+      // usedExports: true,
+      // removeAvailableModules: true,
+      // mergeDuplicateChunks: true,
+      // sideEffects: false,
       minimizer: [
         new TerserPlugin({
           parallel: true,
@@ -111,6 +115,15 @@ const createWebpackBuildConfig = async ({ analyze } = {}) => {
               return `npm.${packageName.replace("@", "")}`;
             },
           },
+          // packages: {
+          //   test: /[\\/]packages[\\/]/,
+          //   name(module) {
+          //     const packageName = module.context.match(
+          //       /[\\/]packages[\\/](.*?)([\\/]|$)/,
+          //     )[1];
+          //     return `domain.${packageName.replace("@", "")}`;
+          //   },
+          // },
         },
       },
       removeEmptyChunks: true,

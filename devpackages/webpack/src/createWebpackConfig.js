@@ -136,7 +136,17 @@ const createWebpackConfig = async ({ mode, ...webpackConfig }) => {
           use: [
             {
               loader: "ts-loader",
-              options: { transpileOnly: true, projectReferences: true },
+              options: {
+                transpileOnly: true,
+                projectReferences: true,
+                ...(isProduction
+                  ? {}
+                  : {
+                      getCustomTransformers: () => ({
+                        before: [require("react-refresh-typescript")()],
+                      }),
+                    }),
+              },
             },
           ],
         },
@@ -152,7 +162,9 @@ const createWebpackConfig = async ({ mode, ...webpackConfig }) => {
           use: {
             loader: "babel-loader",
             options: {
-              ...getBabelConfig(mode, undefined),
+              ...getBabelConfig(mode, {
+                enableReactRefresh: !isProduction,
+              }),
               /**
                * From the docs: When set, the given directory will be used
                * to cache the results of the loader. Future webpack builds
@@ -235,6 +247,7 @@ const createWebpackConfig = async ({ mode, ...webpackConfig }) => {
     ].filter(Boolean),
     optimization: webpackConfig.optimization || {},
     performance: webpackConfig.performance || {},
+    experiments: webpackConfig.experiments || {},
     // Some libraries import Node modules but don't use them in the browser.
     // Tell webpack to provide empty mocks for them so importing them works.
     node: false,

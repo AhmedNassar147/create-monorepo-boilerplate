@@ -27,11 +27,11 @@ const LoremIpsumPage = () => {
     <>
       <div
         css={`
-        display: flex;
-        width: 300px;
-        margin 50px auto;
-        justify-content: space-between;
-      `}
+          display: flex;
+          width: 300px;
+          margin: 50px auto;
+          justify-content: space-between;
+        `}
       >
         <button onClick={onButtonClicked("decrease")}>-</button>
         <input value={counter} onChange={onChange} />
