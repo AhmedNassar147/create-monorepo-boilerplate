@@ -13,11 +13,8 @@ const createCliController = async ({
   throwIfNoOptionSet,
   runCliFn,
 }) => {
-  const {
-    hasOptions,
-    shouldDisplayHelpMessage,
-    ...cliOptions
-  } = await collectProcessOptions();
+  const { hasOptions, shouldDisplayHelpMessage, ...cliOptions } =
+    await collectProcessOptions();
 
   if (throwIfNoOptionSet && !hasOptions) {
     throw new Error(`

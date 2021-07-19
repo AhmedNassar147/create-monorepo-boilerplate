@@ -22,9 +22,9 @@ module.exports = {
       configFile: "./devpackages/babel",
     },
   },
-  extends: [...Object.values(extendsPlugins)],
+  extends: Object.values(extendsPlugins),
   plugins: ["import"],
-  rules: rules,
+  rules,
   settings: {
     react: {
       version: "detect",

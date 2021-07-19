@@ -14,6 +14,6 @@ module.exports = [
   },
   {
     selector: "ImportDeclaration > Literal[value=/src/i]",
-    message: `Do import a package with \`/src\` just the package name. like '${PROJECT_NAME_SPACE}/routes'.`,
+    message: `Don't import a package with \`/src\` just the package name. like '${PROJECT_NAME_SPACE}/routes'.`,
   },
 ];

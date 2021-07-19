@@ -95,12 +95,8 @@ const scrapeWhatsAppBuildGroup = async ({
 
       const messageInput = await page.$('#main [contenteditable="true"]');
 
-      const {
-        BUILD_YEAR,
-        BUILD_MONTH,
-        BUILD_DAY,
-        BUILD_TIME,
-      } = getBaseEnvVariableValues(CLIENT_NAME);
+      const { BUILD_YEAR, BUILD_MONTH, BUILD_DAY, BUILD_TIME } =
+        getBaseEnvVariableValues(CLIENT_NAME);
 
       const newDate = new Date(expires);
 

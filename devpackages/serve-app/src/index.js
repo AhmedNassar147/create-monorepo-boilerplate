@@ -19,6 +19,12 @@ const {
 
 const app = express();
 
+const createPathNotFound = (pathName, filePath) => {
+  return `          ${chalk.cyan(pathName)}: ${chalk.white(
+    filePath,
+  )} ${chalk.red("(NOT FOUND)")}. \n`;
+};
+
 const serveAppBuild = async ({ appName, port }) => {
   if (!appName) {
     const { APP_NAME } = collectEnvVariablesFromEnvFiles("production");
@@ -47,8 +53,39 @@ const serveAppBuild = async ({ appName, port }) => {
 
   app.use(cors());
 
-  const appAssetsPath = path.join(appBuildPath, "static", "assets");
+  const appAssetsPath = path.join(appBuildPath, "assets");
   const appJsFilesPath = path.join(appBuildPath, "static", "js");
+  const appHtmlFilePath = path.join(appBuildPath, "index.html");
+
+  const maybeFilesErrors = [
+    ["appAssetsPath", appAssetsPath],
+    ["appJsFilesPath", appJsFilesPath],
+    ["appHtmlFilePath", appHtmlFilePath],
+  ]
+    .map(([filePathName, filePath]) => {
+      if (checkPathExistsSync(filePath)) {
+        return false;
+      }
+
+      return createPathNotFound(filePathName, appAssetsPath);
+    })
+    .reduce(
+      (acc, currentValue) => (currentValue ? acc + currentValue : acc),
+      "",
+    );
+
+  if (maybeFilesErrors) {
+    const logMessageString =
+      `It seems the given app "${chalk.green(
+        appName,
+      )}" hasn't built yet, please make sure you yarn ran ${chalk.green(
+        `\`yarn build\``,
+      )} before using me . \n` + maybeFilesErrors;
+
+    logMessage(chalk.red(logMessageString));
+
+    process.exit(1);
+  }
 
   app.use(express.static(appBuildPath));
   app.use(express.static(path.join(appAssetsPath)));
@@ -66,7 +103,7 @@ const serveAppBuild = async ({ appName, port }) => {
 
 createCliController({
   scriptName,
-  description: "create assets folder for given app based on routes",
+  description: "serves static files from selected app build folder",
   helpersKeys: [
     {
       keyOrKeys: "appName",

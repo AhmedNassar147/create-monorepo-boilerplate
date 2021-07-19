@@ -58,14 +58,12 @@ const generateAppAssets = async ({ appName, mode }) => {
   const baseAppFolderPath = join(process.cwd(), appName);
   const appSrcFolderPath = join(baseAppFolderPath, "src");
 
-  const {
-    error,
-    assetsPaths: assetsUsedInAppSrcFiles,
-  } = await collectAssetsFromPath({
-    pathToCollectAssetsFrom: appSrcFolderPath,
-    logInfo: true,
-    scriptName,
-  });
+  const { error, assetsPaths: assetsUsedInAppSrcFiles } =
+    await collectAssetsFromPath({
+      pathToCollectAssetsFrom: appSrcFolderPath,
+      logInfo: true,
+      scriptName,
+    });
 
   if (error) {
     console.log(
@@ -137,9 +135,10 @@ const generateAppAssets = async ({ appName, mode }) => {
     const fullPathToAppAssets = join(baseAppFolderPath, "src/assets");
     const isAppAssetsPathExist = await checkPathExists(fullPathToAppAssets);
 
-    const assetsFilesInAppAssetsFolder = (isAppAssetsPathExist
-      ? await getAllFilesFromFolder(fullPathToAppAssets)
-      : []
+    const assetsFilesInAppAssetsFolder = (
+      isAppAssetsPathExist
+        ? await getAllFilesFromFolder(fullPathToAppAssets)
+        : []
     ).map((filePath) => filePath.replace(`${fullPathToAppAssets}/`, ""));
 
     const appAssetsFolderLength = assetsFilesInAppAssetsFolder.length;

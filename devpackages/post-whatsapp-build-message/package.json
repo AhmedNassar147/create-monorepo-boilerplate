@@ -9,5 +9,12 @@
   "main": "src/index.js",
   "bin": {
     "post-whatsapp-build-message": "./bin/post-whatsapp-build-message.js"
+  },
+  "dependencies": {
+    "chalk": "^4.1.1",
+    "whatsapp-web.js": "^1.13.2",
+    "node-fetch": "^2.6.1",
+    "form-data": "^4.0.0",
+    "zip-local": "^0.3.4"
   }
 }

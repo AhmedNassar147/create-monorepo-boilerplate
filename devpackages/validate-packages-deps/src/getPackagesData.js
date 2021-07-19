@@ -33,11 +33,8 @@ const getPackagesData = (filter) => {
   }
 
   return packagesKeys.map(async (packageName) => {
-    const {
-      dependencies,
-      peerDependencies,
-      packagePath,
-    } = allModulesAndPackages[packageName];
+    const { dependencies, peerDependencies, packagePath } =
+      allModulesAndPackages[packageName];
 
     let filesInSrcDir = await getAllFilesFromFolder(
       `${packagePath}/src`,

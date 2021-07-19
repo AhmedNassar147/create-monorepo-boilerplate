@@ -39,7 +39,7 @@ const replacePathNameString = (
 };
 
 const createRoutePathFromPathNameAndMatchValues = <
-  T extends PAGES_NAMES_KEYS_TYPE
+  T extends PAGES_NAMES_KEYS_TYPE,
 >(
   pageNameKey: T,
   values: RecordType<string | number | undefined>,

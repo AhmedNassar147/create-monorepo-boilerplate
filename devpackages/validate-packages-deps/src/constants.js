@@ -5,11 +5,13 @@
  */
 const removeComments = /^\/\/.+/gim;
 const removeLineBreaksAndSpaces = /[\s|\n]/g;
-const allImportsRegexp = /^import.+[\n|\s|\w|,|\s|}|'|"|.|/]*;|import\(\W.+\w.+\)/gim;
+const allImportsRegexp =
+  /^import.+[\n|\s|\w|,|\s|}|'|"|.|/]*;|import\(\W.+\w.+\)/gim;
 
 const charsAndImportsRegex = /.+from|'|"|;|,|import|\(|'|"|(\s)?\)|\s*/gim;
 const removeWebpackCommentsRegex = /\/\*\s*[webpackChunkName:].+\s*?.+\*\//gim;
-const ignoredPathsRegex = /(\.jpg)|(\.png)|(\.jpeg)|(\.svg)|(\.css)|(\.d.ts)|(\.json)/gm;
+const ignoredPathsRegex =
+  /(\.jpg)|(\.png)|(\.jpeg)|(\.svg)|(\.css)|(\.d.ts)|(\.json)/gm;
 
 const scriptName = "validate-packages-deps";
 

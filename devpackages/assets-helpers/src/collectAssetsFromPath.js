@@ -33,9 +33,10 @@ const collectAssetsFromPath = async ({
 
   onlyTheseExtensionsRegex = onlyTheseExtensionsRegex || validFilesRegexp.ALL;
 
-  let validFilesToProcess = (isAssetsPathFile
-    ? [pathToCollectAssetsFrom]
-    : await getAllFilesFromFolder(pathToCollectAssetsFrom)
+  let validFilesToProcess = (
+    isAssetsPathFile
+      ? [pathToCollectAssetsFrom]
+      : await getAllFilesFromFolder(pathToCollectAssetsFrom)
   ).filter((filePath) => onlyTheseExtensionsRegex.test(filePath));
 
   if (!validFilesToProcess.length) {

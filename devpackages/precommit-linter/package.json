@@ -9,5 +9,8 @@
   "main": "src/index.js",
   "bin": {
     "precommit-linter": "./bin/precommit-linter.js"
+  },
+  "dependencies": {
+    "chalk": "^4.1.1"
   }
 }

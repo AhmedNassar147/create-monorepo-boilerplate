@@ -9,5 +9,8 @@
   "main": "src/index.js",
   "bin": {
     "validate-packages-assets": "./bin/validate-packages-assets.js"
+  },
+  "dependencies": {
+    "chalk": "^4.1.1"
   }
 }
