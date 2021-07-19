@@ -8,7 +8,7 @@
   "sideEffects": false,
   "main": "src/index.js",
   "bin": {
-    "validate-app-assets": "./bin/validate-app-assets.js"
+    "domain-validate-app-assets": "./bin/domain-validate-app-assets.js"
   },
   "dependencies": {
     "chalk": "^4.1.1"

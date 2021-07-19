@@ -6,7 +6,7 @@
 const { PROJECT_NAME_SPACE } = require("../../scripts");
 
 module.exports = {
-  scriptName: "validate-app-assets",
+  scriptName: "domain-validate-app-assets",
   POSSIBLE_MODE_OPTIONS: ["production", "development"],
   BASE_USED_PACKAGES_WITHOUT_ASSETS_IN_CURRENT_APP: [
     `${PROJECT_NAME_SPACE}/types`,

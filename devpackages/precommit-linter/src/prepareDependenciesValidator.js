@@ -7,6 +7,7 @@ const { execSync } = require("child_process");
 const chalk = require("chalk");
 const createCliLogMessage = require("./createCliLogMessage");
 const { toPackageNameWithScope } = require("../../scripts");
+const { scriptName } = require("../../validate-packages-deps/src/constants");
 
 const prepareDependenciesValidator = (packagesNamesToValidate) => {
   const packagesToValidateDepsLength = packagesNamesToValidate.length;
@@ -14,9 +15,9 @@ const prepareDependenciesValidator = (packagesNamesToValidate) => {
   console.log(
     createCliLogMessage(
       packagesToValidateDepsLength
-        ? chalk.bold.white(`getting "validate-packages-deps" started.`)
+        ? chalk.bold.white(`getting "${scriptName}" started.`)
         : chalk.bold.cyan(
-            `skipping "validate-packages-deps", no packages found in staged files.`,
+            `skipping "${scriptName}", no packages found in staged files.`,
           ),
     ),
   );
@@ -28,7 +29,7 @@ const prepareDependenciesValidator = (packagesNamesToValidate) => {
 
       try {
         const stdout = execSync(
-          `validate-packages-deps --filter=${package} --exitKey=1 --logOnlyResults`,
+          `"${scriptName}" --filter=${package} --exitKey=1 --logOnlyResults`,
           {
             encoding: "utf8",
           },

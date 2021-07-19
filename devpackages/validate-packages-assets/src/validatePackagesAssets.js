@@ -6,7 +6,7 @@
 const chalk = require("chalk");
 const { collectAssetsFormGivenPackages } = require("../../assets-helpers");
 
-const scriptName = "validate-packages-assets";
+const scriptName = "domain-validate-packages-assets";
 
 const logSucceedMessage = (success) =>
   console.log(

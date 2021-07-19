@@ -6,6 +6,9 @@
 const { execSync } = require("child_process");
 const chalk = require("chalk");
 const createCliLogMessage = require("./createCliLogMessage");
+const {
+  scriptName,
+} = require("../../validate-packages-assets/src/validatePackagesAssets");
 
 const preparePackagesAssetsValidator = (packagesNamesToValidate) => {
   const packagesToValidateDepsLength = packagesNamesToValidate.length;
@@ -13,9 +16,9 @@ const preparePackagesAssetsValidator = (packagesNamesToValidate) => {
   console.log(
     createCliLogMessage(
       packagesToValidateDepsLength
-        ? chalk.bold.white(`getting "validate-packages-assets" started.`)
+        ? chalk.bold.white(`getting "${scriptName}" started.`)
         : chalk.bold.cyan(
-            `skipping "validate-packages-assets", no packages found in staged files.`,
+            `skipping "${scriptName}", no packages found in staged files.`,
           ),
     ),
   );
@@ -23,7 +26,7 @@ const preparePackagesAssetsValidator = (packagesNamesToValidate) => {
   if (packagesToValidateDepsLength) {
     try {
       const stdout = execSync(
-        `validate-packages-assets --packages=${packagesNamesToValidate.join()} --logOnlyResults`,
+        `"${scriptName}" --packages=${packagesNamesToValidate.join()} --logOnlyResults`,
         {
           encoding: "utf8",
         },

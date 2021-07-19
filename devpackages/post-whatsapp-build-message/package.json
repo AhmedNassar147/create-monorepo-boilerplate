@@ -8,7 +8,7 @@
   "sideEffects": false,
   "main": "src/index.js",
   "bin": {
-    "post-whatsapp-build-message": "./bin/post-whatsapp-build-message.js"
+    "domain-post-whatsapp-build-message": "./bin/domain-post-whatsapp-build-message.js"
   },
   "dependencies": {
     "chalk": "^4.1.1",

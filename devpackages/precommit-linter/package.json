@@ -2,13 +2,13 @@
   "name": "@domain/precommit-linter",
   "version": "1.0.0",
   "private": true,
-  "description": "A cli to lint and prettify staged files.",
+  "description": "A cli to lint, prettify and validate assets in the staged files.",
   "author": "ahmed nassar",
   "license": "ISC",
   "sideEffects": false,
   "main": "src/index.js",
   "bin": {
-    "precommit-linter": "./bin/precommit-linter.js"
+    "domain-precommit-linter": "./bin/domain-precommit-linter.js"
   },
   "dependencies": {
     "chalk": "^4.1.1"

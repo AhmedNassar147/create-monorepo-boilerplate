@@ -17,7 +17,7 @@ const consoleRenderKeyOrKeys = (keyOrKeys) => {
     : keyOrKeys
         .map((key) => `--${key}`)
         .toString()
-        .replace(",", ", ") + "            ";
+        .replace(",", ", ") + "   ";
 };
 
 const createKeyWithDesc = ({ description, keyOrKeys, maxKeyLength }) => {

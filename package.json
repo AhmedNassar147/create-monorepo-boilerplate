@@ -9,27 +9,26 @@
     "lorem-ipsum-app"
   ],
   "scripts": {
-    "husky": "husky install",
-    "link-bins": "sh link-bins.sh",
     "clean": "rm -rf ./node_modules",
     "clean-locks": "rm -rf ./yarn.lock",
     "bootstrap": "lerna bootstrap",
     "bootstrap:packages": "lerna bootstrap",
     "reset": "yarn clean && yarn clean-locks && yarn bootstrap",
-    "postbootstrap": "yarn link-bins && yarn ts-check-packages && yarn build-packages",
+    "check:bins": "node ./devpackages/install-bins/src/index.js",
+    "postbootstrap": "yarn check:bins && yarn ts-check-packages && yarn build-packages",
     "prettify": "prettier --write",
     "generate": "plop --plopfile ./devpackages/generators/src/index.js",
     "generate-routes": "plop --plopfile ./devpackages/generators/src/build-app-routes/index.js",
     "ts-check-packages": "lerna run --parallel ts:checker:declaration --",
     "build-packages": "lerna run --parallel prepare --",
     "start:js": "webpack serve --config ./devpackages/webpack --node-env=development",
-    "validate-dev-assets": "validate-app-assets --mode=development",
+    "validate-dev-assets": "domain-validate-app-assets --mode=development",
     "start": "stmux -- [ [ -s 1/3 \"yarn ts-check-packages --watch\" .. \"yarn build-packages --watch\" ] : \"yarn start:js\" ]",
-    "prebuild": "validate-app-assets --mode=production && yarn build-packages --configEnvName production",
+    "prebuild": "domain-validate-app-assets --mode=production && yarn build-packages --configEnvName production",
     "build": "webpack --config ./devpackages/webpack --node-env=production --analyze",
-    "// postbuild": "post-whatsapp-build-message",
+    "// postbuild": "domain-post-whatsapp-build-message",
     "format": "prettier --write \"**/*.{js,ts,tsx,css,json,md}\"",
-    "lint:modified": "git add . && precommit-linter",
+    "lint:modified": "git add . && domain-precommit-linter",
     "lint:eslint": "eslint",
     "lint:js:fix": "NODE_OPTIONS='--max-old-space-size=5700' npm run lint:eslint  -- . --rule 'no-debugger: 2' --fix"
   },
@@ -147,8 +146,8 @@
   ],
   "husky": {
     "hooks": {
-      "pre-commit": "precommit-linter",
-      "pre-push": "prepush-linter"
+      "pre-commit": "domain-precommit-linter",
+      "pre-push": "domain-prepush-linter"
     }
   },
   "preserveModulesImportPathName": []

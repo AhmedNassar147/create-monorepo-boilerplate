@@ -13,7 +13,7 @@ const removeWebpackCommentsRegex = /\/\*\s*[webpackChunkName:].+\s*?.+\*\//gim;
 const ignoredPathsRegex =
   /(\.jpg)|(\.png)|(\.jpeg)|(\.svg)|(\.css)|(\.d.ts)|(\.json)/gm;
 
-const scriptName = "validate-packages-deps";
+const scriptName = "domain-validate-packages-deps";
 
 const cliOptions = {
   scriptName,

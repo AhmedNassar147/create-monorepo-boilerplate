@@ -1,15 +1,15 @@
 {
-  "name": "@domain/prepush-linter",
+  "name": "@domain/install-bins",
   "version": "1.0.0",
   "private": true,
-  "description": "A cli to lint and prettify all app files.",
+  "description": "A package install global app bins.",
   "author": "ahmed nassar",
   "license": "ISC",
   "sideEffects": false,
+  "files": [
+    "src"
+  ],
   "main": "src/index.js",
-  "bin": {
-    "domain-prepush-linter": "./bin/domain-prepush-linter.js"
-  },
   "dependencies": {
     "chalk": "^4.1.1"
   }

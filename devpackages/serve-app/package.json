@@ -11,7 +11,7 @@
   ],
   "main": "src/index.js",
   "bin": {
-    "serve-app": "./bin/serve-app.js"
+    "domain-serve-app": "./bin/domain-serve-app.js"
   },
   "dependencies": {
     "chalk": "^4.1.1",

@@ -199,10 +199,9 @@ createCliController({
     },
     {
       keyOrKeys: "mode",
-      description:
-        `create assets based on the mode if production we include only production assets ` +
-        `else all of them --mode=${POSSIBLE_MODE_OPTIONS.join(" | ")} ` +
-        "to create the assets .",
+      description: `create assets based on the environment mode  --mode=${POSSIBLE_MODE_OPTIONS.join(
+        " | ",
+      )}`,
     },
   ],
   runCliFn: generateAppAssets,

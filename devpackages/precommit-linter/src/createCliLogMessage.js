@@ -6,6 +6,6 @@
 const chalk = require("chalk");
 
 const createCliLogMessage = (msg) =>
-  `${chalk.magenta("[precommit-linter]: ")} ${msg}`;
+  `${chalk.magenta("[domain-precommit-linter]: ")} ${msg}`;
 
 module.exports = createCliLogMessage;
