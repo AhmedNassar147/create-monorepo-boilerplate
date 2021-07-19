@@ -1,22 +1,16 @@
-# First installation ?
-
 ## Note: Please checkout the `engines` property in [package.json](./package.json)
 
 ```sh
  make sure you have globally the required engines/versions installed.
 ```
 
-## Please also install the following globally on your machine.
-
-```sh
- - lerna ">= 3.20.2".
- - typescript ">= 4.1.4"
-```
-
 ## Getting installation started.
 
 ```sh
-- yarn bootstrap (after finished) .
+- Please install the following globally on your machine.
+  - lerna ">= 3.20.2".
+  - typescript ">= 4.1.4"
+- then in the project root  run `yarn bootstrap` .
 ```
 
 ## yarn bootstrap
@@ -25,115 +19,85 @@
   It will install the required dependencies / bins for the project and builds the packages .
 ```
 
-## yarn link-bins
-
-```sh
-  It will link the internal cli bins to your global machine bins so you can access them
-  link `validate-packages-deps --h`.
-```
-
-## Linking the (validate-packages-deps)
-
-```sh
-- It will symlink the package `bin` to the global `bins` on your machine so you can use
-  the `cli` globally across the project you can also see how to use it by running
-  `validate-packages-deps --h` in your terminal.
-- the package will validate the packages and modules dependencies along with typescript references.
-```
-
-## Linking the (validate-packages-assets)
-
-```sh
-- It will symlink the package `bin` to the global `bins` on your machine so you can use
-  the `cli` globally across the project you can also see how to use it by running
-  `validate-packages-assets --h` in your terminal.
-- the package will validate the packages and modules assets.
-```
-
-## Linking the (precommit-linter)
-
-```sh
-- It will symlink the package `bin` to the global `bins` on your machine so you can use
-  the `cli` globally across the project you can run `precommit-linter` in your terminal.
-- the package will prettify, linting and validate dependencies staged files only if you
-  want to include also unstaged files run `yarn lint:modified`
-```
-
-## Linking the (prepush-linter)
-
-```sh
-- It will symlink the package `bin` to the global `bins` on your machine so you can use
-  the `cli` globally across the project you can run `prepush-linter` in your terminal.
-- the package will prettify, linting, validate dependencies if current branch is `master`.
-```
-
-## Linking the (validate-app-assets)
-
-```sh
-- It will symlink the package `bin` to the global `bins` on your machine so you can use
-  the `cli` globally across the project you can also see how to use it by running
-  `validate-app-assets --h` in your terminal.
-- the package will validate the current app assets from it's routes data config up
-  to their dependencies by checking `assetsPaths` in their package.json file.
-```
-
-## Linking the (post-whatsapp-build-message)
-
-```sh
-- It will symlink the package `bin` to the global `bins` on your machine so you can use
-  the `cli` globally across the project.
-- the package post zip the build folder and upload it to 'https://file.io'
-  then will post a message to whatsapp with build info and downloadable file link.
-```
-
 ---
 
 # Project overview
 
-## What is `packages` folder
+## See `development and tools` devpackages details.
+
+<details>
+  <summary>The `devpackages` contains development only packages/tools like clis eg.`validate-packages-deps`.</summary>
+
+1. What is the `(validate-packages-deps)`
 
 ```sh
-The `packages` folder is the one that have the `sharable/reusable` packages across the project.
+- the package will validate the packages and modules dependencies along with typescript
+  references.
+- you can also try `validate-packages-deps --h` to see all options.
 ```
 
-## What are `modules` folders
+2. What is the `(precommit-linter)`
 
 ```sh
-A `module` is a folder that contains pages/components are only rendered in current module.
+- the package will prettify, linting and validate dependencies staged files only
+ if you want to include also unstaged files run `yarn lint:modified`.
 ```
 
-## What are `apps` folders
+3. What is the `(prepush-linter)`
 
 ```sh
-An `app` can contain packages and modules to render pages on the browser.
+- the package will prettify, linting, validate dependencies if current branch is
+`master`.
 ```
 
-## What is the `devpackages` folder
+4. What is the `(validate-packages-assets)`
 
 ```sh
-The `devpackages` contains packages like `clis` eg. `validate-packages-deps`.
+- the package will validate the packages and modules assets.
+- you can also try `validate-packages-assets --h` to see all options.
 ```
 
-## `workspaces` folder
+5. What is the `(validate-app-assets)`
 
 ```sh
-contains helper functions to deal with yarn workspaces  packages .
+- the package will validate the current app assets from its routes data config up
+  to their dependencies by checking `assetsPaths` in their package.json file.
+- you can also try `validate-app-assets --h` to see all options.
 ```
 
-## `scripts` folder
+6. What is the `(post-whatsapp-build-message)`
 
 ```sh
-contains helper functions to deal with node js processes.
+- the package will zip/uploads the build folder and upload it to 'https://file.io'
+  then posts a message to whatsapp with build info and down file link.
 ```
 
-## `command-line-utils` folder
+7. What is the `(serve-app)`
 
 ```sh
-contains helper functions to deal/create a `cli` .
+- the package locally serve a given `app` build static files.
+- you can also try `serve-app --h` to see all options.
 ```
 
-## `babel` folder
+</details>
+
+---
+
+## See `packages and modules` details.
+
+<details>
+  <summary>these folders only for developing code that runs in the browser</summary>
+
+1.  What is the `packages` folder
 
 ```sh
-contains configured babel presets/plugins to compile packages / apps (with webpack) .
+Contains `sharable and reusable` packages across the project.
 ```
+
+2. What is the `xxx-modules` folders
+
+```sh
+Contains pages/components are only rendered in current module.
+```
+
+</details>
