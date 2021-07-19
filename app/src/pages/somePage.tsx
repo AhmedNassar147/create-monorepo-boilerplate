@@ -5,6 +5,7 @@
  */
 import { memo } from "react";
 import { MaleIcon } from "@domain/jsx-icons";
+import { Link } from "react-router-dom";
 
 const SomePage = () => {
   return (
@@ -20,6 +21,18 @@ const SomePage = () => {
       <img src="assets/addUser.svg" />
       <br />
       <MaleIcon />
+
+      <br />
+
+      <Link
+        to="/loremIpsum"
+        css={`
+          color: white;
+          font-size: 20px;
+        `}
+      >
+        lorem ipsum page
+      </Link>
     </div>
   );
 };

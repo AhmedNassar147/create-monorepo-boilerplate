@@ -46,3 +46,4 @@ const LoremIpsumPage = () => {
 };
 
 export default memo(LoremIpsumPage);
+export { default as someGeneratorForTest } from "./someGeneratorForTest";
