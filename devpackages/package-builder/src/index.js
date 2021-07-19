@@ -21,9 +21,8 @@ const createRollupConfig = async ({ configPackageName, configEnvName }) => {
 
   const babelConfig = getBabelConfig(configEnvName);
 
-  const { fullPathPackageSrcPath, cjsBuildFolder, esmBuildFolder } = getPaths(
-    configPackageName,
-  );
+  const { fullPathPackageSrcPath, cjsBuildFolder, esmBuildFolder } =
+    getPaths(configPackageName);
 
   const [inputFilePath] = (
     await Promise.all(
@@ -79,6 +78,7 @@ const createRollupConfig = async ({ configPackageName, configEnvName }) => {
     inlineDynamicImports: false,
     plugins: [
       alias({
+        // https://preactjs.com/guide/v10/getting-started/#aliasing-react-to-preact
         entries: [
           { find: "react", replacement: "preact/compat" },
           { find: "react-dom", replacement: "preact/compat" },

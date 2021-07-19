@@ -3,8 +3,10 @@
  * `createWebpackBuildConfig`: `@domain/webpack`.
  *
  */
-const { ids, optimize } = require("webpack");
+const { /* ids ,*/ optimize } = require("webpack");
+// const zlib = require("zlib");
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+// const CompressionPlugin = require("compression-webpack-plugin");
 const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
@@ -19,31 +21,12 @@ const createWebpackBuildConfig = async ({ analyze } = {}) => {
   return await createWebpackConfig({
     mode: "production",
     output: {
-      filename: "static/js/[name].js",
-      // chunkFilename: specifies the name of non-entry output files (e.g. dynamic import component)
-      chunkFilename: "static/js/[name].chunk.js",
+      filename: "static/js/[name].[chunkhash].js",
+      chunkFilename: "static/js/[name].[chunkhash].chunk.js",
     },
-    plugins: [
-      // Extracts CSS into separate files
-      // Note: style-loader is for development, MiniCssExtractPlugin is for production
-      new MiniCssExtractPlugin({
-        filename: "static/css/[name].[contenthash:10].css",
-        chunkFilename: "[name].[contenthash:10].css",
-      }),
-      new ids.HashedModuleIdsPlugin({
-        hashFunction: "sha256",
-        hashDigest: "hex",
-        hashDigestLength: 20,
-      }),
-      analyze &&
-        new BundleAnalyzerPlugin({
-          analyzerMode: "static",
-          reportFilename: `${findRootYarnWorkSpaces()}/report.html`,
-        }),
-    ],
     optimization: {
       minimize: true,
-      concatenateModules: false,
+      concatenateModules: true,
       minimizer: [
         new TerserPlugin({
           parallel: true,
@@ -73,22 +56,69 @@ const createWebpackBuildConfig = async ({ analyze } = {}) => {
         new optimize.SplitChunksPlugin(),
         new UglifyJsPlugin(),
       ],
-      // Once your build outputs multiple chunks, this option will ensure they share the webpack runtime
-      // instead of having their own. This also helps with long-term caching, since the chunks will only
-      // change when actual code changes, not the webpack runtime.
       runtimeChunk: {
         name: (entrypoint) => `runtime-${entrypoint.name}`,
       },
       splitChunks: {
         chunks: "all",
-        name: false,
+        maxInitialRequests: 30,
+        minSize: 0,
+        maxSize: 244000,
+        minChunks: 1,
+        maxAsyncRequests: 30,
+        cacheGroups: {
+          vendor: {
+            test: /[\\/]node_modules[\\/]/,
+            name(module) {
+              const packageName = module.context.match(
+                /[\\/]node_modules[\\/](.*?)([\\/]|$)/,
+              )[1];
+
+              return `npm.${packageName.replace("@", "")}`;
+            },
+          },
+        },
       },
+      removeEmptyChunks: true,
     },
     performance: {
       hints: false,
       maxEntrypointSize: 512000,
       maxAssetSize: 512000,
+      assetFilter: (assetFilename) =>
+        !/(\.map$)|(^(main\.|favicon\.))/.test(assetFilename),
     },
+    plugins: [
+      // Extracts CSS into separate files
+      // Note: style-loader is for development, MiniCssExtractPlugin is for production
+      new MiniCssExtractPlugin({
+        filename: "static/css/[name].[contenthash:10].css",
+        chunkFilename: "[name].[contenthash:10].css",
+      }),
+      // new ids.HashedModuleIdsPlugin({
+      //   hashFunction: "sha256",
+      //   hashDigest: "hex",
+      //   hashDigestLength: 20,
+      // }),
+      // new CompressionPlugin({
+      //   filename: "[path][base].br",
+      //   algorithm: "brotliCompress",
+      //   test: /\.(js|css|html|svg)$/,
+      //   compressionOptions: {
+      //     params: {
+      //       [zlib.constants.BROTLI_PARAM_QUALITY]: 11,
+      //     },
+      //   },
+      //   threshold: 10240,
+      //   minRatio: 0.8,
+      //   deleteOriginalAssets: false,
+      // }),
+      analyze &&
+        new BundleAnalyzerPlugin({
+          analyzerMode: "static",
+          reportFilename: `${findRootYarnWorkSpaces()}/report.html`,
+        }),
+    ],
   });
 };
 

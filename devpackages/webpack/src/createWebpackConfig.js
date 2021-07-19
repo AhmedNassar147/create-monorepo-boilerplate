@@ -36,12 +36,12 @@ const createWebpackConfig = async ({ mode, ...webpackConfig }) => {
   const basePath = getWorkSpaceBasePath(APP_NAME);
 
   const {
-    output,
+    buildDirPath,
     srcEntry,
-    entry,
+    entrypoint,
     assetsPath,
-    public,
     tsConfigPath,
+    publicPath,
   } = getBasePaths(basePath);
 
   const isProduction = mode === "production";
@@ -49,16 +49,25 @@ const createWebpackConfig = async ({ mode, ...webpackConfig }) => {
   return {
     context: basePath,
     target: isProduction ? "browserslist" : "web",
-    devtool: isProduction ? false : "inline-cheap-source-map",
-    entry,
+    devtool: isProduction ? "source-map" : "inline-cheap-source-map",
+    entry: entrypoint,
     mode,
     output: {
-      path: output,
+      path: buildDirPath,
       publicPath: "/",
-      assetModuleFilename: "static/media/[hash][ext][query]",
+      assetModuleFilename: "static/assets/[hash][ext][query]",
+      // clean: true,
+      // Prevents conflicts when multiple webpack runTimes (from different apps)
+      // are used on the same page.
+      // jsonpFunction: `webpackJsonp${appPackageJson.name}`,
+      // this defaults to 'window', but by setting it to 'this' then
+      // module chunks which are built will work in web workers as well.
+      // globalObject: "this",
       ...webpackConfig.output,
     },
-    ...(devServer ? { devServer: { ...devServer, contentBase: public } } : {}),
+    ...(devServer
+      ? { devServer: { ...devServer, contentBase: publicPath } }
+      : {}),
 
     ...(watchOptions ? { watchOptions } : {}),
 
@@ -84,7 +93,6 @@ const createWebpackConfig = async ({ mode, ...webpackConfig }) => {
       // of letting the build go forward with warnings, and then deploying a
       // broken site.
       strictExportPresence: isProduction,
-
       rules: [
         {
           // Preprocess our own `.css` files.
@@ -114,9 +122,8 @@ const createWebpackConfig = async ({ mode, ...webpackConfig }) => {
             {
               loader: MiniCssExtractPlugin.loader,
               options: {
-                // You can specify a `publicPath` here,
-                // by default it uses `publicPath` in `webpackOptions.output`.
-                // publicPath,
+                // This is required for asset imports in CSS, such as url()
+                publicPath: "/",
                 hmr: isProduction,
               },
             },
@@ -149,10 +156,18 @@ const createWebpackConfig = async ({ mode, ...webpackConfig }) => {
           exclude: /(node_modules\/(?!debug))|^(packages|\w.+-module)$/,
           use: {
             loader: "babel-loader",
-            options: getBabelConfig(mode, undefined),
+            options: {
+              ...getBabelConfig(mode, undefined),
+              /**
+               * From the docs: When set, the given directory will be used
+               * to cache the results of the loader. Future webpack builds
+               * will attempt to read from the cache to avoid needing to run
+               * the potentially expensive Babel recompilation process on each run.
+               */
+              cacheDirectory: true,
+            },
           },
         },
-        // Images: Copy image files to build folder
         {
           test: SUPPORTED_IMAGES_REGEX,
           type: "asset/resource",
@@ -162,28 +177,21 @@ const createWebpackConfig = async ({ mode, ...webpackConfig }) => {
             },
           },
         },
-        // Fonts and SVGs: Inline files
-        { test: SUPPORTED_FONTS_REGEX, type: "asset/inline" },
+        { test: SUPPORTED_FONTS_REGEX, type: "asset/resource" },
       ],
     },
     // Customize the webpack build process
     plugins: [
-      // Removes/cleans build folders and unused assets when rebuilding
       new CleanWebpackPlugin(),
-      // Copies files from target to destination folder
       new CopyWebpackPlugin({
         patterns: [
           {
             from: assetsPath,
-            to: path.join(output, "assets"),
-            globOptions: {
-              ignore: ["*.DS_Store"],
-            },
-            noErrorOnMissing: true,
+            to: path.join(buildDirPath, "assets"),
+            noErrorOnMissing: false,
           },
         ],
       }),
-
       new DefinePlugin(stringifiedVariables),
 
       // new ProvidePlugin({
@@ -213,24 +221,28 @@ const createWebpackConfig = async ({ mode, ...webpackConfig }) => {
         // inject: true,
         hash: isProduction,
         // favicon: path.join(srcEntry, "assets/favicon.ico"),
-        template: path.join(public, "index.html"),
-        minify: isProduction && {
-          removeComments: true,
-          collapseWhitespace: true,
-          removeRedundantAttributes: true,
-          useShortDoctype: true,
-          removeEmptyAttributes: true,
-          removeStyleLinkTypeAttributes: true,
-          keepClosingSlash: true,
-          minifyJS: true,
-          minifyCSS: true,
-          minifyURLs: true,
-        },
+        template: path.join(publicPath, "index.html"),
+        // chunks: ["main"],
+        // minify: isProduction && {
+        //   removeComments: true,
+        //   collapseWhitespace: true,
+        //   removeRedundantAttributes: true,
+        //   useShortDoctype: true,
+        //   removeEmptyAttributes: true,
+        //   removeStyleLinkTypeAttributes: true,
+        //   keepClosingSlash: true,
+        //   minifyJS: true,
+        //   minifyCSS: true,
+        //   minifyURLs: true,
+        // },
       }),
       ...(plugins || []),
     ].filter(Boolean),
     optimization: webpackConfig.optimization || {},
     performance: webpackConfig.performance || {},
+    // Some libraries import Node modules but don't use them in the browser.
+    // Tell webpack to provide empty mocks for them so importing them works.
+    node: false,
   };
 };
 

@@ -11,3 +11,5 @@ cd ../prepush-linter
   npm link
 cd ../post-whatsapp-build-message
   npm link
+cd ../serve-app
+  npm link

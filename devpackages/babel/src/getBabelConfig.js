@@ -48,7 +48,7 @@ const getBabelConfig = (env, useCjsFormat) => {
         : {
             include: workspaces,
             plugins: [
-              "transform-react-remove-prop-types",
+              ["transform-react-remove-prop-types", { removeImport: true }],
               "@babel/plugin-transform-react-constant-elements",
               "@babel/plugin-transform-react-inline-elements",
             ],
@@ -73,6 +73,7 @@ const getBabelConfig = (env, useCjsFormat) => {
           // version should be the major version of the `core-js` in the
           // root project's `package.json`.
           corejs: 3,
+          loose: true,
           // Exclude transforms that make all code slower
           exclude: ["transform-typeof-symbol"],
         },
@@ -81,8 +82,6 @@ const getBabelConfig = (env, useCjsFormat) => {
         "@babel/preset-react",
         {
           runtime: "automatic",
-          // @see {@link https://github.com/preactjs/preact/releases/tag/10.5.0}
-          importSource: "preact",
         },
       ],
       [
@@ -114,6 +113,14 @@ const getBabelConfig = (env, useCjsFormat) => {
                 // @see {@link https://www.styled-components.com/docs/tooling#dead-code-elimination}
                 pure: true,
               }),
+        },
+      ],
+      [
+        "@babel/plugin-transform-react-jsx",
+        {
+          // https://preactjs.com/guide/v10/getting-started/#aliasing-react-to-preact
+          runtime: "automatic",
+          importSource: "preact",
         },
       ],
       "@babel/plugin-proposal-export-namespace-from",

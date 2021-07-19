@@ -12,6 +12,7 @@ const resolveAliasPath = (name) =>
 module.exports = {
   // @see {@link https://github.com/styled-components/styled-components-website/blob/master/sections/faqs/duplicated-styled-components.md#duplicated-module-in-node_modules}
   "styled-components": resolveAliasPath("styled-components"),
+  // https://preactjs.com/guide/v10/getting-started/#aliasing-react-to-preact
   react: resolveAliasPath("preact/compat"),
   "react-dom": resolveAliasPath("preact/compat"),
   typescript: resolveAliasPath("typescript"),

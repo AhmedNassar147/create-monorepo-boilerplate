@@ -17,7 +17,7 @@ const SomePage = () => {
         login page
       </h1>
 
-      <img src="../assets/addUser.svg" />
+      <img src="assets/addUser.svg" />
       <br />
       <MaleIcon />
     </div>

@@ -11,9 +11,9 @@ module.exports = function getBasePaths(basePath) {
   return {
     srcEntry,
     assetsPath: join(srcEntry, "assets"),
-    entry: join(srcEntry, "index"),
-    output: join(basePath, "build"),
-    public: resolve(basePath, "public"),
+    entrypoint: join(srcEntry, "index.tsx"),
+    buildDirPath: join(basePath, "build"),
+    publicPath: join(basePath, "public"),
     tsConfigPath: resolve(basePath, "tsconfig.json"),
   };
 };

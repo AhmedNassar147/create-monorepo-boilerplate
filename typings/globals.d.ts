@@ -6,4 +6,4 @@ declare const SERVER_PORT: string;
 declare const API_BASE_URL: string;
 declare const CLIENT_NAME: string;
 declare const APP_NAME: string;
-declare const IS_PRODUCTION: string;
+declare const IS_PRODUCTION: boolean;

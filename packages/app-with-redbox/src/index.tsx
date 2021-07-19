@@ -5,9 +5,9 @@
  */
 import { render } from "react-dom";
 
-const root = document.getElementById("root");
-
 const renderAppWithRedBox = (app: JSX.Element) => {
+  const root = document.getElementById("root");
+
   if (!IS_PRODUCTION) {
     // eslint-disable-next-line
     const RedBox = require("redbox-react").default;

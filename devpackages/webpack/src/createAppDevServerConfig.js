@@ -25,6 +25,7 @@ const createAppDevServerConfig = async ({ port } = {}) => {
       // @see {@link https://gist.github.com/bvaughn/25e6233aeb1b4f0cdb8d8366e54a3977}
       "react-dom$": "react-dom/profiling",
       "scheduler/tracing": "scheduler/tracing-profiling",
+      // "prop-types$": "prop-types/prop-types",
     },
     devServer: {
       historyApiFallback: true,
@@ -37,7 +38,7 @@ const createAppDevServerConfig = async ({ port } = {}) => {
       overlay: { warnings: true, errors: true },
       clientLogLevel: "none",
       inline: true,
-      // quiet: true,
+      quiet: true,
     },
     watchOptions: {
       aggregateTimeout: 1100,

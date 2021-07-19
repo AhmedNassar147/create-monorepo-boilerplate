@@ -79,7 +79,7 @@ const PostWhatsAppBuildMessage = async () => {
 
   const appDirectoryFolderPath = getWorkSpaceBasePath(APP_NAME);
 
-  const { output: buildDirPath } = getBasePaths(appDirectoryFolderPath);
+  const { buildDirPath } = getBasePaths(appDirectoryFolderPath);
 
   const zippedFilePath = `${appDirectoryFolderPath}/${CLIENT_NAME}-build.zip`;
 
