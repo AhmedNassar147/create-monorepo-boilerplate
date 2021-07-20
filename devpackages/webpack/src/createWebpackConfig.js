@@ -4,10 +4,7 @@
  *
  */
 const path = require("path");
-const {
-  DefinePlugin,
-  /* ProvidePlugin, */
-} = require("webpack");
+const { DefinePlugin } = require("webpack");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
@@ -55,7 +52,7 @@ const createWebpackConfig = async ({ mode, ...webpackConfig }) => {
     output: {
       path: buildDirPath,
       publicPath: "/",
-      assetModuleFilename: "static/assets/[hash][ext][query]",
+      assetModuleFilename: "static/assets/[name][hash][ext][query]",
       clean: true,
       pathinfo: false,
       ...webpackConfig.output,
@@ -94,19 +91,6 @@ const createWebpackConfig = async ({ mode, ...webpackConfig }) => {
           test: /\.css$/,
           exclude: /node_modules/,
           use: ["style-loader", "css-loader"],
-          // style-loader => {
-          //   esModule: true,
-          //   modules: true,
-          // }
-
-          // css-loader{
-          //   loader: "css-loader",
-          //   options: {
-          //     sourceMap: !isProduction,
-          //     esModule: true,
-          //     modules: true,
-          //   },
-          // },
         },
         {
           // Transform third party CSS into an external stylesheet
@@ -177,12 +161,7 @@ const createWebpackConfig = async ({ mode, ...webpackConfig }) => {
         },
         {
           test: SUPPORTED_IMAGES_REGEX,
-          type: "asset/resource",
-          parser: {
-            dataUrlConditions: {
-              maxSize: 4 * 1024,
-            },
-          },
+          type: "asset",
         },
         { test: SUPPORTED_FONTS_REGEX, type: "asset/resource" },
       ],
@@ -200,12 +179,6 @@ const createWebpackConfig = async ({ mode, ...webpackConfig }) => {
         ],
       }),
       new DefinePlugin(stringifiedVariables),
-
-      // new ProvidePlugin({
-      //   // Make `fetch` available in all the browsers.
-      //   fetch: "exports-loader?self.fetch!cross-fetch",
-      // }),
-
       new ForkTsCheckerWebpackPlugin({
         eslint: {
           enabled: true,
@@ -221,7 +194,6 @@ const createWebpackConfig = async ({ mode, ...webpackConfig }) => {
           typescriptPath: BASE_WEBPACK_RESOLVE_ALIAS.typescript,
         },
       }),
-
       // Generates an HTML file from a template
       // Generates deprecation warning: https://github.com/jantimon/html-webpack-plugin/issues/1501
       new HtmlWebpackPlugin({
@@ -229,7 +201,6 @@ const createWebpackConfig = async ({ mode, ...webpackConfig }) => {
         hash: isProduction,
         // favicon: path.join(srcEntry, "assets/favicon.ico"),
         template: path.join(publicPath, "index.html"),
-        // chunks: ["main"],
         minify: isProduction && {
           removeComments: true,
           collapseWhitespace: true,

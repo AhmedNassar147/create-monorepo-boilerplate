@@ -3,6 +3,7 @@
  * `createCliController`: `@domain/command-line-utils`.
  *
  */
+const chalk = require("chalk");
 const createHelpMessage = require("./createHelpMessage");
 const collectProcessOptions = require("./collectProcessOptions");
 
@@ -17,10 +18,16 @@ const createCliController = async ({
     await collectProcessOptions();
 
   if (throwIfNoOptionSet && !hasOptions) {
-    throw new Error(`
-      Please set At lest set one option for this script ${scriptName}.
-      Please run \`yarn ${scriptName} -h || ${scriptName} -h \` to see available options.
-    `);
+    console.log(
+      chalk.magenta(`[${scriptName}:] `) +
+        chalk.red(
+          `requires at least one option, try ${chalk.white(
+            `\`${scriptName} --h\``,
+          )}`,
+        ),
+    );
+
+    process.exit(1);
   }
 
   if (shouldDisplayHelpMessage) {

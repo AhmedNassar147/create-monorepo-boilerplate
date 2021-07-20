@@ -23,12 +23,22 @@
 
 # Project overview
 
-## See `development and tools` devpackages details.
+## See `development tools` devpackages details.
 
 <details>
   <summary>The `devpackages` contains development only packages/tools like clis eg.`domain-validate-packages-deps`.</summary>
 
-1. What is the `(domain-validate-packages-deps)`
+1. What is the `(domain-optimize-images)`
+
+```sh
+- the package will optimize the given image or a folder containing them,
+  if the image/s already optimized it will skip it else it will optimize it,
+  then write the optimized image to it\'s path, and add it to,
+  `generated/optimizedAssetsManifest.json` to skip it next time.
+- you can also try `domain-optimize-images --h` to see all options.
+```
+
+2. What is the `(domain-validate-packages-deps)`
 
 ```sh
 - the package will validate the packages and modules dependencies along with typescript
@@ -36,28 +46,28 @@
 - you can also try `domain-validate-packages-deps --h` to see all options.
 ```
 
-2. What is the `(domain-precommit-linter)`
+3. What is the `(domain-precommit-linter)`
 
 ```sh
 - the package will prettify, linting and validate dependencies staged files only
  if you want to include also unstaged files run `yarn lint:modified`.
 ```
 
-3. What is the `(domain-prepush-linter)`
+4. What is the `(domain-prepush-linter)`
 
 ```sh
 - the package will prettify, linting, validate dependencies if current branch is
 `master`.
 ```
 
-4. What is the `(domain-validate-packages-assets)`
+5. What is the `(domain-validate-packages-assets)`
 
 ```sh
 - the package will validate the packages and modules assets.
 - you can also try `domain-validate-packages-assets --h` to see all options.
 ```
 
-5. What is the `(domain-validate-app-assets)`
+6. What is the `(domain-validate-app-assets)`
 
 ```sh
 - the package will validate the current app assets from its routes data config up
@@ -65,14 +75,14 @@
 - you can also try `domain-validate-app-assets --h` to see all options.
 ```
 
-6. What is the `(domain-post-whatsapp-build-message)`
+7. What is the `(domain-post-whatsapp-build-message)`
 
 ```sh
 - the package will zip/uploads the build folder and upload it to 'https://file.io'
   then posts a message to whatsapp with build info and down file link.
 ```
 
-7. What is the `(domain-serve-app)`
+8. What is the `(domain-serve-app)`
 
 ```sh
 - the package locally serve a given `app` build static files.

@@ -1,0 +1,20 @@
+{
+  "name": "@domain/optimize-images",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A package to optimize the given image/s.",
+  "author": "ahmed nassar",
+  "license": "ISC",
+  "sideEffects": false,
+  "files": [
+    "src"
+  ],
+  "main": "src/index.js",
+  "bin": {
+    "domain-optimize-images": "./bin/domain-optimize-images.js"
+  },
+  "dependencies": {
+    "chalk": "^4.1.1",
+    "@squoosh/lib": "^0.3.1"
+  }
+}

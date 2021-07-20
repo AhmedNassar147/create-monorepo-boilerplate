@@ -20,25 +20,25 @@ const {
   checkPathExists,
   getAllFilesFromFolder,
   getWorkSpacesData,
-  getPackageNameFromScopedPackage,
+  getAppPathByModeOrName,
 } = require("../../scripts");
 const {
   haveAssetsChanged,
   collectAssetsFromPath,
 } = require("../../assets-helpers");
-const { collectEnvVariablesFromEnvFiles } = require("../../environment");
 const { createCliController } = require("../../command-line-utils");
 
 const logSucceedMessage = () =>
   console.log(`${chalk.magenta(`[${scriptName}]`)} done successfully. ✨✨`);
 
 const generateAppAssets = async ({ appName, mode }) => {
-  if (!appName) {
-    const { APP_NAME } = collectEnvVariablesFromEnvFiles(mode);
-    appName = APP_NAME;
-  }
+  const { appPath: baseAppFolderPath, appNameWithOutScope } =
+    getAppPathByModeOrName({
+      appName,
+      mode: "production",
+    });
 
-  appName = getPackageNameFromScopedPackage(appName);
+  appName = appNameWithOutScope;
 
   let packagesUsedInCurrentApp = getAllPackagesUsedInApp({
     mode,
@@ -55,7 +55,6 @@ const generateAppAssets = async ({ appName, mode }) => {
     packages: packagesUsedInCurrentApp,
   });
 
-  const baseAppFolderPath = join(process.cwd(), appName);
   const appSrcFolderPath = join(baseAppFolderPath, "src");
 
   const { error, assetsPaths: assetsUsedInAppSrcFiles } =
@@ -199,7 +198,7 @@ createCliController({
     },
     {
       keyOrKeys: "mode",
-      description: `create assets based on the environment mode  --mode=${POSSIBLE_MODE_OPTIONS.join(
+      description: `validate assets based on the environment mode, --mode=${POSSIBLE_MODE_OPTIONS.join(
         " | ",
       )}`,
     },

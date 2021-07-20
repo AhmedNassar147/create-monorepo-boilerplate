@@ -11,7 +11,7 @@ const readJsonFile = async (jsonFilePath, toJSData) => {
   });
 
   return new Promise((resolve) =>
-    resolve(toJSData ? JSON.parse(jsonFile) : jsonFile),
+    resolve(toJSData && jsonFile ? JSON.parse(jsonFile) : jsonFile),
   );
 };
 

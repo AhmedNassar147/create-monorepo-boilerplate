@@ -21,6 +21,9 @@ const getPackageNameFromScopedPackage = require("./getPackageNameFromScopedPacka
 const getWorkSpaceBasePath = require("./getWorkSpaceBasePath");
 const updateJsonFileSync = require("./updateJsonFileSync");
 const getGeneratedRoutesFilePath = require("./getGeneratedRoutesFilePath");
+const getAppPathByModeOrName = require("./getAppPathByModeOrName");
+const getProjectName = require("./getProjectName");
+const getFilePathBasedOnProjectName = require("./getFilePathBasedOnProjectName");
 const {
   MODULES_REGEX,
   PROJECT_NAME_SPACE,
@@ -52,6 +55,9 @@ module.exports = {
   getWorkSpaceBasePath,
   updateJsonFileSync,
   getGeneratedRoutesFilePath,
+  getAppPathByModeOrName,
+  getProjectName,
+  getFilePathBasedOnProjectName,
   MODULES_REGEX,
   PROJECT_NAME_SPACE,
   APPS_REGEX,

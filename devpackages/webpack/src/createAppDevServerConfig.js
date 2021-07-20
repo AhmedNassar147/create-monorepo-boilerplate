@@ -15,8 +15,8 @@ const createAppDevServerConfig = async ({ port } = {}) => {
   return await createWebpackConfig({
     mode: "development",
     output: {
-      filename: "[name].[contenthash].js",
-      chunkFilename: "[name].[contenthash].js",
+      filename: "[name].js",
+      chunkFilename: "[name].js",
       crossOriginLoading: "anonymous",
     },
     alias: {

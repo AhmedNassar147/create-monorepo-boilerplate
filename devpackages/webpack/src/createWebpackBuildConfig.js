@@ -56,7 +56,17 @@ const createWebpackBuildConfig = async ({ analyze } = {}) => {
             },
           },
         }),
-        new CssMinimizerPlugin(),
+        new CssMinimizerPlugin({
+          parallel: true,
+          minimizerOptions: {
+            preset: [
+              "default",
+              {
+                discardComments: { removeAll: true },
+              },
+            ],
+          },
+        }),
         new optimize.SplitChunksPlugin(),
         new UglifyJsPlugin(),
       ],
@@ -136,6 +146,10 @@ const createWebpackBuildConfig = async ({ analyze } = {}) => {
         !/(\.map$)|(^(main\.|favicon\.))/.test(assetFilename),
     },
     plugins: [
+      new MiniCssExtractPlugin({
+        filename: "static/css/[name].[chunkhash].css",
+        chunkFilename: "static/css/[name].[chunkhash].css",
+      }),
       new WorkboxPlugin.GenerateSW({
         // these options encourage the ServiceWorkers to get in there fast
         // and not allow any straggling "old" SWs to hang around
@@ -145,10 +159,6 @@ const createWebpackBuildConfig = async ({ analyze } = {}) => {
       }),
       // Extracts CSS into separate files
       // Note: style-loader is for development, MiniCssExtractPlugin is for production
-      new MiniCssExtractPlugin({
-        filename: "static/css/[name].[contenthash:10].css",
-        chunkFilename: "[name].[contenthash:10].css",
-      }),
       // new CompressionPlugin({
       //   filename: "[path][base].br",
       //   algorithm: "brotliCompress",

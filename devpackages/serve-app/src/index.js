@@ -9,11 +9,9 @@ const chalk = require("chalk");
 const cors = require("cors");
 const { PORT, scriptName } = require("./constants");
 const logMessage = require("./logMessage");
-const { collectEnvVariablesFromEnvFiles } = require("../../environment");
 const { createCliController } = require("../../command-line-utils");
 const {
-  findRootYarnWorkSpaces,
-  getPackageNameFromScopedPackage,
+  getAppPathByModeOrName,
   checkPathExistsSync,
 } = require("../../scripts");
 
@@ -26,14 +24,12 @@ const createPathNotFound = (pathName, filePath) => {
 };
 
 const serveAppBuild = async ({ appName, port }) => {
-  if (!appName) {
-    const { APP_NAME } = collectEnvVariablesFromEnvFiles("production");
-    appName = APP_NAME;
-  }
+  const { appPath, appNameWithOutScope } = getAppPathByModeOrName({
+    appName,
+    mode: "production",
+  });
 
-  appName = getPackageNameFromScopedPackage(appName);
-
-  const appPath = path.join(findRootYarnWorkSpaces(), appName);
+  appName = appName || appNameWithOutScope;
 
   const appBuildPath = path.join(appPath, "build");
 

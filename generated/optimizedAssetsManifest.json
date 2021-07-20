@@ -1,0 +1,16 @@
+{
+  "assets/image1.jpg": {
+    "imageSizeBeforeOptimizationInBytes": 18355,
+    "imageSizeAfterOptimizationInBytes": 18302,
+    "diffInBytes": 53,
+    "diffPercentage": "0%",
+    "extensionAfterOptimization": "jpg"
+  },
+  "assets/xxxx.png": {
+    "imageSizeBeforeOptimizationInBytes": 47836,
+    "imageSizeAfterOptimizationInBytes": 47836,
+    "diffInBytes": 0,
+    "diffPercentage": "0%",
+    "extensionAfterOptimization": "png"
+  }
+}
