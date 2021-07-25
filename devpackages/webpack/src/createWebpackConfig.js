@@ -20,6 +20,8 @@ const {
   SUPPORTED_FONTS_REGEX,
 } = require("../../scripts");
 
+const REACT_REFRESH_DISABLED = true;
+
 const createWebpackConfig = async ({ mode, ...webpackConfig }) => {
   const { devServer, watchOptions, plugins, alias = {} } = webpackConfig;
 
@@ -123,7 +125,7 @@ const createWebpackConfig = async ({ mode, ...webpackConfig }) => {
               options: {
                 transpileOnly: true,
                 projectReferences: true,
-                ...(isProduction
+                ...(REACT_REFRESH_DISABLED
                   ? {}
                   : {
                       getCustomTransformers: () => ({
@@ -147,7 +149,7 @@ const createWebpackConfig = async ({ mode, ...webpackConfig }) => {
             loader: "babel-loader",
             options: {
               ...getBabelConfig(mode, {
-                enableReactRefresh: !isProduction,
+                enableReactRefresh: !REACT_REFRESH_DISABLED,
               }),
               /**
                * From the docs: When set, the given directory will be used

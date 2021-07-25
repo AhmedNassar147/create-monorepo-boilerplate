@@ -14,17 +14,25 @@ const {
   invariant,
   PACKAGES_MODULES_REGEX,
 } = require("../../scripts");
+const rollupCacheBuildPlugin = require("../../rollup-build-cache-plugin");
 const getBabelConfig = require("../../babel");
 
-const createRollupConfig = async ({ configPackageName, configEnvName }) => {
+const createRollupConfig = async ({
+  configPackageName,
+  configEnvName,
+  configNoCache,
+}) => {
   configEnvName = configEnvName || "development";
-
   // const isDevelopmentEnv = configEnvName == "development";
 
   const babelConfig = getBabelConfig(configEnvName);
 
-  const { fullPathPackageSrcPath, cjsBuildFolder, esmBuildFolder } =
-    getPaths(configPackageName);
+  const {
+    fullPathPackageSrcPath,
+    cjsBuildFolder,
+    esmBuildFolder,
+    absolutePackagePath,
+  } = getPaths(configPackageName);
 
   const [inputFilePath] = (
     await Promise.all(
@@ -77,8 +85,21 @@ const createRollupConfig = async ({ configPackageName, configEnvName }) => {
         },
       },
     },
+    external: [
+      "preact/compat",
+      "react-dom",
+      "react",
+      "styled-components",
+      /babel\/runtime/,
+    ],
     inlineDynamicImports: false,
     plugins: [
+      rollupCacheBuildPlugin({
+        configEnvName,
+        absolutePackagePath,
+        packageBuildDirectories: [cjsBuildFolder, esmBuildFolder],
+        ignoreExistingCacheAndOverwriteIt: Boolean(configNoCache),
+      }),
       alias({
         // https://preactjs.com/guide/v10/getting-started/#aliasing-react-to-preact
         entries: [
@@ -87,7 +108,9 @@ const createRollupConfig = async ({ configPackageName, configEnvName }) => {
         ],
       }),
       nodeResolve({
+        dedupe: ["react", "react-dom", "styled-components", "preact/compat"],
         resolveOnly: [PACKAGES_MODULES_REGEX],
+        // modulesOnly: true,
         extensions: [...BABEL_EXTENSIONS, ".json"],
       }),
       babelPlugin({
@@ -95,6 +118,7 @@ const createRollupConfig = async ({ configPackageName, configEnvName }) => {
         babelrc: false,
         envName: configEnvName,
         exclude: ["node_modules/**"],
+        // include: [/packages/, /w.+-module/],
         extensions: BABEL_EXTENSIONS,
         babelHelpers: "runtime",
         ...babelConfig,

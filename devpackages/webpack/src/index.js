@@ -14,12 +14,12 @@ const initializeWebpack = async (_, { nodeEnv, port, analyze } = {}) => {
       ? require("./createAppDevServerConfig")
       : require("./createWebpackBuildConfig");
 
-  const params = {
+  const options = {
     port,
     analyze,
   };
 
-  return await createWebpackConfigFn(params);
+  return await createWebpackConfigFn(options);
 };
 
 module.exports = initializeWebpack;

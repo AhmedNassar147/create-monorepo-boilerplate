@@ -24,6 +24,11 @@ const getGeneratedRoutesFilePath = require("./getGeneratedRoutesFilePath");
 const getAppPathByModeOrName = require("./getAppPathByModeOrName");
 const getProjectName = require("./getProjectName");
 const getFilePathBasedOnProjectName = require("./getFilePathBasedOnProjectName");
+const logMessage = require("./logMessage");
+const getUsedNodeVersion = require("./getUsedNodeVersion");
+const getFileHash = require("./getFileHash");
+const getFolderFilesHashSum = require("./getFolderFilesHashSum");
+const copyDirectory = require("./copyDirectory");
 const {
   MODULES_REGEX,
   PROJECT_NAME_SPACE,
@@ -58,6 +63,11 @@ module.exports = {
   getAppPathByModeOrName,
   getProjectName,
   getFilePathBasedOnProjectName,
+  logMessage,
+  getUsedNodeVersion,
+  getFileHash,
+  getFolderFilesHashSum,
+  copyDirectory,
   MODULES_REGEX,
   PROJECT_NAME_SPACE,
   APPS_REGEX,
