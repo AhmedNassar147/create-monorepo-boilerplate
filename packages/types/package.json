@@ -6,7 +6,7 @@
   "author": "ahmed nassar",
   "license": "ISC",
   "sideEffects": false,
-  "main": "src/index.ts",
+  "main": "dist/index.ts",
   "types": "dist",
   "files": [
     "dist"

@@ -1,0 +1,16 @@
+{
+  "name": "@domain/rollup-build-cache-plugin",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A package to serve an app build.",
+  "author": "ahmed nassar",
+  "license": "ISC",
+  "sideEffects": false,
+  "files": [
+    "src"
+  ],
+  "main": "src/index.js",
+  "dependencies": {
+    "chalk": "^4.1.1"
+  }
+}

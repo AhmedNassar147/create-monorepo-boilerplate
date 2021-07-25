@@ -4,7 +4,7 @@
  *
  */
 const { HotModuleReplacementPlugin, ProgressPlugin } = require("webpack");
-const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
+// const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 const CaseSensitivePathsPlugin = require("case-sensitive-paths-webpack-plugin");
 const createWebpackConfig = require("./createWebpackConfig");
 
@@ -50,7 +50,7 @@ const createAppDevServerConfig = async ({ port } = {}) => {
       // a plugin that prints an error when you attempt to do this.
       new CaseSensitivePathsPlugin(),
       new HotModuleReplacementPlugin(),
-      new ReactRefreshWebpackPlugin(),
+      // new ReactRefreshWebpackPlugin(),
     ],
     // @see {@link https://webpack.js.org/configuration/performance/}
     performance: {
@@ -70,7 +70,7 @@ const createAppDevServerConfig = async ({ port } = {}) => {
     experiments: {
       lazyCompilation: {
         imports: true,
-        entries: true,
+        entries: false,
       },
     },
   });

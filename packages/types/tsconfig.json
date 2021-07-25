@@ -8,6 +8,5 @@
     "declarationDir": "./dist",
     "typeRoots": ["../../node_modules/@types", "../../typings/*"]
   },
-  "exclude": ["./dist"],
   "include": ["./src", "../../typings/*"]
 }

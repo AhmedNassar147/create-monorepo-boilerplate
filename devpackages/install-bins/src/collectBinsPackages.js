@@ -8,7 +8,7 @@ const { readdirSync } = require("fs");
 const { readJsonFileSync } = require("../../scripts");
 
 const alreadyKnowPackagesToNotBeCLis =
-  /webpack|babel|environment|eslint-config|generators|install-bins|command-line-utils|package-builder|scripts|assets-helpers/;
+  /webpack|babel|environment|eslint-config|generators|install-bins|command-line-utils|package-builder|scripts|assets-helpers|rollup-/;
 
 const collectBinsPackages = () => {
   const devpackagesPath = join(__dirname, "../../");
@@ -24,6 +24,10 @@ const collectBinsPackages = () => {
           join(devpackagesPath, packageFolderName, "package.json"),
           true,
         );
+
+        if (!bin) {
+          return false;
+        }
 
         const binNames = Object.keys(bin);
         const binLength = binNames.length;
