@@ -4,7 +4,8 @@
  *
  */
 const { join } = require("path");
-const { spawnSync } = require("child_process");
+const { exec } = require("child_process");
+const { promisify } = require("util");
 const chalk = require("chalk");
 const logMessage = require("./logMessage");
 const getHuskyBinsInstalled = require("./getHuskyBinsInstalled");
@@ -13,9 +14,12 @@ const checkIfPackageAlreadyLinkedElseLink = require("./checkIfPackageAlreadyLink
 const {
   findRootYarnWorkSpaces,
   checkPathExistsSync,
+  isWindowsPlatform,
 } = require("../../scripts");
 
-(() => {
+const asyncExec = promisify(exec);
+
+(async () => {
   const nodeModulesPath = join(findRootYarnWorkSpaces(), "node_modules");
 
   if (!checkPathExistsSync(nodeModulesPath)) {
@@ -39,24 +43,11 @@ const {
     nodeModulesPath,
   });
 
-  const { stdout, stderr, status } = spawnSync("npm", [
-    "config",
-    "get",
-    "prefix",
-  ]);
+  const { stdout, stderr } = await asyncExec("npm config get prefix");
+  const npmGlobalFilePath = (stdout || "").toString();
 
-  if (status) {
-    logMessage(
-      `couldn't get the global \`npm\` path (1). \n` +
-        `nodeJS error: ${stderr.toString()}`,
-      true,
-    );
-  }
-
-  const [npmGlobalFilePath] = stdout.toString().split("\n").filter(Boolean);
-
-  if (!npmGlobalFilePath) {
-    logMessage(`couldn't get the global \`npm\` path (2).`, true);
+  if (stderr || !npmGlobalFilePath) {
+    logMessage(`couldn't get the global \`npm\` path.`, true);
   }
 
   const localPinsPackages = collectBinsPackages();
@@ -69,10 +60,73 @@ const {
     );
   }
 
+  const isWindowsOs = isWindowsPlatform();
+
+  const globalNpmBinsFolderPath = isWindowsOs
+    ? npmGlobalFilePath
+    : join(npmGlobalFilePath, "bin");
+
+  const globalNpmModulesFolderPathSegments = [
+    npmGlobalFilePath,
+    isWindowsOs ? "" : "lib",
+    "node_modules",
+  ].filter(Boolean);
+
   localPinsPackages.forEach((packageData) => {
     checkIfPackageAlreadyLinkedElseLink({
       ...packageData,
-      npmGlobalFilePath,
+      globalNpmBinsFolderPath,
+      globalNpmModulesFolderPathSegments,
     });
   });
+
+  if (isWindowsOs) {
+    logMessage(
+      chalk.yellow(
+        "checking scripts execution policy on windows to run our spcipts on windows powershell",
+      ),
+    );
+
+    const { stdout: curretnUserExecutionPolicy } = await asyncExec(
+      "Get-ExecutionPolicy",
+      {
+        shell: "powershell.exe",
+      },
+    );
+
+    const curretnUserExecutionPolicyWithoutSpaces =
+      curretnUserExecutionPolicy.replace(/\s|\r/g, "");
+
+    const isExecutionPolicyAlreadyUnRestricted =
+      curretnUserExecutionPolicyWithoutSpaces === "Unrestricted";
+
+    logMessage(
+      chalk.yellow(
+        `current scripts policy execution is "${chalk.white.bold(
+          curretnUserExecutionPolicyWithoutSpaces,
+        )}" ${
+          isExecutionPolicyAlreadyUnRestricted ? "no extra worked needed" : ""
+        }`,
+      ),
+    );
+
+    if (!isExecutionPolicyAlreadyUnRestricted) {
+      logMessage('changing scripts policy execution to "Unrestricted"');
+
+      const { stderr: forcingPowershellRestrictionError } = await asyncExec(
+        'Set-ExecutionPolicy -Scope "CurrentUser" -ExecutionPolicy "Unrestricted"',
+        {
+          shell: "powershell.exe",
+        },
+      );
+
+      if (forcingPowershellRestrictionError) {
+        logMessage(
+          "error when allowing scripts to run on windows powershell",
+          forcingPowershellRestrictionError,
+          true,
+        );
+      }
+    }
+  }
 })();

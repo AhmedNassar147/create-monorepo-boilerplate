@@ -4,7 +4,8 @@
  *
  */
 const {
-  NEW_CONTAINING_FOLDER_KEY,
+  NEW_MODULE_WORKSPACE_KEY,
+  NEW_PACKAGES_WORKSPACE_KEY,
   REACT_PACKAGE_TYPES /* ,REACT_PAGE_TYPES */,
 } = require("./constants");
 const getTypeOfComponentPackage = require("./utils/getTypeOfComponentPackage");
@@ -19,6 +20,8 @@ const {
   MODULES_REGEX,
   APPS_REGEX,
   PACKAGES_REGEX,
+  PACKAGES_MODULES_REGEX,
+  NEW_PACKAGES_WORKSPACE_REGEX,
   findRootYarnWorkSpaces,
 } = require("../../../scripts");
 
@@ -79,27 +82,42 @@ module.exports = {
     {
       type: "list",
       name: "selectedContainingFolderWay",
-      message: "where you want to place this package in?",
+      message: "where you want to place this package?",
       choices: () => [
-        "packages",
-        NEW_CONTAINING_FOLDER_KEY,
-        ...getWorksSpacesOnlyNamesSync(MODULES_REGEX),
+        ...getWorksSpacesOnlyNamesSync(PACKAGES_MODULES_REGEX),
+        NEW_PACKAGES_WORKSPACE_KEY,
+        NEW_MODULE_WORKSPACE_KEY,
       ],
       default: "packages",
     },
     {
       type: "input",
-      name: "newModuleName",
-      message: "what is the new module name?",
+      name: "newWorkspaceName",
+      message: "what is the new workspace name?",
       when: ({ selectedContainingFolderWay }) =>
-        selectedContainingFolderWay === NEW_CONTAINING_FOLDER_KEY,
-      validate: (newModuleName) => {
-        if (!newModuleName) {
-          return "please type the new module name.";
+        [NEW_MODULE_WORKSPACE_KEY, NEW_PACKAGES_WORKSPACE_KEY].includes(
+          selectedContainingFolderWay,
+        ),
+      validate: (newWorkspaceName, previousOptions) => {
+        const { selectedContainingFolderWay } = previousOptions;
+
+        const isNewModuleWorkspace =
+          selectedContainingFolderWay === NEW_MODULE_WORKSPACE_KEY;
+
+        if (!newWorkspaceName) {
+          return `please type the new ${
+            isNewModuleWorkspace ? "module" : "packages folder"
+          } name.`;
         }
 
-        if (!MODULES_REGEX.test(newModuleName || "")) {
-          return `module name must ends with "-module"`;
+        const nameReex = isNewModuleWorkspace
+          ? MODULES_REGEX
+          : NEW_PACKAGES_WORKSPACE_REGEX;
+
+        if (!nameReex.test(newWorkspaceName)) {
+          return isNewModuleWorkspace
+            ? 'module name must ends with "-module"'
+            : 'a new packages folder must ends with "packages"';
         }
 
         return true;
@@ -140,7 +158,7 @@ module.exports = {
       useStyledFile,
       type,
       selectedContainingFolderWay,
-      newModuleName,
+      newWorkspaceName,
       selectedApps,
       name,
       useLabelsHooks,
@@ -149,7 +167,7 @@ module.exports = {
     const { isLazy, isPage } = getTypeOfComponentPackage(type);
 
     const packageContainingFolderPath =
-      newModuleName || selectedContainingFolderWay;
+      newWorkspaceName || selectedContainingFolderWay;
 
     let properName = name;
 
@@ -256,8 +274,8 @@ module.exports = {
       ...events,
       ...afterCreationEvents({
         containingFolderPath: packageContainingFolderPath,
-        updateWorkSpacesRoots: !!newModuleName,
-        workspaceName: `${newModuleName}/*`,
+        updateWorkSpacesRoots: !!newWorkspaceName,
+        workspaceName: `${newWorkspaceName}/*`,
         folderOrFileName: properName,
       }),
     ];

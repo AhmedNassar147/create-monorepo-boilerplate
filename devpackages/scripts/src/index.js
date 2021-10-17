@@ -29,6 +29,7 @@ const getUsedNodeVersion = require("./getUsedNodeVersion");
 const getFileHash = require("./getFileHash");
 const getFolderFilesHashSum = require("./getFolderFilesHashSum");
 const copyDirectory = require("./copyDirectory");
+const isWindowsPlatform = require("./isWindowsPlatform");
 const {
   MODULES_REGEX,
   PROJECT_NAME_SPACE,
@@ -39,6 +40,7 @@ const {
   SUPPORTED_FONTS_REGEX,
   PACKAGE_FULL_NAME_REGEXP,
   PACKAGE_PATH_LIKE_REGEXP,
+  NEW_PACKAGES_WORKSPACE_REGEX,
 } = require("./constants");
 
 module.exports = {
@@ -68,6 +70,7 @@ module.exports = {
   getFileHash,
   getFolderFilesHashSum,
   copyDirectory,
+  isWindowsPlatform,
   MODULES_REGEX,
   PROJECT_NAME_SPACE,
   APPS_REGEX,
@@ -77,4 +80,5 @@ module.exports = {
   SUPPORTED_FONTS_REGEX,
   PACKAGE_FULL_NAME_REGEXP,
   PACKAGE_PATH_LIKE_REGEXP,
+  NEW_PACKAGES_WORKSPACE_REGEX,
 };

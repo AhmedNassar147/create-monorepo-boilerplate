@@ -62,7 +62,7 @@ const getWorkSpacesData = (options) => {
       ? [
           name,
           {
-            packagePath: packageJsonPath.replace(`/${PKG_JSON_EXT}`, ""),
+            packagePath: basePath,
             dependencies,
             peerDependencies,
             devDependencies,

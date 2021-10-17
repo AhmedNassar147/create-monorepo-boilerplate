@@ -10,23 +10,20 @@ const logMessage = require("./logMessage");
 const { checkPathExistsSync } = require("../../scripts");
 
 const checkIfPackageAlreadyLinkedElseLink = ({
-  npmGlobalFilePath,
   binNames,
   packageName,
   packageFolderName,
+  globalNpmBinsFolderPath,
+  globalNpmModulesFolderPathSegments,
 }) => {
   logMessage(chalk.white(`checking ${packageName}...`));
 
-  const globalNpmBinFolderPath = join(npmGlobalFilePath, "bin");
-
   const doesGlobalBinHasCurrentBins = binNames.every(
-    (binName) => !!checkPathExistsSync(join(globalNpmBinFolderPath, binName)),
+    (binName) => !!checkPathExistsSync(join(globalNpmBinsFolderPath, binName)),
   );
 
   const globalNpmModulesFolder = join(
-    npmGlobalFilePath,
-    "lib",
-    "node_modules",
+    ...globalNpmModulesFolderPathSegments,
     packageName,
   );
 
@@ -50,6 +47,7 @@ const checkIfPackageAlreadyLinkedElseLink = ({
         `something went wrong when linking ${packageName} \n` +
           `nodeJS error: ${error}`,
       ),
+      true,
     );
   }
 };

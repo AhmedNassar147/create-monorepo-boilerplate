@@ -7,6 +7,7 @@ const { exec } = require("child_process");
 const { promisify } = require("util");
 const chalk = require("chalk");
 const createCliLogMessage = require("./createCliLogMessage");
+const { isWindowsPlatform } = require("../../scripts");
 
 const execAsync = promisify(exec);
 
@@ -19,6 +20,11 @@ const prepareEslint = async (eslintFiles) => {
     try {
       const { stdout: eslintError, stderr: nodeError } = await execAsync(
         `./node_modules/.bin/eslint "${file}"`,
+        isWindowsPlatform()
+          ? {
+              shell: "powershell.exe",
+            }
+          : undefined,
       );
 
       console.log(

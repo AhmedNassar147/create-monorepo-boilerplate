@@ -3,6 +3,7 @@
  * Package: `@domain/precommit-linter`.
  *
  */
+const { exec } = require("child_process");
 const chalk = require("chalk");
 const getStagedFiles = require("./getStagedFiles");
 const preparePrettier = require("./preparePrettier");
@@ -69,6 +70,18 @@ const preCommitLinter = async () => {
   prepareDependenciesValidator(packagesNamesToValidate);
 
   preparePackagesAssetsValidator(packagesNamesToValidate);
+
+  exec("git update-index -g", (error) => {
+    const actualError = (
+      (error && typeof error === "object"
+        ? error.stdout || error.stderr
+        : error) || ""
+    ).toString();
+
+    if (actualError) {
+      process.emit("onError", actualError);
+    }
+  });
 };
 
 module.exports = preCommitLinter;

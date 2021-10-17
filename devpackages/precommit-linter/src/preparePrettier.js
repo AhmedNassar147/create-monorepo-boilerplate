@@ -7,6 +7,7 @@ const { exec } = require("child_process");
 const { promisify } = require("util");
 const chalk = require("chalk");
 const createCliLogMessage = require("./createCliLogMessage");
+const { isWindowsPlatform } = require("../../scripts");
 
 const execAsync = promisify(exec);
 
@@ -14,6 +15,11 @@ const preparePrettier = async (stagedFiles) => {
   const prettierPromises = stagedFiles.map(async (file) => {
     const { stderr: nodeError } = await execAsync(
       `./node_modules/.bin/prettier --write "${file}"`,
+      isWindowsPlatform()
+        ? {
+            shell: "powershell.exe",
+          }
+        : undefined,
     );
 
     console.log(

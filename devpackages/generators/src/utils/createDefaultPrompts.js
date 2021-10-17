@@ -27,6 +27,16 @@ const createDefaultPrompts = (generatingApp) => [
           return `The ${getName(generatingApp)} with this name already exists.`;
         }
 
+        if (/\s/.test(value)) {
+          return `A ${getName(generatingApp)} shouldn't contain spaces.`;
+        }
+
+        if (/[A-Z]+/.test(value)) {
+          return `A ${getName(
+            generatingApp,
+          )} shouldn't contain capital letters.`;
+        }
+
         if (nameSpaceRegex.test(value)) {
           return `The ${getName(
             generatingApp,

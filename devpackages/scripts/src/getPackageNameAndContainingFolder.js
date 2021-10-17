@@ -6,8 +6,7 @@
 const { PACKAGE_PATH_LIKE_REGEXP } = require("./constants");
 
 // returns false if provide path not matching package regex or
-// received undefined packagePath and it return [folderName, packageName] if
-// above not verified.
+// received undefined packagePath else it return [folderName, packageName].
 const getPackageNameAndContainingFolder = (
   packagePath,
   withContainingFolder,

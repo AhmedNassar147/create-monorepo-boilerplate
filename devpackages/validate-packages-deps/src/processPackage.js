@@ -16,10 +16,10 @@ const {
 const TYPES_PACKAGE_START = "@types/";
 
 const isOriginalKeysEqualNew = (original, newDeps) => {
-  const [l1, l2] = [original, newDeps].map(
+  const [originalDepsKeys, newDepsKeys] = [original, newDeps].map(
     (obj) => Object.keys(obj || {}).length,
   );
-  return l1 === l2;
+  return originalDepsKeys === newDepsKeys;
 };
 
 const processPackage = async ({
@@ -71,7 +71,7 @@ const processPackage = async ({
     ) {
       return packageName;
     }
-    return packageName.replace(/'|"|\/.+$/gi, "");
+    return packageName.replace(/'|"|\/|\\.+$/gi, "");
   });
 
   let normalizedPackageDepsArray = [...new Set(packageDeps)];
