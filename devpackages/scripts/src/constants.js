@@ -22,11 +22,11 @@ const APPS_REGEX = /^([a-z]+-)?app$/;
 const PROJECT_NAME_SPACE = "@domain";
 
 const PACKAGE_FULL_NAME_REGEXP = new RegExp(
-  `^${PROJECT_NAME_SPACE}.+[/|\\].+[a-z|-]*\\w$`,
+  `^${PROJECT_NAME_SPACE}.+[\\/].+[a-z|-]*\\w$`,
 );
 
 const PACKAGE_PATH_LIKE_REGEXP = new RegExp(
-  `^([a-z]+-module|${ALL_PACKAGES_WORKSPACES_WITHOUT_DEV_ONE_STRING}).+[/|\\].+[a-z|-]*`,
+  `^([a-z]+-module|${ALL_PACKAGES_WORKSPACES_WITHOUT_DEV_ONE_STRING}).+[\\/].+[a-z|-]*`,
   "gi",
 );
 

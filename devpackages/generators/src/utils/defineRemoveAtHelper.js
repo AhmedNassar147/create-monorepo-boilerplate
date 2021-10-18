@@ -8,7 +8,7 @@ const {
   PROJECT_NAME_SPACE,
 } = require("../../../scripts");
 
-const normalPageRegexp = /.+\//;
+const normalPageRegexp = /.+[\\/]/;
 
 function defineRemoveAtHelper(plop) {
   plop.setHelper("removeAt", function (value) {
@@ -18,7 +18,7 @@ function defineRemoveAtHelper(plop) {
 
     if (isPackage) {
       return value.replace(
-        new RegExp(`${PROJECT_NAME_SPACE}/`),
+        new RegExp(`${PROJECT_NAME_SPACE}[\\/]`),
         `${PROJECT_NAME_SPACE.replace("@", "")}.`,
       );
     }

@@ -212,6 +212,10 @@ module.exports = {
         path: `${packageBasePath}/README.md`,
         templateFile: "react-package/templates/readme.md.hbs",
         abortOnFail: true,
+        data: {
+          PROJECT_NAME_SPACE,
+          properName,
+        },
       },
       {
         type: "add",

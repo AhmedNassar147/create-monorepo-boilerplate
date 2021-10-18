@@ -71,7 +71,7 @@ const processPackage = async ({
     ) {
       return packageName;
     }
-    return packageName.replace(/'|"|\/|\\.+$/gi, "");
+    return packageName.replace(/'|"|\/|\\\\|\\.+$/gi, "");
   });
 
   let normalizedPackageDepsArray = [...new Set(packageDeps)];
