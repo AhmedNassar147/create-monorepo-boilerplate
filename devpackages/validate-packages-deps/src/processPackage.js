@@ -29,10 +29,6 @@ const processPackage = async ({
   peerDependencies: originalPeerDependencies,
   logOnlyResults,
 }) => {
-  console.log(
-    chalk.bold.white(`[${scriptName}]: processing files from ${packageName}.`),
-  );
-
   let packageDeps = (
     await Promise.all(
       filesInSrcDir.map((filePath) =>

@@ -20,7 +20,11 @@ const collectFileDeps = async (filePath, noLogs) => {
 
   const logFileName = filePath.replace(`${rootWorkSpaces}/`, "");
   if (!noLogs) {
-    console.log(chalk.magenta(`[${scriptName}]: processing ${logFileName}`));
+    console.log(
+      chalk.magenta(
+        `[${scriptName}]: ${chalk.bold.white("processing")} ${logFileName}`,
+      ),
+    );
   }
 
   let file = await readFile(filePath, { encoding: "utf8" });
