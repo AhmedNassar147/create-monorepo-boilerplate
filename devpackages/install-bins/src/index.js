@@ -83,29 +83,29 @@ const asyncExec = promisify(exec);
   if (isWindowsOs) {
     logMessage(
       chalk.yellow(
-        "checking scripts execution policy on windows to run our spcipts on windows powershell",
+        "checking scripts execution policy on windows to run our scripts on windows powershell",
       ),
     );
 
-    const { stdout: curretnUserExecutionPolicy } = await asyncExec(
+    const { stdout: currentUserExecutionPolicy } = await asyncExec(
       "Get-ExecutionPolicy",
       {
         shell: "powershell.exe",
       },
     );
 
-    const curretnUserExecutionPolicyWithoutSpaces =
-      curretnUserExecutionPolicy.replace(/\s|\r/g, "");
+    const currentUserExecutionPolicyWithoutSpaces =
+      currentUserExecutionPolicy.replace(/\s|\r/g, "");
 
     const isExecutionPolicyAlreadyUnRestricted =
-      curretnUserExecutionPolicyWithoutSpaces === "Unrestricted";
+      currentUserExecutionPolicyWithoutSpaces === "Unrestricted";
 
     logMessage(
       chalk.yellow(
         `current scripts policy execution is "${chalk.white.bold(
-          curretnUserExecutionPolicyWithoutSpaces,
+          currentUserExecutionPolicyWithoutSpaces,
         )}" ${
-          isExecutionPolicyAlreadyUnRestricted ? "no extra worked needed" : ""
+          isExecutionPolicyAlreadyUnRestricted ? "no extra work needed" : ""
         }`,
       ),
     );
