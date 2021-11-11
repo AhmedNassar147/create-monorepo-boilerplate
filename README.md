@@ -1,3 +1,9 @@
+# `Note: before installing the the app` IF you are a windows user please run this command on your machine
+
+```sh
+ git config --global core.autocrlf false
+```
+
 ## Note: Please checkout the `engines` property in [package.json](./package.json)
 
 ```sh
