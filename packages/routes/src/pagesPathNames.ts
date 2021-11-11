@@ -3,10 +3,6 @@
  * `pagesRoutesPathNames`: `@domain/routes`.
  *
  */
-const PAGES_PATH_NAMES = {
-  loremIpsum: "/loremIpsum",
-  someNew: "/someNew/:param",
-  login: ["/", "/login"],
-};
+const PAGES_PATH_NAMES = { login: ["/", "/login"], loremIpsum: "/loremIpsum" };
 
 export default PAGES_PATH_NAMES;

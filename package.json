@@ -4,9 +4,7 @@
   "private": true,
   "workspaces": [
     "app",
-    "packages/*",
-    "some-module/*",
-    "lorem-ipsum-app"
+    "packages/*"
   ],
   "scripts": {
     "clean": "rm -rf ./node_modules",
@@ -42,10 +40,8 @@
     "@domain/jsx-icons": "1.0.0",
     "@domain/labels-provider": "1.0.0",
     "@domain/loader-fallback": "1.0.0",
-    "@domain/lorem-ipsum-page": "1.0.0",
     "@domain/react-lazy": "1.0.0",
     "@domain/routes": "1.0.0",
-    "@domain/some-new-page": "1.0.0",
     "@domain/types": "1.0.0",
     "preact": "^10.5.14",
     "react": "^17.0.2",
@@ -135,9 +131,9 @@
     ]
   },
   "engines": {
-    "node": ">= 15.8.0",
-    "yarn": ">= 1.22.10",
-    "npm": ">= 7.5.1"
+    "node": ">= 16.5.0",
+    "yarn": ">= 1.22.15",
+    "npm": ">= 7.19.1"
   },
   "eslintConfig": {
     "extends": [

@@ -110,11 +110,11 @@ module.exports = {
           } name.`;
         }
 
-        const nameReex = isNewModuleWorkspace
+        const nameRegexp = isNewModuleWorkspace
           ? MODULES_REGEX
           : NEW_PACKAGES_WORKSPACE_REGEX;
 
-        if (!nameReex.test(newWorkspaceName)) {
+        if (!nameRegexp.test(newWorkspaceName)) {
           return isNewModuleWorkspace
             ? 'module name must ends with "-module"'
             : 'a new packages folder must ends with "packages"';

@@ -56,6 +56,7 @@ const createRoutePathFromPathNameAndMatchValues = <
     ) as typeof PAGES_NAMES_TYPES[T];
   }
 
+  // @ts-ignore: ignore for now
   return replacePathNameString(pagePathName, values) as PAGES_NAMES_TYPES[T];
 };
 

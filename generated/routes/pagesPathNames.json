@@ -1,5 +1,1 @@
-{
-  "loremIpsum": "/loremIpsum",
-  "someNew": "/someNew/:param",
-  "login": ["/", "/login"]
-}
+{ "login": ["/", "/login"] }

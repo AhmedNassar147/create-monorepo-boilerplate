@@ -1,5 +1,3 @@
 {
-  "pages": [
-    { "path": "/loremIpsum", "pageIndexPath": "@domain/lorem-ipsum-page" }
-  ]
+  "pages": [{ "path": "/loremIpsum" }]
 }
