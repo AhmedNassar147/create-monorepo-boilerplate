@@ -30,7 +30,7 @@
     "format": "prettier --write \"**/*.{js,ts,tsx,css,json,md}\"",
     "lint:modified": "git add . && domain-precommit-linter",
     "lint:eslint": "eslint",
-    "lint:js:fix": "NODE_OPTIONS='--max-old-space-size=5700' npm run lint:eslint  -- . --rule 'no-debugger: 2' --fix"
+    "lint:js:fix": "NODE_OPTIONS='--max-old-space-size=5700' npm run lint:eslint  -- . --rule \"no-debugger: 2\" --fix"
   },
   "dependencies": {
     "@babel/runtime": "^7.14.6",
